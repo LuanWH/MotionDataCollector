@@ -2,28 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <LinearLayout 
-        android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip" 
+    android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"        
+        android:orientation="horizontal"
+        android:layout_marginTop="15dip"
+        android:layout_gravity="center"
         >
-        <Button 
-            android:id="@+id/start_button"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/start_button_label"/>
-        <Spinner
+       <Spinner
        	 	android:id="@+id/select_action"
         	android:layout_width="0dip"
         	android:layout_height="wrap_content"
         	android:layout_weight="1"
         	android:entries="@array/action_arrays"
-        	android:prompt="@string/action_prompt" />
+        	android:prompt="@string/action_prompt" 
+        	android:layout_marginRight="10dip"/>
+        <Button
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:id="@+id/manage_action_button"
+	        android:text="@string/manage_action_button_label"
+        />
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dip"      
+        android:layout_gravity="center" 
+        >
+        <Button 
+            android:id="@+id/start_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:text="@string/start_button_label"
+            android:layout_marginRight="10dip"/>
+
         <Button 
             android:id="@+id/stop_button"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"            
+            android:layout_width="0dip"
+            android:layout_weight="1"         
             android:text="@string/stop_button_label"/>        
     </LinearLayout>
     <ScrollView

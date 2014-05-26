@@ -63,5 +63,8 @@
     <string name="collect_data_button_label">Collect Data</string>
     <string name="about_button_label">About</string>
     <string name="settings_button_label">Settings</string>
+    <string name="manage_action_button_label">Manage Actions</string>
+    <string name="manage_action_add_button_label">Add</string>
+    <string name="manage_action_title">Manage Action Labels</string>
 	
 </resources>

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -20,16 +21,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
 	Receiver receiver = new Receiver();
 	Spinner spinner;
-	Button startButton,stopButton;
+	Button startButton,stopButton,manageButton;
 	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
 	protected boolean displayOn = false;
 	public static final String TAG = "PhoneUI";
 	Calendar c = null;
+	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat sdf = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -39,29 +42,37 @@ public class PhoneUI extends Activity {
 		startButton = (Button) findViewById(R.id.start_button);
 		stopButton = (Button) findViewById(R.id.stop_button);
 		spinner = (Spinner) findViewById(R.id.select_action);
+		manageButton = (Button) findViewById(R.id.manage_action_button);
 		
-		Button.OnTouchListener startListener = new Button.OnTouchListener(){
+		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				startRecording(String.valueOf(spinner.getSelectedItem()));
-				spinner.setClickable(false);
+				switch(v.getId()){
+				case R.id.start_button:
+					startRecording(String.valueOf(spinner.getSelectedItem()));
+					spinner.setClickable(false);
+					manageButton.setClickable(false);
+					break;
+				case R.id.stop_button:
+					stopRecording();
+					spinner.setClickable(true);
+					manageButton.setClickable(true);
+					break;
+				case R.id.manage_action_button:
+					startActivity(new Intent(PhoneUI.this, ManageAction.class));
+					break;
+				default:
+					break;
+				}
 				return true;
+
 			}
 			
 		};
-		Button.OnTouchListener stopListener = new Button.OnTouchListener(){
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				stopRecording();
-				spinner.setClickable(true);
-				return true;
-			}
-			
-		};		
-		stopButton.setOnTouchListener(stopListener);
-		startButton.setOnTouchListener(startListener);
+		stopButton.setOnTouchListener(listener);
+		startButton.setOnTouchListener(listener);
+		manageButton.setOnTouchListener(listener);
 //		Intent intent = new Intent();
 //		intent.setAction("NEXT");
 //		sendBroadcast(intent);

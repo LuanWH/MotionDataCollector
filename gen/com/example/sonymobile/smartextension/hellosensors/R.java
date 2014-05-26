@@ -178,8 +178,9 @@ containing a value of this type.
         public static final int widget_frame=0x7f020007;
     }
     public static final class id {
-        public static final int about_button=0x7f06003c;
-        public static final int accelerometer_view=0x7f06002f;
+        public static final int about_button=0x7f060040;
+        public static final int accelerometer_view=0x7f060033;
+        public static final int action_list=0x7f06002e;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
         public static final int center=0x7f060006;
@@ -194,7 +195,7 @@ containing a value of this type.
         public static final int days_of_year_digit1=0x7f060019;
         public static final int days_of_year_digit2=0x7f060018;
         public static final int days_of_year_digit3=0x7f060017;
-        public static final int enter_recording_button=0x7f06003a;
+        public static final int enter_recording_button=0x7f06003e;
         public static final int hours=0x7f06000f;
         public static final int hours_digit1=0x7f060011;
         public static final int hours_digit2=0x7f060010;
@@ -203,6 +204,9 @@ containing a value of this type.
         public static final int light_value=0x7f060029;
         public static final int light_value_accuracy=0x7f06002b;
         public static final int light_value_timestamp=0x7f06002a;
+        public static final int manage_action_add_button=0x7f06002d;
+        public static final int manage_action_button=0x7f060030;
+        public static final int manage_action_input=0x7f06002c;
         public static final int match_parent=0x7f060007;
         public static final int minutes=0x7f06000c;
         public static final int minutes_digit1=0x7f06000e;
@@ -214,26 +218,26 @@ containing a value of this type.
         public static final int seconds=0x7f060009;
         public static final int seconds_digit1=0x7f06000b;
         public static final int seconds_digit2=0x7f06000a;
-        public static final int select_action=0x7f06002d;
+        public static final int select_action=0x7f06002f;
         public static final int sensor_title=0x7f060023;
         public static final int sensor_value_accuracy=0x7f060028;
         public static final int sensor_value_timestamp=0x7f060027;
         public static final int sensor_value_x=0x7f060024;
         public static final int sensor_value_y=0x7f060025;
         public static final int sensor_value_z=0x7f060026;
-        public static final int settings_button=0x7f06003b;
-        public static final int smart_watch_notification_widget_background=0x7f060030;
-        public static final int smart_watch_notification_widget_text_background=0x7f060031;
-        public static final int smart_watch_notification_widget_text_name=0x7f060034;
-        public static final int smart_watch_notification_widget_text_time=0x7f060032;
-        public static final int smart_watch_notification_widget_text_title=0x7f060033;
-        public static final int smart_watch_widget_custom_image=0x7f060035;
-        public static final int smart_watch_widget_custom_text_view=0x7f060036;
-        public static final int smart_watch_widget_event_counter_badge=0x7f060038;
-        public static final int smart_watch_widget_event_counter_text=0x7f060039;
-        public static final int smart_watch_widget_icon=0x7f060037;
-        public static final int start_button=0x7f06002c;
-        public static final int stop_button=0x7f06002e;
+        public static final int settings_button=0x7f06003f;
+        public static final int smart_watch_notification_widget_background=0x7f060034;
+        public static final int smart_watch_notification_widget_text_background=0x7f060035;
+        public static final int smart_watch_notification_widget_text_name=0x7f060038;
+        public static final int smart_watch_notification_widget_text_time=0x7f060036;
+        public static final int smart_watch_notification_widget_text_title=0x7f060037;
+        public static final int smart_watch_widget_custom_image=0x7f060039;
+        public static final int smart_watch_widget_custom_text_view=0x7f06003a;
+        public static final int smart_watch_widget_event_counter_badge=0x7f06003c;
+        public static final int smart_watch_widget_event_counter_text=0x7f06003d;
+        public static final int smart_watch_widget_icon=0x7f06003b;
+        public static final int start_button=0x7f060031;
+        public static final int stop_button=0x7f060032;
         public static final int top=0x7f060000;
         public static final int years_digit1=0x7f060020;
         public static final int years_digit2=0x7f06001f;
@@ -243,10 +247,12 @@ containing a value of this type.
     public static final class layout {
         public static final int generic_sensor_values=0x7f030000;
         public static final int lightsensor_values=0x7f030001;
-        public static final int phone_ui_layout=0x7f030002;
-        public static final int smart_watch_notification_widget=0x7f030003;
-        public static final int smart_watch_widget=0x7f030004;
-        public static final int start_menu_layout=0x7f030005;
+        public static final int list=0x7f030002;
+        public static final int manage_action_layout=0x7f030003;
+        public static final int phone_ui_layout=0x7f030004;
+        public static final int smart_watch_notification_widget=0x7f030005;
+        public static final int smart_watch_widget=0x7f030006;
+        public static final int start_menu_layout=0x7f030007;
     }
     public static final class string {
         public static final int about_button_label=0x7f050019;
@@ -293,6 +299,9 @@ containing a value of this type.
         /**  Label for the z acceleration. 
          */
         public static final int label_z=0x7f05000e;
+        public static final int manage_action_add_button_label=0x7f05001c;
+        public static final int manage_action_button_label=0x7f05001b;
+        public static final int manage_action_title=0x7f05001d;
         public static final int phone_ui_title=0x7f050012;
         /**  Title of preference activity 
          */
