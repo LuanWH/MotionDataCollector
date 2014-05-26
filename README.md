@@ -1,4 +1,4 @@
-<h1>SeSaMe Centre Project - Sony SW2 Data Collection</h1>
+<h2>SeSaMe Centre Project - Sony SW2 Data Collection</h2>
 
 <h3>Description</h3>
 --------
