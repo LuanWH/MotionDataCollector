@@ -10,8 +10,10 @@
 <li>  UI based on a bitmap layout</li>
 <li>  Interaction using a bitmap layout</li>
 <li>  Collecting accelerometer sensor data</li>
-<li>  Update display of accelerometer data for every 20 detects</li>
+<li>  Update display of accelerometer data</li>
 <li>  Store accelerometer data on phone using JSON format</li>
+<li>  Customize sensor frequency and storage bundle size</li>
+<li>  Customize labelling of data</li>
 </ul>
 
 <h3>Notes</h3>
