@@ -9,7 +9,9 @@ package com.example.sonymobile.smartextension.hellosensors;
 
 public final class R {
     public static final class array {
-        public static final int action_arrays=0x7f090002;
+        public static final int action_arrays=0x7f090004;
+        public static final int count_interval_entries=0x7f090002;
+        public static final int count_interval_values=0x7f090003;
         public static final int number_of_data_per_file_entries=0x7f090000;
         public static final int number_of_data_per_file_values=0x7f090001;
     }

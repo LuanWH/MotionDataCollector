@@ -20,4 +20,24 @@
         <item name="every1000">1000</item>
         <item name="every2000">2000</item>
     </string-array>    
+    <string-array name="count_interval_entries">
+        <item name="every">Record Every Data</item>
+        <item name="every1">Record Every 2 Data</item>
+        <item name="every2">Record Every 3 Data</item>
+        <item name="every3">Record Every 4 Data</item>
+        <item name="every4">Record Every 5 Data</item>
+        <item name="every5">Record Every 6 Data</item>
+        <item name="every6">Record Every 7 Data</item>
+        <item name="every7">Record Every 8 Data</item>
+    </string-array>
+    <string-array name="count_interval_values">
+        <item name="every">0</item>
+        <item name="every1">1</item>
+        <item name="every2">2</item>
+        <item name="every3">3</item>
+        <item name="every4">4</item>
+        <item name="every5">5</item>
+        <item name="every6">6</item>
+        <item name="every7">7</item>
+    </string-array>    
 </resources>

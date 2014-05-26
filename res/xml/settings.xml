@@ -16,11 +16,18 @@
         />   
     <ListPreference
         android:key="number_of_data_per_file"
-        android:title="Number of data items in one data file (.json)"
+        android:title="Number of data items in one file"
         android:summary="Define how many data items stored in one json format data file."
         android:defaultValue="1000"
         android:entries="@array/number_of_data_per_file_entries"
         android:entryValues="@array/number_of_data_per_file_values"
         android:dependency="store_in_file"
         />
+    <ListPreference 
+        android:key="count_interval"
+        android:title="Sensor Frequency"
+        android:summary="Define sensor frequency by setting listen interval"
+        android:defaultValue="2"
+        android:entries="@array/count_interval_entries"
+        android:entryValues="@array/count_interval_values"/>
 </PreferenceScreen>

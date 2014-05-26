@@ -77,7 +77,10 @@ import org.json.JSONObject;
  */
 class HelloSensorsControl extends ControlExtension {
 	Calendar c = null;
-	SimpleDateFormat sdf = new SimpleDateFormat("dd-HH-mm-ss");
+	@SuppressLint("SimpleDateFormat")
+	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-HH-mm-ss");
+	
+	public int countInterval = 2;
 	
 	public static final String aTAG = "HelloSensorsControl";
 
@@ -101,6 +104,8 @@ class HelloSensorsControl extends ControlExtension {
     protected int pendingCount = 0;
     
     protected int writingCount = 0;
+    
+    protected int filterCount;
     
     //protected Queue<Intent> queue;
     
@@ -174,7 +179,8 @@ class HelloSensorsControl extends ControlExtension {
         	register();
         }
         
-
+        countInterval = Prefs.getCountInterval(serviceContext);
+        filterCount = countInterval;
         updateCurrentDisplay(null);
     }
 
@@ -296,6 +302,7 @@ class HelloSensorsControl extends ControlExtension {
         }
         if (writer != null){
         	try{
+        		writer.write("]");
         		writer.close();
         	} catch(IOException e){
         		Log.d("HelloSensorsControl", "IOException");
@@ -350,15 +357,21 @@ class HelloSensorsControl extends ControlExtension {
      * @param sensorEvent
      */
     private void updateCurrentDisplay(AccessorySensorEvent sensorEvent) {
-        AccessorySensor sensor = getCurrentSensor();
-        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)
-               // || sensor.getType().getName().equals(Registration.SensorTypeValue.MAGNETIC_FIELD)
-                																					) {
-            updateGenericSensorDisplay(sensorEvent, sensor.getType().getName());
-        }
-//        else {
-//            updateLightSensorDisplay(sensorEvent);
-//        }
+    	if(filterCount == countInterval){
+	        AccessorySensor sensor = getCurrentSensor();
+	        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)
+	               // || sensor.getType().getName().equals(Registration.SensorTypeValue.MAGNETIC_FIELD)
+	                																					) {
+	            updateGenericSensorDisplay(sensorEvent, sensor.getType().getName());
+	        }
+	        filterCount = 0;
+	//        else {
+	//            updateLightSensorDisplay(sensorEvent);
+	//        }
+    	}else{
+    		filterCount++;
+    	}
+    	
     }
 
     /**
@@ -403,7 +416,7 @@ class HelloSensorsControl extends ControlExtension {
             // Show time stamp in milliseconds. (Reading is in nanoseconds.)
             TextView timeStampView = (TextView)sensorLayout
                     .findViewById(R.id.sensor_value_timestamp);
-			c = Calendar.getInstance();
+			
             timeStampView.setText(String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
 
             // Show sensor accuracy.
@@ -441,6 +454,7 @@ class HelloSensorsControl extends ControlExtension {
 		        				writer.write("]");
 		        				writer.close();
 		        			}
+		        			c = Calendar.getInstance();
 			        		file = new File(serviceContext.getExternalFilesDir(null), 
 			        				sdf.format(c.getTime()) + ".json");
 		        			writer = new BufferedWriter(new FileWriter(file));
@@ -452,10 +466,11 @@ class HelloSensorsControl extends ControlExtension {
 		        	}
 	            
 	        		try{
-	        			writer.write(obj.toString());
-	        			if(writingCount<numbersPerFile-1){
+	        			
+	        			if(writingCount != 0){
 	        				writer.write(",");
 	        			}
+	        			writer.write(obj.toString());
 	        		} catch(IOException e){
 	        			Log.d("HelloSensorsControl", "IOException");
 	        		}

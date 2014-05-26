@@ -12,6 +12,8 @@ public class Prefs extends PreferenceActivity {
 	private static final boolean OPT_STORAGE_DEF = true;	
 	private static final String OPT_NUMBERS = "number_of_data_per_file";
 	private static final String OPT_NUMBERS_DEF = "1000";		
+	private static final String OPT_COUNT_INTERVAL = "count_interval";
+	private static final String OPT_COUNT_INTERVAL_DEF = "2";
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -29,5 +31,9 @@ public class Prefs extends PreferenceActivity {
 	public static String getNumbers(Context context){
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getString(OPT_NUMBERS, OPT_NUMBERS_DEF);
+	}
+	public static int getCountInterval(Context context){
+		return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(OPT_COUNT_INTERVAL, OPT_COUNT_INTERVAL_DEF));
 	}
 }
