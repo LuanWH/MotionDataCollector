@@ -1,16 +1,25 @@
-Features shown in this sample
------------------------------
-* UI based on a bitmap layout
-* Interaction using a bitmap layout
-* Collecting accelerometer sensor data
-* Collecting light sensor data
+<h2>SeSaMe Centre Project - Sony SW2 Data Collection</h2>
 
-Notes
+<h3>Description</h3>
+--------
+<p>Collect accelerometer data from Sony Smartwatch 2 for further analysis</p>
+
+<h3>Features</h3>
+-----------------------------
+<ul>
+<li>  UI based on a bitmap layout</li>
+<li>  Interaction using a bitmap layout</li>
+<li>  Collecting accelerometer sensor data</li>
+<li>  Update display of accelerometer data for every 20 detects</li>
+<li>  Store accelerometer data on phone using JSON format</li>
+</ul>
+
+<h3>Notes</h3>
 -----
 * This project has a dependency on the SmartExtensionUtils Android library
 project.
 
-Dependencies
+<h3>Dependencies</h3>
 ------------
 Two Android library projects are included in the Sony Add-on SDK;
 SmartExtensionAPI and SmartExtensionUtils.
