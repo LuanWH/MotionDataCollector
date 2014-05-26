@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="display_data"
+        android:summary="Enable or disable data display on receive"
+        android:title="Enable data display"
+        android:defaultValue="false"
+        />
+     <CheckBoxPreference
+        android:key="store_in_file"
+        android:summary="Enable or disable data storage on SD card"
+        android:summaryOn="Data file path is SD-Android-data-com.example.sonymobile.smartextension.hellosensors-files"
+        android:title="Enable data storage"
+        android:defaultValue="true"
+        />   
+    <ListPreference
+        android:key="number_of_data_per_file"
+        android:title="Number of data items in one data file (.json)"
+        android:summary="Define how many data items stored in one json format data file."
+        android:defaultValue="1000"
+        android:entries="@array/number_of_data_per_file_entries"
+        android:entryValues="@array/number_of_data_per_file_values"
+        android:dependency="store_in_file"
+        />
+</PreferenceScreen>

@@ -1,5 +1,8 @@
 package com.example.sonymobile.smartextension.hellosensors;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,8 +26,11 @@ public class PhoneUI extends Activity {
 	Receiver receiver = new Receiver();
 	Spinner spinner;
 	Button startButton,stopButton;
-	String[] receivedData = new String[20];
+	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
+	protected boolean displayOn = false;
 	public static final String TAG = "PhoneUI";
+	Calendar c = null;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		Log.d(TAG, "onCreate!");
@@ -39,6 +45,7 @@ public class PhoneUI extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				startRecording(String.valueOf(spinner.getSelectedItem()));
+				spinner.setClickable(false);
 				return true;
 			}
 			
@@ -48,6 +55,7 @@ public class PhoneUI extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				stopRecording();
+				spinner.setClickable(true);
 				return true;
 			}
 			
@@ -77,13 +85,20 @@ public class PhoneUI extends Activity {
 	@Override
 	public void onResume(){
 		super.onResume();
+		displayOn = Prefs.getDisplay(this);
 		registerReceiver(receiver, new IntentFilter("DATA"));
 	}
 	
 	@Override
 	public void onPause(){
 		super.onPause();
+		stopRecording();
 		unregisterReceiver(receiver);
+	}
+	
+	public void setAcc(String data){
+		TextView acc = (TextView)findViewById(R.id.accelerometer_view);
+		acc.append("\n" + data);
 	}
 	
 	public void setAcc(String[] data){
@@ -104,7 +119,7 @@ public class PhoneUI extends Activity {
 			Log.d(TAG, "Received!");
 			if(intent.getStringExtra("SENSOR_TYPE").equals("Accelerometer")){
 				JSONObject obj;
-				for(int i = 0; i<20;i++){
+				for(int i = 0; i<HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT;i++){
 					try{
 						obj = new JSONObject(intent.getStringExtra(Integer.toString(i)));
 						receivedData[i] = "Time: "+obj.getLong("TIME")+"; x-axis: "+ String.format("%.1f", obj.getDouble("X"))
@@ -115,7 +130,12 @@ public class PhoneUI extends Activity {
 					}
 				}
 			}
-			setAcc(receivedData);
+			if(displayOn){
+				setAcc(receivedData);
+			} else {
+				c = Calendar.getInstance();
+				setAcc("Received! "+sdf.format(c.getTime()));
+			}
 		}
 		
 	}

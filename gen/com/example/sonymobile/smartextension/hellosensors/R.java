@@ -9,7 +9,9 @@ package com.example.sonymobile.smartextension.hellosensors;
 
 public final class R {
     public static final class array {
-        public static final int action_arrays=0x7f090000;
+        public static final int action_arrays=0x7f090002;
+        public static final int number_of_data_per_file_entries=0x7f090000;
+        public static final int number_of_data_per_file_values=0x7f090001;
     }
     public static final class attr {
         /**  Path in the asset folder to custom font to use instead of the device default font. The font will not be rendered in the layout editor. 
@@ -174,6 +176,7 @@ containing a value of this type.
         public static final int widget_frame=0x7f020007;
     }
     public static final class id {
+        public static final int about_button=0x7f06003c;
         public static final int accelerometer_view=0x7f06002f;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
@@ -189,6 +192,7 @@ containing a value of this type.
         public static final int days_of_year_digit1=0x7f060019;
         public static final int days_of_year_digit2=0x7f060018;
         public static final int days_of_year_digit3=0x7f060017;
+        public static final int enter_recording_button=0x7f06003a;
         public static final int hours=0x7f06000f;
         public static final int hours_digit1=0x7f060011;
         public static final int hours_digit2=0x7f060010;
@@ -215,6 +219,7 @@ containing a value of this type.
         public static final int sensor_value_x=0x7f060024;
         public static final int sensor_value_y=0x7f060025;
         public static final int sensor_value_z=0x7f060026;
+        public static final int settings_button=0x7f06003b;
         public static final int smart_watch_notification_widget_background=0x7f060030;
         public static final int smart_watch_notification_widget_text_background=0x7f060031;
         public static final int smart_watch_notification_widget_text_name=0x7f060034;
@@ -239,8 +244,10 @@ containing a value of this type.
         public static final int phone_ui_layout=0x7f030002;
         public static final int smart_watch_notification_widget=0x7f030003;
         public static final int smart_watch_widget=0x7f030004;
+        public static final int start_menu_layout=0x7f030005;
     }
     public static final class string {
+        public static final int about_button_label=0x7f050019;
         /**  Sensor accuracy is high 
          */
         public static final int accuracy_high=0x7f05000a;
@@ -259,6 +266,7 @@ containing a value of this type.
  Name of app, shown when installing/uninstalling extension 
          */
         public static final int app_name=0x7f050000;
+        public static final int collect_data_button_label=0x7f050018;
         /**  Configuration title shown in preferences 
          */
         public static final int configuration_text=0x7f050004;
@@ -294,7 +302,10 @@ containing a value of this type.
         /**  Read me text shown in dialog 
          */
         public static final int preference_option_read_me_txt=0x7f050006;
+        public static final int settings_button_label=0x7f05001a;
         public static final int start_button_label=0x7f050013;
+        public static final int start_menu_headline=0x7f050017;
+        public static final int start_menu_title=0x7f050016;
         public static final int stop_button_label=0x7f050014;
         public static final int title_lightsensor=0x7f050011;
     }
@@ -304,6 +315,7 @@ containing a value of this type.
     }
     public static final class xml {
         public static final int preference=0x7f040000;
+        public static final int settings=0x7f040001;
     }
     public static final class styleable {
         /** Attributes that can be used with a TimeLayout.

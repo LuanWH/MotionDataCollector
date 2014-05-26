@@ -63,10 +63,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Queue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,14 +76,19 @@ import org.json.JSONObject;
  * accelerometer and light.
  */
 class HelloSensorsControl extends ControlExtension {
+	Calendar c = null;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd-HH-mm-ss");
 	
 	public static final String aTAG = "HelloSensorsControl";
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
 
     private int mWidth = 220;
-
+    private boolean storageOn = true;
+    private int numbersPerFile = 1000;
     private int mHeight = 176;
+    
+    public static final int NUM_OF_ITEMS_PER_INTENT = 40;
     
     protected JSONObject obj;
 
@@ -147,10 +152,10 @@ class HelloSensorsControl extends ControlExtension {
         // Determine host application screen size.
         determineSize(context, hostAppPackageName);
         serviceContext = context;
-        Intent intent = new Intent(serviceContext, PhoneUI.class);
+        Intent intent = new Intent(serviceContext, StartMenu.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         final Intent intent2 = intent;
-        Log.d("ServiceLALALALLA", "Creating Phone UI!");
+        Log.d("ServiceLALALALLA", "Creating StartMenu!");
         serviceContext.startActivity(intent2);
 
     }
@@ -158,7 +163,8 @@ class HelloSensorsControl extends ControlExtension {
     @Override
     public void onResume() {
         Log.d(HelloSensorsExtensionService.LOG_TAG, "Starting control");
-
+        storageOn = Prefs.getStorage(serviceContext);
+        numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
         // Note: Setting the screen to be always on will drain the accessory
         // battery. It is done here solely for demonstration purposes.
         setScreenState(Control.Intents.SCREEN_STATE_ON);
@@ -286,6 +292,14 @@ class HelloSensorsControl extends ControlExtension {
         AccessorySensor sensor = getCurrentSensor();
         if (sensor != null) {
             sensor.unregisterListener();
+            
+        }
+        if (writer != null){
+        	try{
+        		writer.close();
+        	} catch(IOException e){
+        		Log.d("HelloSensorsControl", "IOException");
+        	}
         }
         isRecording = r;
     }
@@ -389,6 +403,7 @@ class HelloSensorsControl extends ControlExtension {
             // Show time stamp in milliseconds. (Reading is in nanoseconds.)
             TextView timeStampView = (TextView)sensorLayout
                     .findViewById(R.id.sensor_value_timestamp);
+			c = Calendar.getInstance();
             timeStampView.setText(String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
 
             // Show sensor accuracy.
@@ -401,7 +416,7 @@ class HelloSensorsControl extends ControlExtension {
             	pendingIntent = new Intent();
             	pendingIntent.setAction("DATA");
             }
-        	if(pendingCount >= 20){
+        	if(pendingCount >= NUM_OF_ITEMS_PER_INTENT){
         		Log.d(aTAG, "Accelerometer sent!");
         		pendingIntent.putExtra("SENSOR_TYPE", sensorType);
         		//queue.offer(pendingIntent);				
@@ -419,30 +434,35 @@ class HelloSensorsControl extends ControlExtension {
 				obj.put("Y", values[1]);
 				obj.put("Z", values[2]);  
 	            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
-	        	if(writingCount>=100||writer == null){        		
-	        		try{	
-	        			if(writer!=null){
-	        				writer.write("]");
-	        				writer.close();
+	            if(storageOn){
+		        	if(writingCount>=numbersPerFile||writer == null){        		
+		        		try{	
+		        			if(writer!=null){
+		        				writer.write("]");
+		        				writer.close();
+		        			}
+			        		file = new File(serviceContext.getExternalFilesDir(null), 
+			        				sdf.format(c.getTime()) + ".json");
+		        			writer = new BufferedWriter(new FileWriter(file));
+		        			writer.write("[");
+		        		}catch(IOException e){
+		        			Log.d("HelloSensorsControl", "IOException");
+		        		}
+		        		writingCount=0;
+		        	}
+	            
+	        		try{
+	        			writer.write(obj.toString());
+	        			if(writingCount<numbersPerFile-1){
+	        				writer.write(",");
 	        			}
-		        		file = new File(serviceContext.getExternalFilesDir(null), String.valueOf((long)sensorEvent.getTimestamp() / 1e6));
-	        			writer = new BufferedWriter(new FileWriter(file));
-	        			writer.write("[");
-	        		}catch(IOException e){
+	        		} catch(IOException e){
 	        			Log.d("HelloSensorsControl", "IOException");
 	        		}
-	        		writingCount=0;
-	        	}
-        		try{
-        			writer.write(obj.toString());
-        			if(writingCount<99){
-        				writer.write(",");
-        			}
-        		} catch(IOException e){
-        			Log.d("HelloSensorsControl", "IOException");
-        		}
+	        		writingCount++;
+	            }
 	            pendingCount++;
-	            writingCount++;
+	            
             } catch(JSONException e){
             	Log.d("HelloSensorsControl", "Can't create JSON String!");
             }          	

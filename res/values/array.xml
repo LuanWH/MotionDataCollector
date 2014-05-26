@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="number_of_data_per_file_entries">
+        <item name="every40">Every 40 data items</item>
+        <item name="every100">Every 100 data items</item>
+        <item name="every200">Every 200 data items</item>
+        <item name="every400">Every 400 data items</item>
+        <item name="every600">Every 600 data items</item>
+        <item name="every800">Every 800 data items</item>
+        <item name="every1000">Every 1000 data items</item>
+        <item name="every2000">Every 2000 data items</item>
+    </string-array>
+    <string-array name="number_of_data_per_file_values">
+        <item name="every40">40</item>
+        <item name="every100">100</item>
+        <item name="every200">200</item>
+        <item name="every400">400</item>
+        <item name="every600">600</item>
+        <item name="every800">800</item>
+        <item name="every1000">1000</item>
+        <item name="every2000">2000</item>
+    </string-array>    
+</resources>

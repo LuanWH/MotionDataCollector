@@ -19,14 +19,26 @@
         android:theme="@style/ExtensionLightTheme" >
         <activity
             android:name="com.example.sonymobile.smartextension.hellosensors.PhoneUI"
-            android:label="@string/phone_ui_title"></activity>
+            android:label="@string/phone_ui_title"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name="com.example.sonymobile.smartextension.hellosensors.HelloSensorsPreferenceActivity"
-            android:label="@string/preference_activity_title" >
+            android:label="@string/preference_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name="com.example.sonymobile.smartextension.hellosensors.StartMenu"
+            android:label="@string/start_menu_title"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.example.sonymobile.smartextension.hellosensors.Prefs"
+            android:label="@string/settings_button_label"
+            android:screenOrientation="portrait"
+            />
 
         <service android:name="com.example.sonymobile.smartextension.hellosensors.HelloSensorsExtensionService" />
         <service android:name="com.sonyericsson.extras.liveware.extension.util.TunnelService" >
