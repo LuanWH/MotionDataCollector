@@ -1,10 +1,12 @@
 Features shown in this sample
 -----------------------------
-* UI based on a bitmap layout
-* Interaction using a bitmap layout
-* Collecting accelerometer sensor data
-* Collecting light sensor data
-
+<ul>
+<li> UI based on a bitmap layout</li>
+<li>  Interaction using a bitmap layout</li>
+<li>  Collecting accelerometer sensor data</li>
+<li>  Update display of accelerometer data for every 20 detects</li>
+<li>  Store accelerometer data on phone using JSON format</li>
+</ul>
 Notes
 -----
 * This project has a dependency on the SmartExtensionUtils Android library
