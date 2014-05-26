@@ -1,4 +1,4 @@
-Features shown in this sample
+<h3>Features shown in this sample</h3>
 -----------------------------
 <ul>
 <li> UI based on a bitmap layout</li>
@@ -7,12 +7,12 @@ Features shown in this sample
 <li>  Update display of accelerometer data for every 20 detects</li>
 <li>  Store accelerometer data on phone using JSON format</li>
 </ul>
-Notes
+<h3>Notes</h3>
 -----
 * This project has a dependency on the SmartExtensionUtils Android library
 project.
 
-Dependencies
+<h3>Dependencies</h3>
 ------------
 Two Android library projects are included in the Sony Add-on SDK;
 SmartExtensionAPI and SmartExtensionUtils.
