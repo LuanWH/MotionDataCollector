@@ -3,17 +3,17 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- Name of app, shown when installing/uninstalling extension -->
-    <string name="app_name">Hello Sensors extension</string>
+    <string name="app_name">Motion Data Collector</string>
     <!-- Title of preference activity -->
-    <string name="preference_activity_title">Hello Sensors settings</string>
+    <string name="preference_activity_title">Motion Data Collector settings</string>
     <!-- Name of extension, shown in preferences -->
-    <string name="extension_name">Hello Sensors</string>
+    <string name="extension_name">Motion Data Collector</string>
     <!-- Configuration title shown in preferences -->
-    <string name="configuration_text">Hello Sensors settings</string>
+    <string name="configuration_text">Motion Data Collector settings</string>
     <!-- Menu option shown in preferences -->
     <string name="preference_option_read_me">READ ME</string>
     <!-- Read me text shown in dialog -->
-    <string name="preference_option_read_me_txt">The Hello Sensors extension shows the reading from the device accelerometer and light sensor on the device.</string>
+    <string name="preference_option_read_me_txt">The Motion Data Collector shows the reading from the device accelerometer and send it to the phone for display or storage.</string>
 
     <!-- Sensor is unreliable. -->
     <string name="accuracy_unreliable">Unrel.</string>
