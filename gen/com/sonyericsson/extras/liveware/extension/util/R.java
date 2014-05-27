@@ -58,8 +58,8 @@ public final class R {
 		public static final int headset_pro_cancel_icn = 0x7f020001;
 		public static final int headset_pro_focus_xs_icn = 0x7f020002;
 		public static final int headset_pro_ok_icn = 0x7f020003;
-		public static final int text_bg = 0x7f020006;
-		public static final int widget_frame = 0x7f020007;
+		public static final int text_bg = 0x7f020008;
+		public static final int widget_frame = 0x7f020009;
 	}
 	public static final class id {
 		public static final int am_pm = 0x7f060021;

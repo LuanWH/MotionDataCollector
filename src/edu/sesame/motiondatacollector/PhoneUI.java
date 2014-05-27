@@ -1,12 +1,15 @@
 package edu.sesame.motiondatacollector;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -19,6 +22,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -29,12 +33,15 @@ public class PhoneUI extends Activity {
 	Receiver2 receiver2;
 	Spinner spinner;
 	Button startButton,stopButton,manageButton;
+	ActionBar actionBar;
 	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
 	protected boolean displayOn = false;
 	public static final String TAG = "PhoneUI";
 	Calendar c = null;
 	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat sdf = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
+	ArrayAdapter<String> aa;
+	ArrayList<String> list;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		Log.d(TAG, "onCreate!");
@@ -42,11 +49,10 @@ public class PhoneUI extends Activity {
 		setContentView(R.layout.phone_ui_layout);
 		startButton = (Button) findViewById(R.id.start_button);
 		stopButton = (Button) findViewById(R.id.stop_button);
-		spinner = (Spinner) findViewById(R.id.select_action);
+		
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
-		
 		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
 			@Override
@@ -54,13 +60,13 @@ public class PhoneUI extends Activity {
 				switch(v.getId()){
 				case R.id.start_button:
 					startRecording(String.valueOf(spinner.getSelectedItem()));
-					spinner.setClickable(false);
-					manageButton.setClickable(false);
+					spinner.setFocusableInTouchMode(false);
+					manageButton.setFocusableInTouchMode(false);
 					break;
 				case R.id.stop_button:
 					stopRecording();
-					spinner.setClickable(true);
-					manageButton.setClickable(true);
+					spinner.setFocusableInTouchMode(true);
+					manageButton.setFocusableInTouchMode(true);
 					break;
 				case R.id.manage_action_button:
 					startActivity(new Intent(PhoneUI.this, ManageAction.class));
@@ -76,6 +82,9 @@ public class PhoneUI extends Activity {
 		stopButton.setOnTouchListener(listener);
 		startButton.setOnTouchListener(listener);
 		manageButton.setOnTouchListener(listener);
+		actionBar = getActionBar();
+		actionBar.show();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 //		Intent intent = new Intent();
 //		intent.setAction("NEXT");
 //		sendBroadcast(intent);
@@ -102,6 +111,15 @@ public class PhoneUI extends Activity {
 		displayOn = Prefs.getDisplay(this);
 		registerReceiver(receiver, new IntentFilter("DATA"));
 		registerReceiver(receiver2, new IntentFilter("DESTROY"));
+		spinner = (Spinner) findViewById(R.id.select_action);
+		if(Prefs.getDefaults(ManageAction.KEY, getBaseContext()) == null){
+			list = new ArrayList<String>(Arrays.asList(ManageAction.defaultList));
+		} else {
+			list = new ArrayList<String>(Prefs.getDefaults(ManageAction.KEY, getBaseContext()));
+		}
+		aa = new ArrayAdapter<String>(this, R.layout.list, list);
+		spinner.setAdapter(aa);
+		spinner.refreshDrawableState();
 	}
 	
 	@Override

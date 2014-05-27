@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,30 +31,49 @@ public class ManageAction extends Activity {
 	EditText editText;
 	ArrayAdapter<String> aa;
 	String temp;
+	ActionBar actionBar;
+	Runnable run;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.manage_action_layout);
-		if(getPreferences(MODE_PRIVATE).getStringSet(KEY, null) == null){
+		if(Prefs.getDefaults(KEY, getBaseContext()) == null){
 			list = new ArrayList<String>(Arrays.asList(defaultList));
 		} else {
-			list = new ArrayList<String>(getPreferences(MODE_PRIVATE).getStringSet(KEY, null));
+			list = new ArrayList<String>(Prefs.getDefaults(KEY, getBaseContext()));
 		}
 		listView = (ListView) findViewById(R.id.action_list);
 		aa = new ArrayAdapter<String>(this, R.layout.list, list);
 		listView.setAdapter(aa);
 		addButton = (Button) findViewById(R.id.manage_action_add_button);
 		editText = (EditText) findViewById(R.id.manage_action_input);
+		actionBar = getActionBar();
+		actionBar.show();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		run = new Runnable(){
+
+			@Override
+			public void run() {
+				@SuppressWarnings("unchecked")
+				ArrayList<String> temp = (ArrayList<String>)list.clone();
+				aa.clear();
+				aa.addAll(temp);
+				aa.notifyDataSetChanged();
+				listView.invalidateViews();
+				listView.refreshDrawableState();
+			}
+			
+		};
 		addButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				temp = editText.getText().toString();
 				if(!temp.isEmpty()){
-					aa.add(temp);
 					list.add(temp);
 					commitListChange();
+					ManageAction.this.runOnUiThread(run);
 					editText.setText("");
 					new AlertDialog.Builder(ManageAction.this)
 						.setTitle("New Action Added")
@@ -80,9 +98,9 @@ public class ManageAction extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								aa.remove(s);
 								list.remove(s);
 								commitListChange();
+								ManageAction.this.runOnUiThread(run);
 								editText.setText("");
 								new AlertDialog.Builder(ManageAction.this)
 									.setTitle("Action deleted")
@@ -106,11 +124,10 @@ public class ManageAction extends Activity {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {
 											if(input.getText()!=null && input.getText().toString()!=null){
-												aa.remove(s);
 												list.remove(s);
 												list.add(input.getText().toString());
-												aa.add(input.getText().toString());
 												commitListChange();
+												ManageAction.this.runOnUiThread(run);
 											}
 										}
 									})
@@ -154,30 +171,10 @@ public class ManageAction extends Activity {
 //			}
 //			
 //		});
-		editText.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				aa.getFilter().filter(s.toString());
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {}
-			
-		});
-		
-
 	}
 	
 	public void commitListChange(){
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();		
-		editor.putStringSet(KEY, new HashSet<String>(list));
-		editor.commit();		
+		Prefs.setDefaults(KEY, new HashSet<String>(list), getBaseContext());
 	}
 	
 	@Override

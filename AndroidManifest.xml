@@ -6,7 +6,7 @@
     android:versionName="1.1.1" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="13"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="com.sonyericsson.extras.liveware.aef.EXTENSION_PERMISSION" />
@@ -19,12 +19,21 @@
         android:theme="@style/ExtensionLightTheme" >
         <activity
             android:name="edu.sesame.motiondatacollector.ManageAction"
-            android:label="@string/manage_action_button_label"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:label="@string/manage_action_title"
+            android:parentActivityName="edu.sesame.motiondatacollector.PhoneUI">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.PhoneUI"/>
+        </activity>
         <activity
             android:name="edu.sesame.motiondatacollector.PhoneUI"
+            android:screenOrientation="portrait"
             android:label="@string/phone_ui_title"
-            android:screenOrientation="portrait">
+            android:parentActivityName="edu.sesame.motiondatacollector.StartMenu">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.StartMenu"/>
         </activity>
         <activity
             android:name="edu.sesame.motiondatacollector.HelloSensorsPreferenceActivity"
@@ -42,7 +51,11 @@
             android:name="edu.sesame.motiondatacollector.Prefs"
             android:label="@string/settings_button_label"
             android:screenOrientation="portrait"
-            />
+            android:parentActivityName="edu.sesame.motiondatacollector.StartMenu">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.StartMenu"/>            
+        </activity>
 
         <service android:name="edu.sesame.motiondatacollector.HelloSensorsExtensionService" />
         <service android:name="com.sonyericsson.extras.liveware.extension.util.TunnelService" >

@@ -2,33 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_gravity="center"
     android:gravity="center"
+    android:orientation="vertical"
     android:paddingBottom="30dip"
-    android:paddingTop="-10dip"
-    android:paddingLeft = "30dip"
-    android:paddingRight = "30dip">
-    <TextView 
-        android:layout_height="wrap_content"
+    android:paddingLeft="30dip"
+    android:paddingRight="30dip"
+    android:paddingTop="-10dip" >
+
+    <TextView
+        style="@android:style/TextAppearance.Holo"
         android:layout_width="fill_parent"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="25dip"
-        android:textSize="25sp"
-        android:text="@string/start_menu_headline"/>
+        android:text="@string/start_menu_headline"
+        android:textSize="25sp" />
+
     <Button
         android:id="@+id/enter_recording_button"
+        style="@android:style/Theme.Translucent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/collect_data_button_label"/>
+        android:layout_marginTop="30dp"
+        android:text="@string/collect_data_button_label" />
+
     <Button
         android:id="@+id/settings_button"
         android:layout_width="fill_parent"
+        style="@android:style/Theme.Translucent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/settings_button_label"/>
     <Button
         android:id="@+id/about_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        style="@android:style/Theme.Translucent"
+        android:layout_marginTop="30dp"
         android:text="@string/about_button_label"/>            
 
 </LinearLayout>

@@ -108,6 +108,8 @@ class HelloSensorsControl extends ControlExtension {
     
     protected int filterCount;
     
+    public String action;
+    
     //protected Queue<Intent> queue;
     
     //private boolean waitingFlag = true;
@@ -466,8 +468,13 @@ class HelloSensorsControl extends ControlExtension {
 		        				writer.close();
 		        			}
 		        			c = Calendar.getInstance();
-			        		file = new File(serviceContext.getExternalFilesDir(null), 
-			        				sdf.format(c.getTime()) + ".json");
+		        			if(action != null){
+				        		file = new File(serviceContext.getExternalFilesDir(null), 
+				        				action + "#"+sdf.format(c.getTime()) + ".json");
+		        			} else {
+				        		file = new File(serviceContext.getExternalFilesDir(null), 
+				        				sdf.format(c.getTime()) + ".json");	        				
+		        			}
 		        			writer = new BufferedWriter(new FileWriter(file));
 		        			writer.write("[");
 		        		}catch(IOException e){

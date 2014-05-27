@@ -173,9 +173,11 @@ containing a value of this type.
         public static final int headset_pro_focus_xs_icn=0x7f020002;
         public static final int headset_pro_ok_icn=0x7f020003;
         public static final int icon=0x7f020004;
-        public static final int icon_extension=0x7f020005;
-        public static final int text_bg=0x7f020006;
-        public static final int widget_frame=0x7f020007;
+        public static final int icon2=0x7f020005;
+        public static final int icon_extension=0x7f020006;
+        public static final int icon_extension2=0x7f020007;
+        public static final int text_bg=0x7f020008;
+        public static final int widget_frame=0x7f020009;
     }
     public static final class id {
         public static final int about_button=0x7f060040;
@@ -255,7 +257,7 @@ containing a value of this type.
         public static final int start_menu_layout=0x7f030007;
     }
     public static final class string {
-        public static final int about_button_label=0x7f050019;
+        public static final int about_button_label=0x7f050018;
         /**  Sensor accuracy is high 
          */
         public static final int accuracy_high=0x7f05000a;
@@ -268,13 +270,13 @@ containing a value of this type.
         /**  Sensor is unreliable. 
          */
         public static final int accuracy_unreliable=0x7f050007;
-        public static final int action_prompt=0x7f050015;
+        public static final int action_prompt=0x7f050014;
         /**  At least one dummy resource is needed to satisfy aapt.
     Otherwise it complains about no res folder. 
  Name of app, shown when installing/uninstalling extension 
          */
         public static final int app_name=0x7f050000;
-        public static final int collect_data_button_label=0x7f050018;
+        public static final int collect_data_button_label=0x7f050017;
         /**  Configuration title shown in preferences 
          */
         public static final int configuration_text=0x7f050004;
@@ -299,10 +301,11 @@ containing a value of this type.
         /**  Label for the z acceleration. 
          */
         public static final int label_z=0x7f05000e;
-        public static final int manage_action_add_button_label=0x7f05001c;
-        public static final int manage_action_button_label=0x7f05001b;
-        public static final int manage_action_title=0x7f05001d;
-        public static final int phone_ui_title=0x7f050012;
+        public static final int manage_action_add_button_label=0x7f05001b;
+        public static final int manage_action_button_label=0x7f05001a;
+        public static final int manage_action_inner_title=0x7f05001e;
+        public static final int manage_action_title=0x7f05001c;
+        public static final int phone_ui_title=0x7f05001d;
         /**  Title of preference activity 
          */
         public static final int preference_activity_title=0x7f050002;
@@ -313,11 +316,11 @@ containing a value of this type.
         /**  Read me text shown in dialog 
          */
         public static final int preference_option_read_me_txt=0x7f050006;
-        public static final int settings_button_label=0x7f05001a;
-        public static final int start_button_label=0x7f050013;
-        public static final int start_menu_headline=0x7f050017;
-        public static final int start_menu_title=0x7f050016;
-        public static final int stop_button_label=0x7f050014;
+        public static final int settings_button_label=0x7f050019;
+        public static final int start_button_label=0x7f050012;
+        public static final int start_menu_headline=0x7f050016;
+        public static final int start_menu_title=0x7f050015;
+        public static final int stop_button_label=0x7f050013;
         public static final int title_lightsensor=0x7f050011;
     }
     public static final class style {

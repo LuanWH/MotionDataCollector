@@ -99,6 +99,7 @@ public class HelloSensorsExtensionService extends ExtensionService {
 		public void onReceive(Context context, Intent intent) {
 			if(intent.getStringExtra("START_OR_STOP").equals("START")){
 				control.register();
+				control.action = intent.getStringExtra("ACTION");
 			} else if(intent.getStringExtra("START_OR_STOP").equals("STOP")){
 				control.unregister(false);
 			}
