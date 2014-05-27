@@ -7,6 +7,7 @@ import java.util.HashSet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -53,7 +54,9 @@ public class ManageAction extends Activity {
 				temp = editText.getText().toString();
 				if(!temp.isEmpty()){
 					aa.add(temp);
+					list.add(temp);
 					commitListChange();
+					editText.setText("");
 					new AlertDialog.Builder(ManageAction.this)
 						.setTitle("New Action Added")
 						.setMessage("'"+temp+"' has been added to the list!")
@@ -73,16 +76,22 @@ public class ManageAction extends Activity {
 					new AlertDialog.Builder(ManageAction.this)
 						.setTitle(s)
 						.setMessage("What do you want to do with '"+s+"'?")
-						.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
+						.setNegativeButton("Delete", new DialogInterface.OnClickListener(){
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 								aa.remove(s);
+								list.remove(s);
 								commitListChange();
 								editText.setText("");
+								new AlertDialog.Builder(ManageAction.this)
+									.setTitle("Action deleted")
+									.setMessage("'"+s+"' has been deleted!")
+									.setPositiveButton("Ok", null)
+									.show();
 							}
 						})
-						.setNegativeButton("Rename", new DialogInterface.OnClickListener(){
+						.setNeutralButton("Rename", new DialogInterface.OnClickListener(){
 
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -98,6 +107,8 @@ public class ManageAction extends Activity {
 										public void onClick(DialogInterface dialog, int which) {
 											if(input.getText()!=null && input.getText().toString()!=null){
 												aa.remove(s);
+												list.remove(s);
+												list.add(input.getText().toString());
 												aa.add(input.getText().toString());
 												commitListChange();
 											}
@@ -105,10 +116,12 @@ public class ManageAction extends Activity {
 									})
 									.setNegativeButton("Cancel", null)
 									.show();
+								editText.setText("");
 								
 							}
 							
 						})
+						.setPositiveButton("Cancel", null)
 						.show();
 				}
 				return true;
@@ -162,15 +175,33 @@ public class ManageAction extends Activity {
 	}
 	
 	public void commitListChange(){
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();		
 		editor.putStringSet(KEY, new HashSet<String>(list));
 		editor.commit();		
 	}
 	
 	@Override
 	public void onBackPressed() {
+		commitListChange();
+		Intent i = new Intent(this, PhoneUI.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
 		finish();
 	}	
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		list = new ArrayList<String>(getPreferences(MODE_PRIVATE).getStringSet(KEY, null));
+		aa = new ArrayAdapter<String>(this, R.layout.list, list);
+		listView.setAdapter(aa);
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		commitListChange();
+	}
 }
 /*<string-array name="action_arrays">
 <item>Reading</item>

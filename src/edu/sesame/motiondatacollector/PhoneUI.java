@@ -148,7 +148,14 @@ public class PhoneUI extends Activity {
 				setAcc("Received! "+sdf.format(c.getTime()));
 			}
 		}
-		
+	}
+	
+	@Override
+	public void onBackPressed(){
+		Intent i = new Intent(this, StartMenu.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
+		finish();
 	}
 	
 //	//Start binding service
