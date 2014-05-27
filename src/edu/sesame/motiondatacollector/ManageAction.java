@@ -188,20 +188,7 @@ public class ManageAction extends Activity {
 		startActivity(i);
 		finish();
 	}	
-	
-	@Override
-	public void onResume(){
-		super.onResume();
-		list = new ArrayList<String>(getPreferences(MODE_PRIVATE).getStringSet(KEY, null));
-		aa = new ArrayAdapter<String>(this, R.layout.list, list);
-		listView.setAdapter(aa);
-	}
-	
-	@Override
-	public void onPause(){
-		super.onPause();
-		commitListChange();
-	}
+
 }
 /*<string-array name="action_arrays">
 <item>Reading</item>

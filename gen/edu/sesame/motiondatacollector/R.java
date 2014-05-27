@@ -179,7 +179,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int about_button=0x7f060040;
-        public static final int accelerometer_view=0x7f060033;
+        public static final int accelerometer_view=0x7f060031;
         public static final int action_list=0x7f06002e;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
@@ -236,8 +236,8 @@ containing a value of this type.
         public static final int smart_watch_widget_event_counter_badge=0x7f06003c;
         public static final int smart_watch_widget_event_counter_text=0x7f06003d;
         public static final int smart_watch_widget_icon=0x7f06003b;
-        public static final int start_button=0x7f060031;
-        public static final int stop_button=0x7f060032;
+        public static final int start_button=0x7f060032;
+        public static final int stop_button=0x7f060033;
         public static final int top=0x7f060000;
         public static final int years_digit1=0x7f060020;
         public static final int years_digit2=0x7f06001f;

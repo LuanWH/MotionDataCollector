@@ -20,40 +20,22 @@
         	android:layout_weight="1"
         	android:entries="@array/action_arrays"
         	android:prompt="@string/action_prompt" 
-        	android:layout_marginRight="10dip"/>
+        	android:layout_marginRight="10dip"
+        	android:verticalScrollbarPosition="right"
+        	android:scrollbars="vertical"/>
         <Button
 	        android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
 	        android:id="@+id/manage_action_button"
+	        android:padding="5dp"
 	        android:text="@string/manage_action_button_label"
         />
-    </LinearLayout>
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dip"      
-        android:layout_gravity="center" 
-        >
-        <Button 
-            android:id="@+id/start_button"
-            android:layout_height="wrap_content"
-            android:layout_width="0dip"
-            android:layout_weight="1"
-            android:text="@string/start_button_label"
-            android:layout_marginRight="10dip"/>
-
-        <Button 
-            android:id="@+id/stop_button"
-            android:layout_height="wrap_content"
-            android:layout_width="0dip"
-            android:layout_weight="1"         
-            android:text="@string/stop_button_label"/>        
     </LinearLayout>
     <ScrollView
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingLeft="20dip"
 	    android:paddingRight="20dip"
 	    android:layout_marginBottom="20dip"
@@ -66,6 +48,30 @@
 	        >
 	    </TextView>
     </ScrollView>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dip"      
+        android:layout_gravity="center"
+        style="?android:attr/buttonBarStyle" >
+        <Button 
+            android:id="@+id/start_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:text="@string/start_button_label"
+            android:layout_marginRight="10dip"
+            style="?android:attr/buttonBarButtonStyle"/>
+
+        <Button 
+            android:id="@+id/stop_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_weight="1"         
+            android:text="@string/stop_button_label"
+            style="?android:attr/buttonBarButtonStyle"/>        
+    </LinearLayout>
 <!--     <TextView  -->
 <!--         android:layout_height="wrap_content" -->
 <!--         android:paddingLeft="20dip" -->

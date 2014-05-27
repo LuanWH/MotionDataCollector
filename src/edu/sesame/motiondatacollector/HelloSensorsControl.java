@@ -195,6 +195,9 @@ class HelloSensorsControl extends ControlExtension {
     public void onDestroy() {
         // Stop sensor.
         unregisterAndDestroy();
+        Intent i = new Intent();
+        i.setAction("DESTROY");
+        serviceContext.sendBroadcast(i);
     }
 
     /**
@@ -263,7 +266,11 @@ class HelloSensorsControl extends ControlExtension {
      * @return The sensor.
      */
     private AccessorySensor getCurrentSensor() {
-        return mSensors.get(mCurrentSensor);
+    	if(mSensors!=null){
+    		return mSensors.get(mCurrentSensor);
+    	} else {
+    		return null;
+    	}
     }
 
     /**
@@ -316,11 +323,12 @@ class HelloSensorsControl extends ControlExtension {
      * Unregisters any sensor event listeners and unsets the sensor currently
      * being used.
      */
-    private void unregisterAndDestroy() {
+    public void unregisterAndDestroy() {
         unregister(false);
         mSensors.clear();
         mSensors = null;
     }
+    
 
     /**
      * Cycles between currently available sensors and updates the display with
@@ -360,15 +368,17 @@ class HelloSensorsControl extends ControlExtension {
     private void updateCurrentDisplay(AccessorySensorEvent sensorEvent) {
     	if(filterCount == countInterval){
 	        AccessorySensor sensor = getCurrentSensor();
-	        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)
-	               // || sensor.getType().getName().equals(Registration.SensorTypeValue.MAGNETIC_FIELD)
-	                																					) {
-	            updateGenericSensorDisplay(sensorEvent, sensor.getType().getName());
+	        if(sensor!=null){
+		        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)
+		               // || sensor.getType().getName().equals(Registration.SensorTypeValue.MAGNETIC_FIELD)
+		                																					) {
+		            updateGenericSensorDisplay(sensorEvent, sensor.getType().getName());
+		        }
+		        filterCount = 0;
+		//        else {
+		//            updateLightSensorDisplay(sensorEvent);
+		//        }
 	        }
-	        filterCount = 0;
-	//        else {
-	//            updateLightSensorDisplay(sensorEvent);
-	//        }
     	}else{
     		filterCount++;
     	}

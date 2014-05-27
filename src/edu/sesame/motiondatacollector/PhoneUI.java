@@ -25,7 +25,8 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
-	Receiver receiver = new Receiver();
+	Receiver receiver;
+	Receiver2 receiver2;
 	Spinner spinner;
 	Button startButton,stopButton,manageButton;
 	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
@@ -43,6 +44,8 @@ public class PhoneUI extends Activity {
 		stopButton = (Button) findViewById(R.id.stop_button);
 		spinner = (Spinner) findViewById(R.id.select_action);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
+		receiver = new Receiver();
+		receiver2 = new Receiver2();
 		
 		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
@@ -98,6 +101,7 @@ public class PhoneUI extends Activity {
 		super.onResume();
 		displayOn = Prefs.getDisplay(this);
 		registerReceiver(receiver, new IntentFilter("DATA"));
+		registerReceiver(receiver2, new IntentFilter("DESTROY"));
 	}
 	
 	@Override
@@ -105,6 +109,7 @@ public class PhoneUI extends Activity {
 		super.onPause();
 		stopRecording();
 		unregisterReceiver(receiver);
+		unregisterReceiver(receiver2);
 	}
 	
 	public void setAcc(String data){
@@ -148,6 +153,15 @@ public class PhoneUI extends Activity {
 				setAcc("Received! "+sdf.format(c.getTime()));
 			}
 		}
+	}
+	private class Receiver2 extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			stopRecording();
+			finish();
+		}
+		
 	}
 	
 	@Override
