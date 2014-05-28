@@ -56,8 +56,8 @@
         <item>Eating</item>
     </string-array>
     <string name="action_prompt">Select an action</string>
-    <string name="start_menu_title">SW2 Data Collection</string>
-    <string name="start_menu_headline">SW2 Data Collection\nSeSaMe Center Project</string>    
+    <string name="start_menu_title">SW2 Data Collector</string>
+    <string name="start_menu_headline">SW2 Data Collector\nSeSaMe Center Project</string>    
     <string name="collect_data_button_label">Collect Data</string>
     <string name="about_button_label">About</string>
     <string name="settings_button_label">Settings</string>
@@ -66,5 +66,15 @@
     <string name="manage_action_title">Actions</string>
     <string name="phone_ui_title">Collector</string>
     <string name="manage_action_inner_title">Manage Actions</string>
+    <string name="view_data_button_label">View Data</string>
+    <string name="view_data_title">Data</string>
+    <string name="open_button_label">Open Data File</string>
+    <string name="stat_button_label">View Statistics</string>
+    <string name="file_default_name">Choose a file to open</string>
+    <string name="table_header_time">Time</string>
+    <string name="table_header_x">X-axis</string>
+    <string name="table_header_y">Y-axis</string>
+    <string name="table_header_z">Z-axis</string>
+    <string name="directory_button_label">Data Folder</string>
 	
 </resources>

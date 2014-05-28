@@ -10,8 +10,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -145,32 +143,7 @@ public class ManageAction extends Activity {
 			}
 			
 		});
-//		listView.setOnItemClickListener(new OnItemClickListener(){
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				final String s = ((TextView)view).getText().toString();
-//				if(!s.isEmpty()){
-//					new AlertDialog.Builder(ManageAction.this)
-//						.setTitle("Confirm deletion")
-//						.setMessage("Are you sure you want to delete '"+s+"'?")
-//						.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-//							@Override
-//							public void onClick(DialogInterface dialog,
-//									int which) {
-//								aa.remove(s);
-//								commitListChange();
-//								editText.setText("");
-//							}
-//						})
-//						.setNegativeButton("Cancel", null)
-//						.show();
-//				}
-//				
-//			}
-//			
-//		});
+		listView.requestFocus();
 	}
 	
 	public void commitListChange(){
@@ -187,11 +160,3 @@ public class ManageAction extends Activity {
 	}	
 
 }
-/*<string-array name="action_arrays">
-<item>Reading</item>
-<item>Walking</item>
-<item>Running</item>
-<item>Writing</item>
-<item>Typing</item>
-<item>Eating</item>
-</string-array>*/

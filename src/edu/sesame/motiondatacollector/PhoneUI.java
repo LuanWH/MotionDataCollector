@@ -11,26 +11,26 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
 	Receiver receiver;
 	Receiver2 receiver2;
+	Receiver3 receiver3;
 	Spinner spinner;
 	Button startButton,stopButton,manageButton;
 	ActionBar actionBar;
@@ -42,6 +42,8 @@ public class PhoneUI extends Activity {
 	SimpleDateFormat sdf = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
 	ArrayAdapter<String> aa;
 	ArrayList<String> list;
+	Boolean isControl = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		Log.d(TAG, "onCreate!");
@@ -53,15 +55,38 @@ public class PhoneUI extends Activity {
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
+		receiver3 = new Receiver3();
 		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				switch(v.getId()){
 				case R.id.start_button:
-					startRecording(String.valueOf(spinner.getSelectedItem()));
-					spinner.setFocusableInTouchMode(false);
-					manageButton.setFocusableInTouchMode(false);
+					Intent i = new Intent();
+					i.setAction("isControl");
+					sendBroadcast(i);
+					if(isControl){
+						startRecording(String.valueOf(spinner.getSelectedItem()));
+						spinner.setFocusableInTouchMode(false);
+						manageButton.setFocusableInTouchMode(false);
+					} else {
+						new AlertDialog.Builder(PhoneUI.this)
+							.setTitle("Warning")
+							.setMessage("Record aborted: Please open Data Collector on your connected device.")
+							.setPositiveButton("Back", new OnClickListener(){
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									Intent i = new Intent(PhoneUI.this, PhoneUI.class);
+									i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+									startActivity(i);
+									dialog.dismiss();
+								}
+								
+							})
+							.show();
+					}
 					break;
 				case R.id.stop_button:
 					stopRecording();
@@ -85,9 +110,6 @@ public class PhoneUI extends Activity {
 		actionBar = getActionBar();
 		actionBar.show();
 		actionBar.setDisplayHomeAsUpEnabled(true);
-//		Intent intent = new Intent();
-//		intent.setAction("NEXT");
-//		sendBroadcast(intent);
 	}
 	
 	private void stopRecording(){
@@ -111,6 +133,7 @@ public class PhoneUI extends Activity {
 		displayOn = Prefs.getDisplay(this);
 		registerReceiver(receiver, new IntentFilter("DATA"));
 		registerReceiver(receiver2, new IntentFilter("DESTROY"));
+		registerReceiver(receiver3, new IntentFilter("CONTROL"));
 		spinner = (Spinner) findViewById(R.id.select_action);
 		if(Prefs.getDefaults(ManageAction.KEY, getBaseContext()) == null){
 			list = new ArrayList<String>(Arrays.asList(ManageAction.defaultList));
@@ -120,6 +143,9 @@ public class PhoneUI extends Activity {
 		aa = new ArrayAdapter<String>(this, R.layout.list, list);
 		spinner.setAdapter(aa);
 		spinner.refreshDrawableState();
+		Intent i = new Intent();
+		i.setAction("isControl");
+		sendBroadcast(i);
 	}
 	
 	@Override
@@ -128,6 +154,7 @@ public class PhoneUI extends Activity {
 		stopRecording();
 		unregisterReceiver(receiver);
 		unregisterReceiver(receiver2);
+		unregisterReceiver(receiver3);
 	}
 	
 	public void setAcc(String data){
@@ -142,9 +169,6 @@ public class PhoneUI extends Activity {
 			temp+="\n"+data[i];
 		}
 		acc.setText(temp);
-//		Intent intent = new Intent();
-//		intent.setAction("NEXT");
-//		sendBroadcast(intent);
 	}
 	private class Receiver extends BroadcastReceiver{
 
@@ -177,7 +201,26 @@ public class PhoneUI extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			stopRecording();
-			finish();
+			isControl = false;
+			new AlertDialog.Builder(PhoneUI.this)
+				.setTitle("Warning")
+				.setMessage("Data Collector on smart watch has stopped!")
+				.setPositiveButton("Ok", null)
+				.show();
+		}
+		
+	}
+	private class Receiver3 extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.getStringExtra("CONTROL")!=null){
+				if(intent.getStringExtra("CONTROL").equals("ON")){
+					isControl = true;
+				} else {
+					isControl = false;
+				}
+			}
 		}
 		
 	}
@@ -189,42 +232,4 @@ public class PhoneUI extends Activity {
 		startActivity(i);
 		finish();
 	}
-	
-//	//Start binding service
-//	private HelloSensorsExtensionService iservice;
-//	
-//
-//
-//	@Override
-//	protected void onStart(){
-//		super.onStart();
-//		bindService(new Intent(this, HelloSensorsExtensionService.class), mConnection, Context.BIND_AUTO_CREATE);
-//		Log.d("gear","Bound!");
-//	}
-//	
-//	@Override
-//	protected void onStop(){
-//		super.onStop();
-//		if(mBound){
-//			unbindService(mConnection);
-//			mBound = false;
-//		}
-//	}
-//	public boolean mBound;
-//	
-//	public ServiceConnection mConnection = new ServiceConnection(){
-//		@Override
-//		public void onServiceConnected(ComponentName className, IBinder aservice){
-//			com.example.sonymobile.smartextension.hellosensors.HelloSensorsExtensionService.LocalBinder binder = (com.example.sonymobile.smartextension.hellosensors.HelloSensorsExtensionService.LocalBinder) aservice;
-//			iservice = binder.getService();
-//			mBound = true;
-//		}
-//
-//		@Override
-//		public void onServiceDisconnected(ComponentName name) {
-//			mBound = false;
-//		}
-//		
-//		
-//	};
 }

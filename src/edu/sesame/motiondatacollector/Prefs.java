@@ -3,9 +3,15 @@ package edu.sesame.motiondatacollector;
 import java.util.Set;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
@@ -19,14 +25,58 @@ public class Prefs extends PreferenceActivity {
 	private static final String OPT_COUNT_INTERVAL = "count_interval";
 	private static final String OPT_COUNT_INTERVAL_DEF = "2";
 	ActionBar actionBar;
+	CheckBoxPreference storage, display;
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 		actionBar = getActionBar();
 		actionBar.show();
-		actionBar.setDisplayHomeAsUpEnabled(true);		
+		actionBar.setDisplayHomeAsUpEnabled(true);	
+		storage = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_STORAGE);
+		display = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_DISPLAY);
 	}
+	@Override
+	public void onResume(){
+		super.onResume();
+		storage.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
+
+			@Override
+			public boolean onPreferenceChange(Preference preference,
+					Object newValue) {
+				if((Boolean) newValue){
+					new AlertDialog.Builder(Prefs.this)
+						.setTitle("Information")
+						.setMessage("Data file path is SD/Android/data/edu.sesame.motiondatacollector/files")
+						.setPositiveButton("Ok", null)
+						.show();
+				}
+				return true;
+			}});
+		display.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				if((Boolean)newValue){
+					new AlertDialog.Builder(Prefs.this)
+						.setMessage("Turning on 'Display' may cause application hanging!")
+						.setTitle("Warning")
+						.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {		
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								display.setChecked(false);
+							}
+						})
+						.setNegativeButton("Continue", null) 
+						.setCancelable(true)
+						.show();
+				}
+				return true;
+			}
+		});
+	}
+	
 	public static boolean getDisplay(Context context){
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean(OPT_DISPLAY, OPT_DISPLAY_DEF);

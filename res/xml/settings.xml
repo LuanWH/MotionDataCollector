@@ -10,7 +10,6 @@
      <CheckBoxPreference
         android:key="store_in_file"
         android:summary="Enable or disable data storage on SD card"
-        android:summaryOn="Data file path is SD-Android-data-com.example.sonymobile.smartextension.hellosensors-files"
         android:title="Enable data storage"
         android:defaultValue="true"
         />   

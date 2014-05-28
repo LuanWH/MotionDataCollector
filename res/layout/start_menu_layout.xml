@@ -25,7 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/collect_data_button_label" />
-
+    <Button
+        android:id="@+id/view_data_button"
+        style="@android:style/Theme.Translucent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/view_data_button_label" /> 
     <Button
         android:id="@+id/settings_button"
         android:layout_width="fill_parent"

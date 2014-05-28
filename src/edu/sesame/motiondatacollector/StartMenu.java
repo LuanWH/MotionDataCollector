@@ -10,36 +10,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class StartMenu extends Activity {
-	Button startButton, settingsButton, aboutButton;
+	Button startButton, settingsButton, aboutButton,viewButton;
 	
 	class Listener implements OnClickListener{
 		@Override
 		public void onClick(View v) {
 			switch(v.getId()){
 			case R.id.enter_recording_button:
-				if(Prefs.getDisplay(StartMenu.this)){
-					new AlertDialog.Builder(StartMenu.this)
-						.setMessage("Turning on 'Display' may cause application hanging!")
-						.setTitle("Warning")
-						.setPositiveButton("Start", new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								startActivity(new Intent(StartMenu.this, PhoneUI.class));
-							}
-						})
-						.setNegativeButton("Settings", new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								startActivity(new Intent(StartMenu.this, Prefs.class));
-							}
-						})
-						.setCancelable(true)
-						.show();
-				} else {
-					startActivity(new Intent(StartMenu.this, PhoneUI.class));
-				}
+				startService(new Intent(StartMenu.this, HelloSensorsExtensionService.class));
+				startActivity(new Intent(StartMenu.this, PhoneUI.class));
 				break;
 			case R.id.settings_button:
 				startActivity(new Intent(StartMenu.this, Prefs.class));
@@ -50,6 +29,9 @@ public class StartMenu extends Activity {
 					.setMessage("This is an application designed for SeSaMe Centre to collect accelerometer data from Sony Smartwatch 2")
 					.setPositiveButton("Ok", null)
 					.show();
+				break;
+			case R.id.view_data_button:
+				startActivity(new Intent(StartMenu.this, ViewData.class));
 				break;
 			default:
 				break;
@@ -68,8 +50,10 @@ public class StartMenu extends Activity {
 		startButton = (Button)findViewById(R.id.enter_recording_button);
 		settingsButton = (Button)findViewById(R.id.settings_button);
 		aboutButton = (Button)findViewById(R.id.about_button);
+		viewButton = (Button) findViewById(R.id.view_data_button);
 		OnClickListener listener = new Listener();
 		startButton.setOnClickListener(listener);
+		viewButton.setOnClickListener(listener);
 		settingsButton.setOnClickListener(listener);
 		aboutButton.setOnClickListener(listener);
 	}

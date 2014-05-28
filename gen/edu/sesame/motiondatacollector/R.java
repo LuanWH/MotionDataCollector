@@ -168,21 +168,22 @@ containing a value of this type.
         public static final int smart_watch_widget_width_outer=0x7f070005;
     }
     public static final class drawable {
-        public static final int badge_counter=0x7f020000;
-        public static final int headset_pro_cancel_icn=0x7f020001;
-        public static final int headset_pro_focus_xs_icn=0x7f020002;
-        public static final int headset_pro_ok_icn=0x7f020003;
-        public static final int icon=0x7f020004;
-        public static final int icon2=0x7f020005;
-        public static final int icon_extension=0x7f020006;
-        public static final int icon_extension2=0x7f020007;
-        public static final int text_bg=0x7f020008;
-        public static final int widget_frame=0x7f020009;
+        public static final int back=0x7f020000;
+        public static final int badge_counter=0x7f020001;
+        public static final int headset_pro_cancel_icn=0x7f020002;
+        public static final int headset_pro_focus_xs_icn=0x7f020003;
+        public static final int headset_pro_ok_icn=0x7f020004;
+        public static final int icon=0x7f020005;
+        public static final int icon2=0x7f020006;
+        public static final int icon_extension=0x7f020007;
+        public static final int icon_extension2=0x7f020008;
+        public static final int text_bg=0x7f020009;
+        public static final int widget_frame=0x7f02000a;
     }
     public static final class id {
-        public static final int about_button=0x7f060040;
-        public static final int accelerometer_view=0x7f060031;
-        public static final int action_list=0x7f06002e;
+        public static final int about_button=0x7f060042;
+        public static final int accelerometer_view=0x7f060032;
+        public static final int action_list=0x7f06002f;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
         public static final int center=0x7f060006;
@@ -197,18 +198,21 @@ containing a value of this type.
         public static final int days_of_year_digit1=0x7f060019;
         public static final int days_of_year_digit2=0x7f060018;
         public static final int days_of_year_digit3=0x7f060017;
-        public static final int enter_recording_button=0x7f06003e;
+        public static final int dialog_listview=0x7f060023;
+        public static final int enter_recording_button=0x7f06003f;
+        public static final int file_name_view=0x7f060045;
+        public static final int header_table=0x7f060046;
         public static final int hours=0x7f06000f;
         public static final int hours_digit1=0x7f060011;
         public static final int hours_digit2=0x7f060010;
         public static final int hours_fine=0x7f060022;
         public static final int left=0x7f060002;
-        public static final int light_value=0x7f060029;
-        public static final int light_value_accuracy=0x7f06002b;
-        public static final int light_value_timestamp=0x7f06002a;
-        public static final int manage_action_add_button=0x7f06002d;
-        public static final int manage_action_button=0x7f060030;
-        public static final int manage_action_input=0x7f06002c;
+        public static final int light_value=0x7f06002a;
+        public static final int light_value_accuracy=0x7f06002c;
+        public static final int light_value_timestamp=0x7f06002b;
+        public static final int manage_action_add_button=0x7f06002e;
+        public static final int manage_action_button=0x7f060031;
+        public static final int manage_action_input=0x7f06002d;
         public static final int match_parent=0x7f060007;
         public static final int minutes=0x7f06000c;
         public static final int minutes_digit1=0x7f06000e;
@@ -216,45 +220,51 @@ containing a value of this type.
         public static final int months=0x7f06001a;
         public static final int months_digit1=0x7f06001c;
         public static final int months_digit2=0x7f06001b;
+        public static final int open_button=0x7f060043;
         public static final int right=0x7f060003;
         public static final int seconds=0x7f060009;
         public static final int seconds_digit1=0x7f06000b;
         public static final int seconds_digit2=0x7f06000a;
-        public static final int select_action=0x7f06002f;
-        public static final int sensor_title=0x7f060023;
-        public static final int sensor_value_accuracy=0x7f060028;
-        public static final int sensor_value_timestamp=0x7f060027;
-        public static final int sensor_value_x=0x7f060024;
-        public static final int sensor_value_y=0x7f060025;
-        public static final int sensor_value_z=0x7f060026;
-        public static final int settings_button=0x7f06003f;
-        public static final int smart_watch_notification_widget_background=0x7f060034;
-        public static final int smart_watch_notification_widget_text_background=0x7f060035;
-        public static final int smart_watch_notification_widget_text_name=0x7f060038;
-        public static final int smart_watch_notification_widget_text_time=0x7f060036;
-        public static final int smart_watch_notification_widget_text_title=0x7f060037;
-        public static final int smart_watch_widget_custom_image=0x7f060039;
-        public static final int smart_watch_widget_custom_text_view=0x7f06003a;
-        public static final int smart_watch_widget_event_counter_badge=0x7f06003c;
-        public static final int smart_watch_widget_event_counter_text=0x7f06003d;
-        public static final int smart_watch_widget_icon=0x7f06003b;
-        public static final int start_button=0x7f060032;
-        public static final int stop_button=0x7f060033;
+        public static final int select_action=0x7f060030;
+        public static final int sensor_title=0x7f060024;
+        public static final int sensor_value_accuracy=0x7f060029;
+        public static final int sensor_value_timestamp=0x7f060028;
+        public static final int sensor_value_x=0x7f060025;
+        public static final int sensor_value_y=0x7f060026;
+        public static final int sensor_value_z=0x7f060027;
+        public static final int settings_button=0x7f060041;
+        public static final int smart_watch_notification_widget_background=0x7f060035;
+        public static final int smart_watch_notification_widget_text_background=0x7f060036;
+        public static final int smart_watch_notification_widget_text_name=0x7f060039;
+        public static final int smart_watch_notification_widget_text_time=0x7f060037;
+        public static final int smart_watch_notification_widget_text_title=0x7f060038;
+        public static final int smart_watch_widget_custom_image=0x7f06003a;
+        public static final int smart_watch_widget_custom_text_view=0x7f06003b;
+        public static final int smart_watch_widget_event_counter_badge=0x7f06003d;
+        public static final int smart_watch_widget_event_counter_text=0x7f06003e;
+        public static final int smart_watch_widget_icon=0x7f06003c;
+        public static final int start_button=0x7f060033;
+        public static final int stat_button=0x7f060044;
+        public static final int stop_button=0x7f060034;
         public static final int top=0x7f060000;
+        public static final int view_data_button=0x7f060040;
+        public static final int view_data_outer_view=0x7f060047;
         public static final int years_digit1=0x7f060020;
         public static final int years_digit2=0x7f06001f;
         public static final int years_digit3=0x7f06001e;
         public static final int years_digit4=0x7f06001d;
     }
     public static final class layout {
-        public static final int generic_sensor_values=0x7f030000;
-        public static final int lightsensor_values=0x7f030001;
-        public static final int list=0x7f030002;
-        public static final int manage_action_layout=0x7f030003;
-        public static final int phone_ui_layout=0x7f030004;
-        public static final int smart_watch_notification_widget=0x7f030005;
-        public static final int smart_watch_widget=0x7f030006;
-        public static final int start_menu_layout=0x7f030007;
+        public static final int dialog_layout=0x7f030000;
+        public static final int generic_sensor_values=0x7f030001;
+        public static final int lightsensor_values=0x7f030002;
+        public static final int list=0x7f030003;
+        public static final int manage_action_layout=0x7f030004;
+        public static final int phone_ui_layout=0x7f030005;
+        public static final int smart_watch_notification_widget=0x7f030006;
+        public static final int smart_watch_widget=0x7f030007;
+        public static final int start_menu_layout=0x7f030008;
+        public static final int view_data_layout=0x7f030009;
     }
     public static final class string {
         public static final int about_button_label=0x7f050018;
@@ -280,9 +290,11 @@ containing a value of this type.
         /**  Configuration title shown in preferences 
          */
         public static final int configuration_text=0x7f050004;
+        public static final int directory_button_label=0x7f050028;
         /**  Name of extension, shown in preferences 
          */
         public static final int extension_name=0x7f050003;
+        public static final int file_default_name=0x7f050023;
         /**  Label for the accuracy. 
          */
         public static final int label_accuracy=0x7f05000b;
@@ -305,6 +317,7 @@ containing a value of this type.
         public static final int manage_action_button_label=0x7f05001a;
         public static final int manage_action_inner_title=0x7f05001e;
         public static final int manage_action_title=0x7f05001c;
+        public static final int open_button_label=0x7f050021;
         public static final int phone_ui_title=0x7f05001d;
         /**  Title of preference activity 
          */
@@ -320,8 +333,15 @@ containing a value of this type.
         public static final int start_button_label=0x7f050012;
         public static final int start_menu_headline=0x7f050016;
         public static final int start_menu_title=0x7f050015;
+        public static final int stat_button_label=0x7f050022;
         public static final int stop_button_label=0x7f050013;
+        public static final int table_header_time=0x7f050024;
+        public static final int table_header_x=0x7f050025;
+        public static final int table_header_y=0x7f050026;
+        public static final int table_header_z=0x7f050027;
         public static final int title_lightsensor=0x7f050011;
+        public static final int view_data_button_label=0x7f05001f;
+        public static final int view_data_title=0x7f050020;
     }
     public static final class style {
         public static final int BaseStyle=0x7f0a0000;

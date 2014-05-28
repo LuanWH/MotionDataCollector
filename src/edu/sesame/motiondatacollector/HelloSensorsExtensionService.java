@@ -36,14 +36,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Binder;
-import android.os.IBinder;
 import android.util.Log;
-
-import com.sonyericsson.extras.liveware.aef.control.Control;
 import com.sonyericsson.extras.liveware.extension.util.ExtensionService;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
-import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent;
 import com.sonyericsson.extras.liveware.extension.util.registration.RegistrationInformation;
 
 /**
@@ -62,7 +57,7 @@ public class HelloSensorsExtensionService extends ExtensionService {
     public HelloSensorsControl control = null;
 
     Receiver receiver;
-   // Receiver2 receiver2;
+    Receiver2 receiver2;
     public HelloSensorsExtensionService() {
         super();
     }
@@ -72,9 +67,8 @@ public class HelloSensorsExtensionService extends ExtensionService {
         super.onCreate();
         Log.d(LOG_TAG, CLASS + ": onCreate");
         receiver = new Receiver();
-     //   receiver2 = new Receiver2();
         registerReceiver(receiver, new IntentFilter("RECORDING"));
-      //  registerReceiver(receiver2, new IntentFilter("NEXT"));
+        registerReceiver(receiver2, new IntentFilter("isControl"));
     }
 
     @Override
@@ -90,48 +84,54 @@ public class HelloSensorsExtensionService extends ExtensionService {
     @Override
     public ControlExtension createControlExtension(String hostAppPackageName) {
     	control = new HelloSensorsControl(hostAppPackageName, this);
+		Intent i = new Intent();
+		i.setAction("CONTROL");
+		i.putExtra("CONTROL", "ON");
+		sendBroadcast(i);
     	return control;
     }
     
-    public class Receiver extends BroadcastReceiver{
+    private class Receiver extends BroadcastReceiver{
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(intent.getStringExtra("START_OR_STOP").equals("START")){
-				control.register();
-				control.action = intent.getStringExtra("ACTION");
-			} else if(intent.getStringExtra("START_OR_STOP").equals("STOP")){
-				control.unregister(false);
+			if(control!=null){
+				if(intent.getStringExtra("START_OR_STOP").equals("START")){
+					control.register();
+					control.action = intent.getStringExtra("ACTION");
+				} else if(intent.getStringExtra("START_OR_STOP").equals("STOP")){
+					control.unregister(false);
+				}
 			}
 		}
     	
     }
+    private class Receiver2 extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Intent i = new Intent();
+			i.setAction("CONTROL");
+			if(control==null){
+				i.putExtra("CONTROL","OFF");
+			} else {
+				i.putExtra("CONTROL", "ON");
+			}
+			sendBroadcast(i);
+		}
+    	
+    }
+    
     
     @Override
     public void onDestroy(){
     	super.onDestroy();
+		Intent i = new Intent();
+		i.setAction("CONTROL");
+		i.putExtra("CONTROL","OFF");
+		sendBroadcast(i);
     	unregisterReceiver(receiver);
-    //	unregisterReceiver(receiver2);
+    	unregisterReceiver(receiver2);
     }
-/*    public class Receiver2 extends BroadcastReceiver{
 
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			control.sendNext();
-		}
-    	
-    }*/
-    
-    
-//    //Start binding the service with PhoneUI
-//    private final IBinder mBinder = new LocalBinder();
-//    @Override
-//    public IBinder onBind(Intent intent){
-//    	return mBinder;
-//    }
-//    public class LocalBinder extends Binder {
-//    	public HelloSensorsExtensionService getService(){
-//    		return HelloSensorsExtensionService.this;
-//    	}
-//    }
 }

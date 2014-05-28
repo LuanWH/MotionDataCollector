@@ -77,45 +77,29 @@ import org.json.JSONObject;
  * accelerometer and light.
  */
 class HelloSensorsControl extends ControlExtension {
-	Calendar c = null;
+	
 	@SuppressLint("SimpleDateFormat")
 	SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-HH-mm-ss");
-	
-	public int countInterval = 2;
-	
+	Calendar c = null;
+	public int countInterval = 2;	
 	public static final String aTAG = "HelloSensorsControl";
-
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
-
     private int mWidth = 220;
     private boolean storageOn = true;
     private int numbersPerFile = 1000;
-    private int mHeight = 176;
-    
-    public static final int NUM_OF_ITEMS_PER_INTENT = 40;
-    
+    private int mHeight = 176;    
+    public static final int NUM_OF_ITEMS_PER_INTENT = 40;    
     protected JSONObject obj;
-
     private int mCurrentSensor = 0;
     public Context serviceContext = null;
-    private boolean isRecording = false;
-    
-    protected Intent pendingIntent;
-    
-    protected int pendingCount = 0;
-    
-    protected int writingCount = 0;
-    
-    protected int filterCount;
-    
+    private boolean isRecording = false;    
+    protected Intent pendingIntent;    
+    protected int pendingCount = 0;    
+    protected int writingCount = 0;    
+    protected int filterCount;    
     public String action;
-    
-    //protected Queue<Intent> queue;
-    
-    //private boolean waitingFlag = true;
     protected Writer writer;
     protected File file;
-
     private List<AccessorySensor> mSensors = new ArrayList<AccessorySensor>();
 
     private final AccessorySensorEventListener mListener = new AccessorySensorEventListener() {
@@ -135,8 +119,6 @@ class HelloSensorsControl extends ControlExtension {
      */
     HelloSensorsControl(final String hostAppPackageName, final Context context) {
         super(context, hostAppPackageName);
-        
-        //queue = (Queue<Intent>) new LinkedList<Intent>();
 
         AccessorySensorManager manager = new AccessorySensorManager(context, hostAppPackageName);
 
@@ -160,11 +142,11 @@ class HelloSensorsControl extends ControlExtension {
         // Determine host application screen size.
         determineSize(context, hostAppPackageName);
         serviceContext = context;
-        Intent intent = new Intent(serviceContext, StartMenu.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        final Intent intent2 = intent;
-        Log.d("ServiceLALALALLA", "Creating StartMenu!");
-        serviceContext.startActivity(intent2);
+//        Intent intent = new Intent(serviceContext, StartMenu.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        final Intent intent2 = intent;
+//        Log.d("ServiceLALALALLA", "Creating StartMenu!");
+//        serviceContext.startActivity(intent2);
 
     }
 
@@ -445,11 +427,7 @@ class HelloSensorsControl extends ControlExtension {
         	if(pendingCount >= NUM_OF_ITEMS_PER_INTENT){
         		Log.d(aTAG, "Accelerometer sent!");
         		pendingIntent.putExtra("SENSOR_TYPE", sensorType);
-        		//queue.offer(pendingIntent);				
-				
-				//if(waitingFlag){
-					sendNext();
-				//}
+				sendNext();
 				pendingCount=0;	
         	}
 
@@ -499,21 +477,6 @@ class HelloSensorsControl extends ControlExtension {
             } catch(JSONException e){
             	Log.d("HelloSensorsControl", "Can't create JSON String!");
             }          	
-            
-//            if (values != null && values.length == 3) {
-//	            Intent intent = new Intent();
-//				intent.setAction("DATA");
-//				intent.putExtra("TIME", String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
-//				intent.putExtra("SENSOR_TYPE", sensorType);
-//				intent.putExtra("X", String.format("%.1f", values[0]));
-//				intent.putExtra("Y", String.format("%.1f", values[1]));
-//				intent.putExtra("Z", String.format("%.1f", values[2]));
-//				intent.putExtra("ALL", "x-axis: "+String.format("%.1f", values[0])+"\n"
-//										+ "y-axis: "+String.format("%.1f", values[1]) +"\n"
-//										+ "z-axis: "+String.format("%.1f", values[2]));
-//				Log.d(aTAG, "Accelerometer sent!");
-//				serviceContext.sendBroadcast(intent);
-//			}
         }
 
         root.measure(mWidth, mHeight);
@@ -607,12 +570,6 @@ class HelloSensorsControl extends ControlExtension {
     }
     
     public void sendNext(){
-    	//if(!queue.isEmpty()){
-    		//serviceContext.sendBroadcast(queue.poll());
-    		serviceContext.sendBroadcast(pendingIntent);
-    	//	waitingFlag = false;
-    	//} else{
-    	//	waitingFlag = true;
-    	//}
+    	serviceContext.sendBroadcast(pendingIntent);
     }
 }
