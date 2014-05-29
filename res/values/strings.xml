@@ -76,5 +76,11 @@
     <string name="table_header_y">Y-axis</string>
     <string name="table_header_z">Z-axis</string>
     <string name="directory_button_label">Data Folder</string>
+    <string name="total_time_header">Total Recording Time:</string>
+    <string name="total_counts_header">Total Recording Counts:</string>
+    <string name="total_items_header">Total Number of Recorded Items:</string>
+    <string name="record_log">Recording Log</string>
+    <string name="view_stats_title">Stats</string>
+    <string name="action_clear_label">Clear Stats</string>
 	
 </resources>

@@ -43,6 +43,7 @@ public class PhoneUI extends Activity {
 	ArrayAdapter<String> aa;
 	ArrayList<String> list;
 	Boolean isControl = false;
+	Boolean isRecording = false;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -51,7 +52,7 @@ public class PhoneUI extends Activity {
 		setContentView(R.layout.phone_ui_layout);
 		startButton = (Button) findViewById(R.id.start_button);
 		stopButton = (Button) findViewById(R.id.stop_button);
-		
+		stopButton.setFocusableInTouchMode(false);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
@@ -69,6 +70,9 @@ public class PhoneUI extends Activity {
 						startRecording(String.valueOf(spinner.getSelectedItem()));
 						spinner.setFocusableInTouchMode(false);
 						manageButton.setFocusableInTouchMode(false);
+						startButton.setFocusableInTouchMode(false);
+						stopButton.setFocusableInTouchMode(true);
+						isRecording = true;
 					} else {
 						new AlertDialog.Builder(PhoneUI.this)
 							.setTitle("Warning")
@@ -86,12 +90,17 @@ public class PhoneUI extends Activity {
 								
 							})
 							.show();
+						isRecording = false;
 					}
 					break;
 				case R.id.stop_button:
-					stopRecording();
-					spinner.setFocusableInTouchMode(true);
-					manageButton.setFocusableInTouchMode(true);
+					if(isRecording = true){
+						stopRecording();
+						spinner.setFocusableInTouchMode(true);
+						manageButton.setFocusableInTouchMode(true);
+						startButton.setFocusableInTouchMode(true);
+					}
+					isRecording = false;
 					break;
 				case R.id.manage_action_button:
 					startActivity(new Intent(PhoneUI.this, ManageAction.class));
@@ -151,7 +160,11 @@ public class PhoneUI extends Activity {
 	@Override
 	public void onPause(){
 		super.onPause();
-		stopRecording();
+		if(isRecording){
+			stopRecording();
+		}
+		isRecording = false;
+		startButton.setFocusableInTouchMode(true);
 		unregisterReceiver(receiver);
 		unregisterReceiver(receiver2);
 		unregisterReceiver(receiver3);

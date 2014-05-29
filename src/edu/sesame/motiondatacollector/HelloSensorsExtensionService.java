@@ -32,6 +32,9 @@ Copyright (c) 2011-2013, Sony Mobile Communications AB
 
 package edu.sesame.motiondatacollector;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,6 +61,7 @@ public class HelloSensorsExtensionService extends ExtensionService {
 
     Receiver receiver;
     Receiver2 receiver2;
+    Timer timer;
     public HelloSensorsExtensionService() {
         super();
     }
@@ -69,7 +73,25 @@ public class HelloSensorsExtensionService extends ExtensionService {
         receiver = new Receiver();
         registerReceiver(receiver, new IntentFilter("RECORDING"));
         registerReceiver(receiver2, new IntentFilter("isControl"));
+        TimerTask task = new TimerTask(){
+
+			@Override
+			public void run() {
+				Intent i = new Intent();
+				i.setAction("CONTROL");
+				if(control!=null){
+					i.putExtra("CONTROL", "ON");
+				} else {
+					i.putExtra("CONTROL", "OFF");
+				}
+				sendBroadcast(i);
+			}
+        	
+        };
+        timer = new Timer();
+        timer.schedule(task, 0, 500);
     }
+    
 
     @Override
     protected RegistrationInformation getRegistrationInformation() {
@@ -132,6 +154,8 @@ public class HelloSensorsExtensionService extends ExtensionService {
 		sendBroadcast(i);
     	unregisterReceiver(receiver);
     	unregisterReceiver(receiver2);
+    	control = null;
+    	timer.cancel();
     }
 
 }

@@ -183,6 +183,7 @@ containing a value of this type.
     public static final class id {
         public static final int about_button=0x7f060042;
         public static final int accelerometer_view=0x7f060032;
+        public static final int action_clear_log=0x7f06004c;
         public static final int action_list=0x7f06002f;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
@@ -210,6 +211,7 @@ containing a value of this type.
         public static final int light_value=0x7f06002a;
         public static final int light_value_accuracy=0x7f06002c;
         public static final int light_value_timestamp=0x7f06002b;
+        public static final int log_view=0x7f06004b;
         public static final int manage_action_add_button=0x7f06002e;
         public static final int manage_action_button=0x7f060031;
         public static final int manage_action_input=0x7f06002d;
@@ -247,6 +249,9 @@ containing a value of this type.
         public static final int stat_button=0x7f060044;
         public static final int stop_button=0x7f060034;
         public static final int top=0x7f060000;
+        public static final int total_counts=0x7f060049;
+        public static final int total_items=0x7f06004a;
+        public static final int total_time=0x7f060048;
         public static final int view_data_button=0x7f060040;
         public static final int view_data_outer_view=0x7f060047;
         public static final int years_digit1=0x7f060020;
@@ -265,6 +270,10 @@ containing a value of this type.
         public static final int smart_watch_widget=0x7f030007;
         public static final int start_menu_layout=0x7f030008;
         public static final int view_data_layout=0x7f030009;
+        public static final int view_stats_layout=0x7f03000a;
+    }
+    public static final class menu {
+        public static final int view_stats_menu=0x7f0b0000;
     }
     public static final class string {
         public static final int about_button_label=0x7f050018;
@@ -280,6 +289,7 @@ containing a value of this type.
         /**  Sensor is unreliable. 
          */
         public static final int accuracy_unreliable=0x7f050007;
+        public static final int action_clear_label=0x7f05002e;
         public static final int action_prompt=0x7f050014;
         /**  At least one dummy resource is needed to satisfy aapt.
     Otherwise it complains about no res folder. 
@@ -329,6 +339,7 @@ containing a value of this type.
         /**  Read me text shown in dialog 
          */
         public static final int preference_option_read_me_txt=0x7f050006;
+        public static final int record_log=0x7f05002c;
         public static final int settings_button_label=0x7f050019;
         public static final int start_button_label=0x7f050012;
         public static final int start_menu_headline=0x7f050016;
@@ -340,8 +351,12 @@ containing a value of this type.
         public static final int table_header_y=0x7f050026;
         public static final int table_header_z=0x7f050027;
         public static final int title_lightsensor=0x7f050011;
+        public static final int total_counts_header=0x7f05002a;
+        public static final int total_items_header=0x7f05002b;
+        public static final int total_time_header=0x7f050029;
         public static final int view_data_button_label=0x7f05001f;
         public static final int view_data_title=0x7f050020;
+        public static final int view_stats_title=0x7f05002d;
     }
     public static final class style {
         public static final int BaseStyle=0x7f0a0000;

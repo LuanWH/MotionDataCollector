@@ -67,6 +67,7 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import org.json.JSONException;
@@ -96,7 +97,13 @@ class HelloSensorsControl extends ControlExtension {
     protected Intent pendingIntent;    
     protected int pendingCount = 0;    
     protected int writingCount = 0;    
-    protected int filterCount;    
+    protected int filterCount; 
+    protected int itemCount=0;
+    protected long recordStartTime;
+    protected long startTime;
+    protected ArrayList<String> al;
+    protected String lastTime = null;
+    
     public String action;
     protected Writer writer;
     protected File file;
@@ -279,6 +286,8 @@ class HelloSensorsControl extends ControlExtension {
             }
         }
         isRecording = true;
+        startTime = System.currentTimeMillis();
+        
     }
 
     /**
@@ -292,15 +301,34 @@ class HelloSensorsControl extends ControlExtension {
             sensor.unregisterListener();
             
         }
-        if (writer != null){
+        if (writer != null && storageOn){
         	try{
         		writer.write("]");
         		writer.close();
+        		writer = null;
+                int duration = (int)(System.currentTimeMillis() - startTime);
+        		Prefs.setInteger(
+        				ViewStats.TOTAL_ITEMS, 
+        				Prefs.getInteger(ViewStats.TOTAL_ITEMS, serviceContext) + itemCount,
+        				serviceContext);	
+        		Prefs.setInteger(
+        				ViewStats.TOTAL_TIME, 
+        				Prefs.getInteger(ViewStats.TOTAL_TIME, serviceContext) + duration,
+        				serviceContext);
+        		if(Prefs.getDefaults(ViewStats.LOGS, serviceContext)!= null){
+        			al = new ArrayList<String>(Prefs.getDefaults(ViewStats.LOGS, serviceContext));
+        		} else {
+        			al = new ArrayList<String>();
+        		}
+        		al.add( "On "+sdf.format(c.getTime())+" record "+itemCount+" items for "+String.format("%.2f",duration/1000.0)+" seconds");
+        		Prefs.setDefaults(ViewStats.LOGS, new HashSet<String>(al), serviceContext);
+        		itemCount = 0;
         	} catch(IOException e){
         		Log.d("HelloSensorsControl", "IOException");
         	}
         }
         isRecording = r;
+
     }
 
     /**
@@ -430,55 +458,65 @@ class HelloSensorsControl extends ControlExtension {
 				sendNext();
 				pendingCount=0;	
         	}
-
-            try{
-	            obj = new JSONObject();
-	            obj.put("TIME", (long)sensorEvent.getTimestamp()/1e6);
-				obj.put("X", values[0]);
-				obj.put("Y", values[1]);
-				obj.put("Z", values[2]);  
-	            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
-	            if(storageOn){
-		        	if(writingCount>=numbersPerFile||writer == null){        		
-		        		try{	
-		        			if(writer!=null){
-		        				writer.write("]");
-		        				writer.close();
+        	if(storageOn){
+	            try{
+	            	if(writer == null){
+	            		recordStartTime = System.currentTimeMillis();
+	            	}
+		            obj = new JSONObject();
+		            obj.put("TIME", (long)System.currentTimeMillis() - recordStartTime);
+					obj.put("X", values[0]);
+					obj.put("Y", values[1]);
+					obj.put("Z", values[2]);  
+		            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
+		            if(storageOn){
+			        	if(writingCount>=numbersPerFile||writer == null){        		
+			        		try{	
+			        			if(writer!=null){
+			        				writer.write("]");
+			        				writer.close();
+			        				writer = null;
+			        			}
+			        			c = Calendar.getInstance();
+			        			if(action != null){
+					        		file = new File(serviceContext.getExternalFilesDir(null), 
+					        				action + "#"+sdf.format(c.getTime()) + ".json");
+					        		lastTime = sdf.format(c.getTime());
+			        			} else {
+					        		file = new File(serviceContext.getExternalFilesDir(null), 
+					        				sdf.format(c.getTime()) + ".json");	        				
+			        			}
+			        			writer = new BufferedWriter(new FileWriter(file));
+			        			writer.write("[");
+			        			Prefs.setInteger(
+			        					ViewStats.TOTAL_COUNTS, 
+			        					Prefs.getInteger(ViewStats.TOTAL_COUNTS, serviceContext) + 1,
+			        					serviceContext);
+			        		}catch(IOException e){
+			        			Log.d("HelloSensorsControl", "IOException");
+			        		}
+			        		writingCount=0;
+			        	}
+		            
+		        		try{
+		        			
+		        			if(writingCount != 0){
+		        				writer.write(",");
 		        			}
-		        			c = Calendar.getInstance();
-		        			if(action != null){
-				        		file = new File(serviceContext.getExternalFilesDir(null), 
-				        				action + "#"+sdf.format(c.getTime()) + ".json");
-		        			} else {
-				        		file = new File(serviceContext.getExternalFilesDir(null), 
-				        				sdf.format(c.getTime()) + ".json");	        				
-		        			}
-		        			writer = new BufferedWriter(new FileWriter(file));
-		        			writer.write("[");
-		        		}catch(IOException e){
+		        			writer.write(obj.toString());
+		        			itemCount++;
+		        		} catch(IOException e){
 		        			Log.d("HelloSensorsControl", "IOException");
 		        		}
-		        		writingCount=0;
-		        	}
-	            
-	        		try{
-	        			
-	        			if(writingCount != 0){
-	        				writer.write(",");
-	        			}
-	        			writer.write(obj.toString());
-	        		} catch(IOException e){
-	        			Log.d("HelloSensorsControl", "IOException");
-	        		}
-	        		writingCount++;
-	            }
-	            pendingCount++;
-	            
-            } catch(JSONException e){
-            	Log.d("HelloSensorsControl", "Can't create JSON String!");
-            }          	
+		        		writingCount++;
+		            }
+		            pendingCount++;
+		            
+	            } catch(JSONException e){
+	            	Log.d("HelloSensorsControl", "Can't create JSON String!");
+	            }          	
+	        }
         }
-
         root.measure(mWidth, mHeight);
         root.layout(0, 0, mWidth, mHeight);
 

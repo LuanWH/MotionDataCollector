@@ -33,6 +33,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 
 public class ViewData extends Activity {
@@ -92,6 +93,7 @@ public class ViewData extends Activity {
 					}
 					break;
 				case R.id.stat_button:
+					startActivity(new Intent(ViewData.this, ViewStats.class));
 					break;
 				default:
 					break;

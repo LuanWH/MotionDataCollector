@@ -6,7 +6,7 @@
     android:versionName="1.1.1" >
 
     <uses-sdk
-        android:minSdkVersion="13"
+        android:minSdkVersion="14"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="com.sonyericsson.extras.liveware.aef.EXTENSION_PERMISSION" />
@@ -25,7 +25,16 @@
             <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.sesame.motiondatacollector.StartMenu"/>
-        </activity>        
+        </activity>  
+        <activity
+            android:name="edu.sesame.motiondatacollector.ViewStats"
+            android:screenOrientation="portrait"
+            android:label="@string/view_stats_title"
+            android:parentActivityName="edu.sesame.motiondatacollector.ViewData">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.ViewData"/>
+        </activity>                
         <activity
             android:name="edu.sesame.motiondatacollector.ManageAction"
             android:screenOrientation="portrait"
@@ -47,9 +56,9 @@
         <activity
             android:name="edu.sesame.motiondatacollector.HelloSensorsPreferenceActivity"
             android:label="@string/preference_activity_title">
-            <intent-filter>
+<!--             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            </intent-filter> -->
         </activity>
         <activity 
             android:name="edu.sesame.motiondatacollector.StartMenu"

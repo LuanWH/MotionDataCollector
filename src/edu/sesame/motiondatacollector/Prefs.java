@@ -6,7 +6,6 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -102,5 +101,15 @@ public class Prefs extends PreferenceActivity {
 	public static Set<String> getDefaults(String key, Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getStringSet(key, null);
+	}
+	public static void setInteger(String key, int value, Context context){
+		SharedPreferences  prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt(key, value);
+		editor.commit();
+	}
+	public static int getInteger(String key, Context context){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getInt(key, 0);
 	}
 }
