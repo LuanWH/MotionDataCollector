@@ -33,6 +33,7 @@
 package edu.sesame.motiondatacollector;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -87,6 +88,7 @@ class HelloSensorsControl extends ControlExtension {
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.RGB_565;
     private int mWidth = 220;
     private boolean storageOn = true;
+    private boolean filterOn = true;
     private int numbersPerFile = 1000;
     private int mHeight = 176;    
     public static final int NUM_OF_ITEMS_PER_INTENT = 40;    
@@ -103,6 +105,7 @@ class HelloSensorsControl extends ControlExtension {
     protected long startTime;
     protected ArrayList<String> al;
     protected String lastTime = null;
+    protected LPFilter lpFilter;
     
     public String action;
     protected Writer writer;
@@ -161,6 +164,8 @@ class HelloSensorsControl extends ControlExtension {
     public void onResume() {
         Log.d(HelloSensorsExtensionService.LOG_TAG, "Starting control");
         storageOn = Prefs.getStorage(serviceContext);
+        filterOn = Prefs.getFilter(serviceContext);
+        
         numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
         // Note: Setting the screen to be always on will drain the accessory
         // battery. It is done here solely for demonstration purposes.
@@ -174,6 +179,8 @@ class HelloSensorsControl extends ControlExtension {
         countInterval = Prefs.getCountInterval(serviceContext);
         filterCount = countInterval;
         updateCurrentDisplay(null);
+       
+        
     }
 
     @Override
@@ -287,6 +294,11 @@ class HelloSensorsControl extends ControlExtension {
         }
         isRecording = true;
         startTime = System.currentTimeMillis();
+        lpFilter = new LPFilter();
+        storageOn = Prefs.getStorage(serviceContext);
+        filterOn = Prefs.getFilter(serviceContext);
+        
+        numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
         
     }
 
@@ -320,7 +332,8 @@ class HelloSensorsControl extends ControlExtension {
         		} else {
         			al = new ArrayList<String>();
         		}
-        		al.add( "On "+sdf.format(c.getTime())+" record "+itemCount+" items for "+String.format("%.2f",duration/1000.0)+" seconds");
+        		al.add( "On "+sdf.format(c.getTime())+" record "+itemCount+" items for "+String.format("%.2f",duration/1000.0)+" seconds "
+        				+"with Gravity Filter "+ Boolean.toString(filterOn));
         		Prefs.setDefaults(ViewStats.LOGS, new HashSet<String>(al), serviceContext);
         		itemCount = 0;
         	} catch(IOException e){
@@ -420,12 +433,17 @@ class HelloSensorsControl extends ControlExtension {
 
         TextView title = (TextView)sensorLayout.findViewById(R.id.sensor_title);
         title.setText(sensorType);
-
+        
+        
         // Update the values.
         if (sensorEvent != null) {
             float[] values = sensorEvent.getSensorValues();
 
             if (values != null && values.length == 3) {
+            	if(filterOn){
+            		values = lpFilter.filter(values);
+            	}
+            	
                 TextView xView = (TextView)sensorLayout.findViewById(R.id.sensor_value_x);
                 TextView yView = (TextView)sensorLayout.findViewById(R.id.sensor_value_y);
                 TextView zView = (TextView)sensorLayout.findViewById(R.id.sensor_value_z);
@@ -434,87 +452,88 @@ class HelloSensorsControl extends ControlExtension {
                 xView.setText(String.format("%.1f", values[0]));
                 yView.setText(String.format("%.1f", values[1]));
                 zView.setText(String.format("%.1f", values[2]));
-            }
-
-            // Show time stamp in milliseconds. (Reading is in nanoseconds.)
-            TextView timeStampView = (TextView)sensorLayout
-                    .findViewById(R.id.sensor_value_timestamp);
-			
-            timeStampView.setText(String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
-
-            // Show sensor accuracy.
-            TextView accuracyView = (TextView)sensorLayout.findViewById(R.id.sensor_value_accuracy);
-            accuracyView.setText(getAccuracyText(sensorEvent.getAccuracy()));
-			
             
-            
-            if(pendingIntent == null||pendingCount==0){
-            	pendingIntent = new Intent();
-            	pendingIntent.setAction("DATA");
-            }
-        	if(pendingCount >= NUM_OF_ITEMS_PER_INTENT){
-        		Log.d(aTAG, "Accelerometer sent!");
-        		pendingIntent.putExtra("SENSOR_TYPE", sensorType);
-				sendNext();
-				pendingCount=0;	
-        	}
-        	if(storageOn){
-	            try{
-	            	if(writer == null){
-	            		recordStartTime = System.currentTimeMillis();
-	            	}
-		            obj = new JSONObject();
-		            obj.put("TIME", (long)System.currentTimeMillis() - recordStartTime);
-					obj.put("X", values[0]);
-					obj.put("Y", values[1]);
-					obj.put("Z", values[2]);  
-		            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
-		            if(storageOn){
-			        	if(writingCount>=numbersPerFile||writer == null){        		
-			        		try{	
-			        			if(writer!=null){
-			        				writer.write("]");
-			        				writer.close();
-			        				writer = null;
+
+	            // Show time stamp in milliseconds. (Reading is in nanoseconds.)
+	            TextView timeStampView = (TextView)sensorLayout
+	                    .findViewById(R.id.sensor_value_timestamp);
+				
+	            timeStampView.setText(String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
+	
+	            // Show sensor accuracy.
+	            TextView accuracyView = (TextView)sensorLayout.findViewById(R.id.sensor_value_accuracy);
+	            accuracyView.setText(getAccuracyText(sensorEvent.getAccuracy()));
+				
+	            
+	            
+	            if(pendingIntent == null||pendingCount==0){
+	            	pendingIntent = new Intent();
+	            	pendingIntent.setAction("DATA");
+	            }
+	        	if(pendingCount >= NUM_OF_ITEMS_PER_INTENT){
+	        		Log.d(aTAG, "Accelerometer sent!");
+	        		pendingIntent.putExtra("SENSOR_TYPE", sensorType);
+					sendNext();
+					pendingCount=0;	
+	        	}
+	        	if(storageOn){
+		            try{
+		            	if(writer == null){
+		            		recordStartTime = System.currentTimeMillis();
+		            	}
+			            obj = new JSONObject();
+			            obj.put("TIME", (long)System.currentTimeMillis() - recordStartTime);
+						obj.put("X", values[0]);
+						obj.put("Y", values[1]);
+						obj.put("Z", values[2]);  
+			            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
+			            if(storageOn){
+				        	if(writingCount>=numbersPerFile||writer == null){        		
+				        		try{	
+				        			if(writer!=null){
+				        				writer.write("]");
+				        				writer.close();
+				        				writer = null;
+				        			}
+				        			c = Calendar.getInstance();
+				        			if(action != null){
+						        		file = new File(serviceContext.getExternalFilesDir(null), 
+						        				action + "#"+sdf.format(c.getTime()) + ".json");
+						        		lastTime = sdf.format(c.getTime());
+				        			} else {
+						        		file = new File(serviceContext.getExternalFilesDir(null), 
+						        				sdf.format(c.getTime()) + ".json");	        				
+				        			}
+				        			writer = new BufferedWriter(new FileWriter(file));
+				        			writer.write("[");
+				        			Prefs.setInteger(
+				        					ViewStats.TOTAL_COUNTS, 
+				        					Prefs.getInteger(ViewStats.TOTAL_COUNTS, serviceContext) + 1,
+				        					serviceContext);
+				        		}catch(IOException e){
+				        			Log.d("HelloSensorsControl", "IOException");
+				        		}
+				        		writingCount=0;
+				        	}
+			            
+			        		try{
+			        			
+			        			if(writingCount != 0){
+			        				writer.write(",");
 			        			}
-			        			c = Calendar.getInstance();
-			        			if(action != null){
-					        		file = new File(serviceContext.getExternalFilesDir(null), 
-					        				action + "#"+sdf.format(c.getTime()) + ".json");
-					        		lastTime = sdf.format(c.getTime());
-			        			} else {
-					        		file = new File(serviceContext.getExternalFilesDir(null), 
-					        				sdf.format(c.getTime()) + ".json");	        				
-			        			}
-			        			writer = new BufferedWriter(new FileWriter(file));
-			        			writer.write("[");
-			        			Prefs.setInteger(
-			        					ViewStats.TOTAL_COUNTS, 
-			        					Prefs.getInteger(ViewStats.TOTAL_COUNTS, serviceContext) + 1,
-			        					serviceContext);
-			        		}catch(IOException e){
+			        			writer.write(obj.toString());
+			        			itemCount++;
+			        		} catch(IOException e){
 			        			Log.d("HelloSensorsControl", "IOException");
 			        		}
-			        		writingCount=0;
-			        	}
-		            
-		        		try{
-		        			
-		        			if(writingCount != 0){
-		        				writer.write(",");
-		        			}
-		        			writer.write(obj.toString());
-		        			itemCount++;
-		        		} catch(IOException e){
-		        			Log.d("HelloSensorsControl", "IOException");
-		        		}
-		        		writingCount++;
-		            }
-		            pendingCount++;
-		            
-	            } catch(JSONException e){
-	            	Log.d("HelloSensorsControl", "Can't create JSON String!");
-	            }          	
+			        		writingCount++;
+			            }
+			            pendingCount++;
+			            
+		            } catch(JSONException e){
+		            	Log.d("HelloSensorsControl", "Can't create JSON String!");
+		            }          	
+		        }
 	        }
         }
         root.measure(mWidth, mHeight);

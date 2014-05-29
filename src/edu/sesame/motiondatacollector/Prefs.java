@@ -23,6 +23,8 @@ public class Prefs extends PreferenceActivity {
 	private static final String OPT_NUMBERS_DEF = "1000";		
 	private static final String OPT_COUNT_INTERVAL = "count_interval";
 	private static final String OPT_COUNT_INTERVAL_DEF = "2";
+	private static final String OPT_FILTER = "gravity_filter";
+	private static final boolean OPT_FILTER_DEF = true;
 	ActionBar actionBar;
 	CheckBoxPreference storage, display;
 	@SuppressWarnings("deprecation")
@@ -74,6 +76,11 @@ public class Prefs extends PreferenceActivity {
 				return true;
 			}
 		});
+	}
+	
+	public static boolean getFilter(Context context){
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean(OPT_FILTER, OPT_FILTER_DEF);
 	}
 	
 	public static boolean getDisplay(Context context){

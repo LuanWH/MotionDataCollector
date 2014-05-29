@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
+	TextView statusView;
 	Receiver receiver;
 	Receiver2 receiver2;
 	Receiver3 receiver3;
@@ -54,6 +57,7 @@ public class PhoneUI extends Activity {
 		stopButton = (Button) findViewById(R.id.stop_button);
 		stopButton.setFocusableInTouchMode(false);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
+		statusView = (TextView) findViewById(R.id.status_view);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
 		receiver3 = new Receiver3();
@@ -155,6 +159,10 @@ public class PhoneUI extends Activity {
 		Intent i = new Intent();
 		i.setAction("isControl");
 		sendBroadcast(i);
+		String temp = Boolean.toString(Prefs.getFilter(this));
+		String temp2 = Boolean.toString(Prefs.getStorage(this));
+		statusView.setText("Display: "+Boolean.toString(displayOn)
+				+", Storage: "+temp2+", Gravity Filter: "+temp);
 	}
 	
 	@Override
@@ -245,4 +253,26 @@ public class PhoneUI extends Activity {
 		startActivity(i);
 		finish();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		getMenuInflater().inflate(R.menu.phone_ui_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.phone_ui_open_settings:
+			startActivity(new Intent(PhoneUI.this, Prefs.class));
+			break;
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
+
 }

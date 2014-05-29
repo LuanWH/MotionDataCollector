@@ -30,6 +30,14 @@
 	        android:text="@string/manage_action_button_label"
         />
     </LinearLayout>
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:id="@+id/status_view"
+        android:layout_margin="8dp"
+        />
     <ScrollView
         android:orientation="vertical"
         android:layout_width="match_parent"
