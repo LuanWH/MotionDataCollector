@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -14,11 +15,14 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -33,21 +37,25 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 
 public class ViewData extends Activity {
 	
 	ActionBar actionBar;
-	Button openButton, statButton;
+	Button openButton, statButton, graphButton;
 	TableLayout table;
 	File[] dataFiles;
+	File chosenFile;
 	ListView listView;
 	Dialog dialog;
 	File directory;
 	TextView fileNameView;
 	ScrollView tableOuterView;
 	TableLayout header;
+	AlertDialog noFileFoundDialog;
+	
 	
 	
 	
@@ -71,11 +79,19 @@ public class ViewData extends Activity {
 		fileNameView = (TextView) findViewById(R.id.file_name_view);
 		openButton = (Button) findViewById(R.id.open_button);
 		statButton = (Button) findViewById(R.id.stat_button);
+		graphButton = (Button) findViewById(R.id.plot_graph_button);
 		table = new TableLayout(this);
 		table.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));		
 		table.removeAllViewsInLayout();	
+		noFileFoundDialog = new AlertDialog.Builder(this)
+								.setTitle("Error")
+								.setMessage("No Data File Found!")
+								.setPositiveButton("Ok", null)
+								.setCancelable(true)
+								.create();
+		
 		OnClickListener listener = new OnClickListener(){
 
 			@Override
@@ -89,11 +105,22 @@ public class ViewData extends Activity {
 							.setPositiveButton("Ok", null)
 							.show();
 					} else{
-						dialog.show();
+						if(dataFiles!=null){
+							dialog.show();
+						} else {
+							noFileFoundDialog.show();
+						}
 					}
 					break;
 				case R.id.stat_button:
 					startActivity(new Intent(ViewData.this, ViewStats.class));
+					break;
+				case R.id.plot_graph_button:
+					Intent i = new Intent(ViewData.this, XYZTGraph.class);
+					if(chosenFile!=null){
+						i.putExtra("FILE", chosenFile.getAbsolutePath());
+					}
+					startActivity(i);
 					break;
 				default:
 					break;
@@ -103,6 +130,7 @@ public class ViewData extends Activity {
 		};
 		openButton.setOnClickListener(listener);
 		statButton.setOnClickListener(listener);
+		graphButton.setOnClickListener(listener);
 		
 		
 		FileFilter filter = new FileFilter(){
@@ -146,6 +174,7 @@ public class ViewData extends Activity {
 	}
 	
 	public void openFile(String name){
+		chosenFile = new File(directory, name);
 		header = (TableLayout) findViewById(R.id.header_table);
 		ProgressDialog progress = new ProgressDialog(this);
 		String tempString = name.substring(0,name.indexOf("."));
@@ -157,7 +186,7 @@ public class ViewData extends Activity {
 				this, 
 				ViewData.this, 
 				progress
-				).execute(new File(directory, name));
+				).execute(chosenFile);
 	}
 	
 	@SuppressWarnings("resource")
@@ -296,5 +325,68 @@ public class ViewData extends Activity {
 				v.addView(update);
 			}
 		}	
-	}	
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		getMenuInflater().inflate(R.menu.view_data_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.view_data_share:
+			if(dataFiles != null){
+				String[] fileNames = new String[dataFiles.length];
+				for (int i = 0; i < dataFiles.length;i++){
+					fileNames[i] = dataFiles[i].getName().replace(".json", "");
+				}
+				final ArrayList<Integer> chosenFiles = new ArrayList<Integer>();
+				final ArrayList<Uri> filesToBeSent = new ArrayList<Uri>();
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("Select Files To Be Shared");
+				builder.setIcon(android.R.drawable.ic_menu_share);
+				builder.setMultiChoiceItems(fileNames, null, new DialogInterface.OnMultiChoiceClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						if(isChecked){
+							chosenFiles.add(which);
+						} else {
+							chosenFiles.remove(Integer.valueOf(which));
+						}
+					}
+				});
+				builder.setPositiveButton("Share", new DialogInterface.OnClickListener(){
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						for(int j = 0; j < chosenFiles.size();j++){
+							filesToBeSent.add(Uri.fromFile(dataFiles[chosenFiles.get(Integer.valueOf(j))]));
+						}
+						Intent intent = new Intent();
+						intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+						intent.putExtra(Intent.EXTRA_SUBJECT, "Files shared from MotionDataCollector");
+						intent.setType("text/json");
+						intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, filesToBeSent);
+						startActivity(intent);
+					}
+					
+				});
+				builder.setNegativeButton("Cancel", null);
+				builder.show();
+				break;
+			} else {
+				noFileFoundDialog.show();
+			}
+			break;
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
 }

@@ -26,6 +26,7 @@ public class StartMenu extends Activity {
 			case R.id.about_button:
 				new AlertDialog.Builder(StartMenu.this)
 					.setTitle("About")
+					.setIcon(android.R.drawable.ic_dialog_info)
 					.setMessage("This is an application designed for SeSaMe Centre to collect accelerometer data from Sony Smartwatch 2")
 					.setPositiveButton("Ok", null)
 					.show();

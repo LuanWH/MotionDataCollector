@@ -18,6 +18,11 @@
         android:label="@string/app_name"
         android:theme="@style/ExtensionLightTheme" >
         <activity
+            android:name="edu.sesame.motiondatacollector.XYZTGraph"
+            android:screenOrientation="landscape"
+            android:label="@string/xyzt_graph_title"/>
+        
+        <activity
             android:name="edu.sesame.motiondatacollector.ViewData"
             android:screenOrientation="portrait"
             android:label="@string/view_data_title"

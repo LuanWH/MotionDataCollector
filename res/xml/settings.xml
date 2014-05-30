@@ -6,6 +6,14 @@
         android:summary="Enable or disable gravity filter on accelerometer readings"
         android:title="Enable Gravity Filter"
         android:defaultValue="true"/>
+    <EditTextPreference 
+	   android:title="Gravity Filter Parameter"
+	   android:summary="Enter a parameter value for Gravity Filter"
+	   android:dialogTitle="Filter Parameter"
+	   android:dialogMessage="Enter a value"
+	   android:key="parameter"
+	   android:defaultValue="0.8"
+	   android:dependency="gravity_filter"/>
     <CheckBoxPreference
         android:key="display_data"
         android:summary="Enable or disable data display on receive"
@@ -20,8 +28,8 @@
         />   
     <ListPreference
         android:key="number_of_data_per_file"
-        android:title="Number of data items in one file"
-        android:summary="Define how many data items stored in one json format data file."
+        android:title="Max File Size"
+        android:summary="Define the maximum number of data items stored in one json format data file."
         android:defaultValue="1000"
         android:entries="@array/number_of_data_per_file_entries"
         android:entryValues="@array/number_of_data_per_file_values"
@@ -30,7 +38,7 @@
     <ListPreference 
         android:key="count_interval"
         android:title="Sensor Frequency"
-        android:summary="Define sensor frequency by setting listen interval"
+        android:summary="Define sensor frequency (Values are approximate)"
         android:defaultValue="2"
         android:entries="@array/count_interval_entries"
         android:entryValues="@array/count_interval_values"/>

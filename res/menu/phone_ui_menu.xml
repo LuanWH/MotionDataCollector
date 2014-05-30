@@ -4,5 +4,5 @@
         android:id="@+id/phone_ui_open_settings"
         android:title="@string/settings_button_label"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="never"/>
 </menu>

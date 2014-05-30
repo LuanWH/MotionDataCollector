@@ -1,5 +1,6 @@
 package edu.sesame.motiondatacollector;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +25,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
-	TextView statusView;
+	TextView statusView, gravityView;
 	Receiver receiver;
 	Receiver2 receiver2;
 	Receiver3 receiver3;
@@ -58,9 +60,11 @@ public class PhoneUI extends Activity {
 		stopButton.setFocusableInTouchMode(false);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		statusView = (TextView) findViewById(R.id.status_view);
+		gravityView = (TextView) findViewById(R.id.gravity_view);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
 		receiver3 = new Receiver3();
+		gravityView.setText("Estimated Gravity Value: Waiting");
 		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
 			@Override
@@ -123,6 +127,17 @@ public class PhoneUI extends Activity {
 		actionBar = getActionBar();
 		actionBar.show();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		
+	    try {
+	        ViewConfiguration config = ViewConfiguration.get(this);
+	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	        if(menuKeyField != null) {
+	            menuKeyField.setAccessible(true);
+	            menuKeyField.setBoolean(config, false);
+	        }
+	    } catch (Exception ex) {
+	        // Ignore
+	    }
 	}
 	
 	private void stopRecording(){
@@ -157,12 +172,18 @@ public class PhoneUI extends Activity {
 		spinner.setAdapter(aa);
 		spinner.refreshDrawableState();
 		Intent i = new Intent();
+		Intent intent = new Intent();
+		intent.setAction("RECORDING");
+		intent.putExtra("START_OR_STOP", "CREATE");
+		sendBroadcast(intent);
 		i.setAction("isControl");
 		sendBroadcast(i);
 		String temp = Boolean.toString(Prefs.getFilter(this));
 		String temp2 = Boolean.toString(Prefs.getStorage(this));
 		statusView.setText("Display: "+Boolean.toString(displayOn)
 				+", Storage: "+temp2+", Gravity Filter: "+temp);
+		gravityView.setText("Estimated Gravity Value: Waiting");
+		spinner.requestFocus();
 	}
 	
 	@Override
@@ -176,6 +197,10 @@ public class PhoneUI extends Activity {
 		unregisterReceiver(receiver);
 		unregisterReceiver(receiver2);
 		unregisterReceiver(receiver3);
+		Intent intent = new Intent();
+		intent.setAction("RECORDING");
+		intent.putExtra("START_OR_STOP", "FINISH");
+		sendBroadcast(intent);
 	}
 	
 	public void setAcc(String data){
@@ -191,11 +216,23 @@ public class PhoneUI extends Activity {
 		}
 		acc.setText(temp);
 	}
+	
+	public void setGravity(String data){
+		if(data!=null && !data.isEmpty()){
+			gravityView.setText("Estimated Gravity Value: "+data);
+		}
+	}
+	
 	private class Receiver extends BroadcastReceiver{
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "Received!");
+			if(intent.getStringExtra("G")!=null){
+				setGravity(intent.getStringExtra("G"));
+				return;
+			}
+			
 			if(intent.getStringExtra("SENSOR_TYPE").equals("Accelerometer")){
 				JSONObject obj;
 				for(int i = 0; i<HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT;i++){

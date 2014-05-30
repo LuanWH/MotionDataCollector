@@ -39,6 +39,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.util.Log;
 import com.sonyericsson.extras.liveware.extension.util.ExtensionService;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
@@ -73,23 +74,6 @@ public class HelloSensorsExtensionService extends ExtensionService {
         receiver = new Receiver();
         registerReceiver(receiver, new IntentFilter("RECORDING"));
         registerReceiver(receiver2, new IntentFilter("isControl"));
-        TimerTask task = new TimerTask(){
-
-			@Override
-			public void run() {
-				Intent i = new Intent();
-				i.setAction("CONTROL");
-				if(control!=null){
-					i.putExtra("CONTROL", "ON");
-				} else {
-					i.putExtra("CONTROL", "OFF");
-				}
-				sendBroadcast(i);
-			}
-        	
-        };
-        timer = new Timer();
-        timer.schedule(task, 0, 500);
     }
     
 
@@ -123,6 +107,14 @@ public class HelloSensorsExtensionService extends ExtensionService {
 					control.action = intent.getStringExtra("ACTION");
 				} else if(intent.getStringExtra("START_OR_STOP").equals("STOP")){
 					control.unregister(false);
+				} else if(intent.getStringExtra("START_OR_STOP").equals("FINISH")){
+					if(timer!=null){
+						timer.cancel();
+						timer = null;
+					}
+					
+				} else if(intent.getStringExtra("START_OR_STOP").equals("CREATE")){
+					launchTaskTimer();
 				}
 			}
 		}
@@ -156,6 +148,33 @@ public class HelloSensorsExtensionService extends ExtensionService {
     	unregisterReceiver(receiver2);
     	control = null;
     	timer.cancel();
+    	timer = null;
     }
 
+    public void launchTaskTimer() {
+        final Handler handler = new Handler();
+
+        TimerTask timertask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {				
+                        	Intent i = new Intent();
+	        				i.setAction("CONTROL");
+	        				if(control!=null){
+	        					i.putExtra("CONTROL", "ON");
+	        				} else {
+	        					i.putExtra("CONTROL", "OFF");
+	        				}
+	        				sendBroadcast(i);
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        };
+        timer = new Timer(); //This is new
+        timer.schedule(timertask, 0, 1000); // execute in every 15sec
+    }
 }

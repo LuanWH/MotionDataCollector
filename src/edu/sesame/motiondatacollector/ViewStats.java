@@ -117,12 +117,14 @@ public class ViewStats extends Activity {
 					}
 					String temp = "";
 					if(!selectedItems.isEmpty()){
-						for(int i : selectedItems){
-							temp+= clearItems[i]+" ";
+						int i = 0;
+						for(; i < selectedItems.size() - 1;i++){
+							temp+= clearItems[selectedItems.get(Integer.valueOf(i))]+", ";
 						}
+						temp+=clearItems[selectedItems.get(Integer.valueOf(i))];
 						new AlertDialog.Builder(ViewStats.this)
 						.setTitle("Clear Stats")
-						.setMessage(temp+"have been cleared!")
+						.setMessage(temp+" record cleared!")
 						.setPositiveButton("Ok", null)
 						.show();
 						display();

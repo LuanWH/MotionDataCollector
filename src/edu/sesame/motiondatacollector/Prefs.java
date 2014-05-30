@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
@@ -25,8 +26,11 @@ public class Prefs extends PreferenceActivity {
 	private static final String OPT_COUNT_INTERVAL_DEF = "2";
 	private static final String OPT_FILTER = "gravity_filter";
 	private static final boolean OPT_FILTER_DEF = true;
+	private static final String OPT_PARAMETER = "parameter";
+	private static final String OPT_PARAMETER_DEF = "0.8";
 	ActionBar actionBar;
 	CheckBoxPreference storage, display;
+	EditTextPreference parameter;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -37,6 +41,8 @@ public class Prefs extends PreferenceActivity {
 		actionBar.setDisplayHomeAsUpEnabled(true);	
 		storage = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_STORAGE);
 		display = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_DISPLAY);
+		parameter = (EditTextPreference) getPreferenceScreen().findPreference(OPT_PARAMETER);
+		
 	}
 	@Override
 	public void onResume(){
@@ -49,6 +55,7 @@ public class Prefs extends PreferenceActivity {
 				if((Boolean) newValue){
 					new AlertDialog.Builder(Prefs.this)
 						.setTitle("Information")
+						.setIcon(android.R.drawable.ic_dialog_info)
 						.setMessage("Data file path is SD/Android/data/edu.sesame.motiondatacollector/files")
 						.setPositiveButton("Ok", null)
 						.show();
@@ -63,6 +70,7 @@ public class Prefs extends PreferenceActivity {
 					new AlertDialog.Builder(Prefs.this)
 						.setMessage("Turning on 'Display' may cause application hanging!")
 						.setTitle("Warning")
+						.setIcon(android.R.drawable.ic_dialog_alert)
 						.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {		
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
@@ -76,6 +84,33 @@ public class Prefs extends PreferenceActivity {
 				return true;
 			}
 		});
+		parameter.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
+
+			@Override
+			public boolean onPreferenceChange(Preference preference,
+					Object newValue) {
+				String value = (String) newValue;
+				try{
+					Float.valueOf(value);
+				} catch(NumberFormatException e){
+					new AlertDialog.Builder(Prefs.this)
+						.setTitle("Warning")
+						.setMessage("Illegal input! Value will not be updated.")
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setPositiveButton("Ok", null)
+						.setCancelable(true)
+						.show();
+					return false;
+				}
+				return true;
+			}
+			
+		});
+	}
+	
+	public static float getParameter(Context context){
+		return Float.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(OPT_PARAMETER, OPT_PARAMETER_DEF));
 	}
 	
 	public static boolean getFilter(Context context){

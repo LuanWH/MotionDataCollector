@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="number_of_data_per_file_entries">
-        <item name="every40">Every 40 data items</item>
-        <item name="every100">Every 100 data items</item>
-        <item name="every200">Every 200 data items</item>
-        <item name="every400">Every 400 data items</item>
-        <item name="every600">Every 600 data items</item>
-        <item name="every800">Every 800 data items</item>
-        <item name="every1000">Every 1000 data items</item>
-        <item name="every2000">Every 2000 data items</item>
+        <item name="every40">40 data items</item>
+        <item name="every100">100 data items</item>
+        <item name="every200">200 data items</item>
+        <item name="every400">400 data items</item>
+        <item name="every600">600 data items</item>
+        <item name="every800">800 data items</item>
+        <item name="every1000">1000 data items</item>
+        <item name="every2000">2000 data items</item>
     </string-array>
     <string-array name="number_of_data_per_file_values">
         <item name="every40">40</item>
@@ -21,14 +21,13 @@
         <item name="every2000">2000</item>
     </string-array>    
     <string-array name="count_interval_entries">
-        <item name="every">Record Every Data</item>
-        <item name="every1">Record Every 2 Data</item>
-        <item name="every2">Record Every 3 Data</item>
-        <item name="every3">Record Every 4 Data</item>
-        <item name="every4">Record Every 5 Data</item>
-        <item name="every5">Record Every 6 Data</item>
-        <item name="every6">Record Every 7 Data</item>
-        <item name="every7">Record Every 8 Data</item>
+        <item name="every">20Hz</item>
+        <item name="every1">15Hz</item>
+        <item name="every2">10Hz</item>
+        <item name="every3">8Hz</item>
+        <item name="every4">6Hz</item>
+        <item name="every5">5Hz</item>
+
     </string-array>
     <string-array name="count_interval_values">
         <item name="every">0</item>
@@ -37,7 +36,5 @@
         <item name="every3">3</item>
         <item name="every4">4</item>
         <item name="every5">5</item>
-        <item name="every6">6</item>
-        <item name="every7">7</item>
     </string-array>    
 </resources>

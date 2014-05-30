@@ -67,6 +67,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -99,13 +100,15 @@ class HelloSensorsControl extends ControlExtension {
     protected Intent pendingIntent;    
     protected int pendingCount = 0;    
     protected int writingCount = 0;    
-    protected int filterCount; 
+    protected int gravityCount = 0;
+    protected int filterCount = 2; 
     protected int itemCount=0;
     protected long recordStartTime;
     protected long startTime;
     protected ArrayList<String> al;
     protected String lastTime = null;
     protected LPFilter lpFilter;
+    protected String estGravity = "0";
     
     public String action;
     protected Writer writer;
@@ -129,44 +132,21 @@ class HelloSensorsControl extends ControlExtension {
      */
     HelloSensorsControl(final String hostAppPackageName, final Context context) {
         super(context, hostAppPackageName);
-
         AccessorySensorManager manager = new AccessorySensorManager(context, hostAppPackageName);
-
         // Add accelerometer, if supported by the host application.
         if (DeviceInfoHelper.isSensorSupported(context, hostAppPackageName,
                 SensorTypeValue.ACCELEROMETER)) {
             mSensors.add(manager.getSensor(SensorTypeValue.ACCELEROMETER));
         }
-
-//        // Add magnetic field sensor, if supported by the host application.
-//        if (DeviceInfoHelper.isSensorSupported(context, hostAppPackageName,
-//                SensorTypeValue.MAGNETIC_FIELD)) {
-//            mSensors.add(manager.getSensor(SensorTypeValue.MAGNETIC_FIELD));
-//        }
-//
-//        // Add light sensor, if supported by the host application.
-//        if (DeviceInfoHelper.isSensorSupported(context, hostAppPackageName, SensorTypeValue.LIGHT)) {
-//            mSensors.add(manager.getSensor(SensorTypeValue.LIGHT));
-//        }
-
         // Determine host application screen size.
         determineSize(context, hostAppPackageName);
         serviceContext = context;
-//        Intent intent = new Intent(serviceContext, StartMenu.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        final Intent intent2 = intent;
-//        Log.d("ServiceLALALALLA", "Creating StartMenu!");
-//        serviceContext.startActivity(intent2);
-
+        updateSettings();
     }
 
     @Override
     public void onResume() {
         Log.d(HelloSensorsExtensionService.LOG_TAG, "Starting control");
-        storageOn = Prefs.getStorage(serviceContext);
-        filterOn = Prefs.getFilter(serviceContext);
-        
-        numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
         // Note: Setting the screen to be always on will drain the accessory
         // battery. It is done here solely for demonstration purposes.
         setScreenState(Control.Intents.SCREEN_STATE_ON);
@@ -175,12 +155,16 @@ class HelloSensorsControl extends ControlExtension {
         if(isRecording){
         	register();
         }
-        
-        countInterval = Prefs.getCountInterval(serviceContext);
-        filterCount = countInterval;
+        updateSettings();
         updateCurrentDisplay(null);
-       
-        
+    }
+    
+    public void updateSettings(){
+        storageOn = Prefs.getStorage(serviceContext);
+        filterOn = Prefs.getFilter(serviceContext);
+        countInterval = Prefs.getCountInterval(serviceContext);
+        filterCount = countInterval;     
+        numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
     }
 
     @Override
@@ -225,14 +209,6 @@ class HelloSensorsControl extends ControlExtension {
                 || height == context.getResources().getDimensionPixelSize(
                         R.dimen.smart_watch_control_height);
     }
-
-//    @Override
-//    public void onTouch(ControlTouchEvent event) {
-//        super.onTouch(event);
-//        if (event.getAction() == Control.Intents.TOUCH_ACTION_RELEASE) {
-//            toggleSensor();
-//        }
-//    }
 
     /**
      * Determines the width and height in pixels of a given host application.
@@ -282,11 +258,6 @@ class HelloSensorsControl extends ControlExtension {
         AccessorySensor sensor = getCurrentSensor();
         if (sensor != null) {
             try {
-//                if (sensor.isInterruptModeSupported()) {
-//                    sensor.registerInterruptListener(mListener);
-//                } else {
-//                    sensor.registerFixedRateListener(mListener, Sensor.SensorRates.SENSOR_DELAY_UI);
-//                }
             	sensor.registerFixedRateListener(mListener, Sensor.SensorRates.SENSOR_DELAY_UI);
             } catch (AccessorySensorException e) {
                 Log.d(HelloSensorsExtensionService.LOG_TAG, "Failed to register listener", e);
@@ -294,12 +265,8 @@ class HelloSensorsControl extends ControlExtension {
         }
         isRecording = true;
         startTime = System.currentTimeMillis();
-        lpFilter = new LPFilter();
-        storageOn = Prefs.getStorage(serviceContext);
-        filterOn = Prefs.getFilter(serviceContext);
-        
-        numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
-        
+        lpFilter = new LPFilter(serviceContext);
+        updateSettings();
     }
 
     /**
@@ -356,54 +323,20 @@ class HelloSensorsControl extends ControlExtension {
     
 
     /**
-     * Cycles between currently available sensors and updates the display with
-     * new data.
-     */
-//    private void toggleSensor() {
-//        // Unregister the current sensor.
-//        unregister();
-//
-//        // Toggle sensor type.
-//        //nextSensor();
-//
-//        // Register the new sensor.
-//        register();
-//
-//        // Update the screen.
-//        updateCurrentDisplay(null);
-//    }
-
-//    /**
-//     * Cycles between sensors to be used.
-//     */
-//    private void nextSensor() {
-//        if (mCurrentSensor == (mSensors.size() - 1)) {
-//            mCurrentSensor = 0;
-//        } else {
-//            mCurrentSensor++;
-//        }
-//    }
-
-    /**
      * Determines what sensor is currently being used and updates the display
      * with new data.
      *
      * @param sensorEvent
      */
     private void updateCurrentDisplay(AccessorySensorEvent sensorEvent) {
-    	if(filterCount == countInterval){
+    	if(filterCount >= countInterval){
 	        AccessorySensor sensor = getCurrentSensor();
 	        if(sensor!=null){
-		        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)
-		               // || sensor.getType().getName().equals(Registration.SensorTypeValue.MAGNETIC_FIELD)
-		                																					) {
+		        if (sensor.getType().getName().equals(Registration.SensorTypeValue.ACCELEROMETER)) {
 		            updateGenericSensorDisplay(sensorEvent, sensor.getType().getName());
 		        }
-		        filterCount = 0;
-		//        else {
-		//            updateLightSensorDisplay(sensorEvent);
-		//        }
 	        }
+	        filterCount = 0;
     	}else{
     		filterCount++;
     	}
@@ -462,7 +395,26 @@ class HelloSensorsControl extends ControlExtension {
 	
 	            // Show sensor accuracy.
 	            TextView accuracyView = (TextView)sensorLayout.findViewById(R.id.sensor_value_accuracy);
-	            accuracyView.setText(getAccuracyText(sensorEvent.getAccuracy()));
+	            if(lpFilter!=null && lpFilter.gravity!=null){
+	            	estGravity = String.valueOf(Math.sqrt(
+	            			Math.pow(lpFilter.gravity[0],2)+
+	            			Math.pow(lpFilter.gravity[1],2)+
+	            			Math.pow(lpFilter.gravity[2],2)));
+	            	accuracyView.setText(estGravity);
+	            } else {
+	            	accuracyView.setText(getAccuracyText(sensorEvent.getAccuracy()));
+	            }
+	            if(gravityCount >= 2){
+	        		if(estGravity!=null && Float.valueOf(estGravity) > 7f){
+	        			Intent gIntent = new Intent();
+	        			gIntent.setAction("DATA");	        			
+	        			gIntent.putExtra("G", String.format("%.2f", Float.valueOf(estGravity)));
+	        			serviceContext.sendBroadcast(gIntent);
+	        		}
+	        		gravityCount =0;
+	            } else {
+	            	gravityCount++;
+	            }
 				
 	            
 	            
@@ -486,6 +438,7 @@ class HelloSensorsControl extends ControlExtension {
 						obj.put("X", values[0]);
 						obj.put("Y", values[1]);
 						obj.put("Z", values[2]);  
+
 			            pendingIntent.putExtra(Integer.toString(pendingCount), obj.toString());
 			            if(storageOn){
 				        	if(writingCount>=numbersPerFile||writer == null){        		
@@ -544,64 +497,6 @@ class HelloSensorsControl extends ControlExtension {
 
         showBitmap(bitmap);
     }
-
-    /**
-     * Updates the display with new light sensor data.
-     *
-     * @param sensorEvent The sensor event.
-     */
-/*    private void updateLightSensorDisplay(AccessorySensorEvent sensorEvent) {
-        // Create bitmap to draw in.
-        Bitmap bitmap = Bitmap.createBitmap(mWidth, mHeight, BITMAP_CONFIG);
-
-        // Set default density to avoid scaling.
-        bitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
-
-        LinearLayout root = new LinearLayout(mContext);
-        root.setLayoutParams(new LayoutParams(mWidth, mHeight));
-
-        LinearLayout sensorLayout = (LinearLayout)LinearLayout.inflate(mContext,
-                R.layout.lightsensor_values, root);
-
-        // Update the values.
-        if (sensorEvent != null) {
-            float[] values = sensorEvent.getSensorValues();
-
-            if (values != null && values.length == 1) {
-                TextView xView = (TextView)sensorLayout.findViewById(R.id.light_value);
-
-                // Show values with one decimal.
-                xView.setText(String.format("%.1f", values[0]));
-            }
-
-            // Show time stamp in milliseconds. (Reading is in nanoseconds.)
-            TextView timeStampView = (TextView)sensorLayout
-                    .findViewById(R.id.light_value_timestamp);
-            timeStampView.setText(String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
-
-            // Show sensor accuracy.
-            TextView accuracyView = (TextView)sensorLayout.findViewById(R.id.light_value_accuracy);
-            accuracyView.setText(getAccuracyText(sensorEvent.getAccuracy()));
-            if (values != null && values.length == 1) {
-	            Intent intent = new Intent();
-				intent.setAction("DATA");
-				intent.putExtra("TIME", String.format("%d", (long)(sensorEvent.getTimestamp() / 1e9)));
-				intent.putExtra("SENSOR_TYPE", "Light Sensor");
-				intent.putExtra("ALL", "Light: "+String.format("%.1f", values[0]));
-				Log.d(aTAG, "Light Sensor sent!");
-				serviceContext.sendBroadcast(intent);
-			}
-        }
-
-        sensorLayout.measure(mWidth, mHeight);
-        sensorLayout
-                .layout(0, 0, sensorLayout.getMeasuredWidth(), sensorLayout.getMeasuredHeight());
-
-        Canvas canvas = new Canvas(bitmap);
-        sensorLayout.draw(canvas);
-
-        showBitmap(bitmap);
-    }*/
 
     /**
      * Converts an accuracy value to a string.
