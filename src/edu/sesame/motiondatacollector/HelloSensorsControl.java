@@ -466,6 +466,7 @@ class HelloSensorsControl extends ControlExtension {
 						        		file = new File(serviceContext.getExternalFilesDir(null), 
 						        				sdf.format(c.getTime()) + ".json");	        				
 				        			}
+				        			Prefs.setString(Prefs.FILE_NAME, file.getName(), serviceContext);
 				        			writer = new BufferedWriter(new FileWriter(file));
 				        			writer.write("[");
 				        			Prefs.setInteger(

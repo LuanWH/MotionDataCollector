@@ -28,6 +28,7 @@ public class Prefs extends PreferenceActivity {
 	private static final boolean OPT_FILTER_DEF = true;
 	private static final String OPT_PARAMETER = "parameter";
 	private static final String OPT_PARAMETER_DEF = "0.8";
+	public static final String FILE_NAME = "curent_file";
 	ActionBar actionBar;
 	CheckBoxPreference storage, display;
 	EditTextPreference parameter;
@@ -144,6 +145,16 @@ public class Prefs extends PreferenceActivity {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getStringSet(key, null);
 	}
+	public static String getString(String key, Context context){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getString(key, null);		
+	}
+	public static void setString(String key, String value, Context context){
+		SharedPreferences  prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(key, value);
+		editor.commit();
+	}	
 	public static void setInteger(String key, int value, Context context){
 		SharedPreferences  prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();

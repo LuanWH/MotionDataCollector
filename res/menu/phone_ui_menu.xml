@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item 
+        android:id="@+id/phone_ui_view_button"
+        android:title="@string/phone_ui_view_button_label"
+        android:icon="@android:drawable/ic_menu_view"
+        android:showAsAction="ifRoom|withText"/>
+    <item 
         android:id="@+id/phone_ui_open_settings"
         android:title="@string/settings_button_label"
         android:icon="@android:drawable/ic_menu_preferences"

@@ -55,6 +55,7 @@ public class ViewData extends Activity {
 	ScrollView tableOuterView;
 	TableLayout header;
 	AlertDialog noFileFoundDialog;
+	OnClickListener listener;
 	
 	
 	
@@ -65,8 +66,10 @@ public class ViewData extends Activity {
 		directory = getExternalFilesDir(null);
 		setContentView(R.layout.view_data_layout);
 		initialize();
-		
-		
+		Intent i = getIntent();
+		if(i.getStringExtra(Prefs.FILE_NAME)!=null && i.getStringExtra(Prefs.FILE_NAME).equals("START")){
+			listener.onClick((View)openButton);
+		}
 	}
 	
 	private void initialize(){		
@@ -84,7 +87,6 @@ public class ViewData extends Activity {
 		table.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));		
-		table.removeAllViewsInLayout();	
 		noFileFoundDialog = new AlertDialog.Builder(this)
 								.setTitle("Error")
 								.setMessage("No Data File Found!")
@@ -92,7 +94,7 @@ public class ViewData extends Activity {
 								.setCancelable(true)
 								.create();
 		graphButton.setEnabled(false);
-		OnClickListener listener = new OnClickListener(){
+		listener = new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
@@ -324,6 +326,8 @@ public class ViewData extends Activity {
 					.show();
 			} else{
 				v.addView(update);
+				v.refreshDrawableState();
+				v.invalidate();
 			}
 		}	
 	}

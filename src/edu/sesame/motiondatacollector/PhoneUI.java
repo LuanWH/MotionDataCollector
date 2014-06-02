@@ -77,6 +77,7 @@ public class PhoneUI extends Activity {
 					Intent i = new Intent();
 					i.setAction("isControl");
 					sendBroadcast(i);
+
 					if(isControl){
 						if(startButton.getText().toString().equals("Resume")){
 							resumeRecording();
@@ -167,7 +168,7 @@ public class PhoneUI extends Activity {
 		Intent i = new Intent();
 		i.putExtra("START_OR_STOP","STOP");
 		i.setAction("RECORDING");
-		sendBroadcast(i);		
+		sendBroadcast(i);
 	}
 	
 	private void startRecording(String item){
@@ -182,13 +183,13 @@ public class PhoneUI extends Activity {
 		Intent i = new Intent();
 		i.putExtra("START_OR_STOP","PAUSE");
 		i.setAction("RECORDING");
-		sendBroadcast(i);			
+		sendBroadcast(i);
 	}
 	private void resumeRecording(){
 		Intent i = new Intent();
 		i.putExtra("START_OR_STOP","RESUME");
 		i.setAction("RECORDING");
-		sendBroadcast(i);			
+		sendBroadcast(i);
 	}
 	
 	@Override
@@ -345,6 +346,12 @@ public class PhoneUI extends Activity {
 		switch(item.getItemId()){
 		case R.id.phone_ui_open_settings:
 			startActivity(new Intent(PhoneUI.this, Prefs.class));
+			break;
+		case R.id.phone_ui_view_button:
+			Intent i = new Intent(this, ViewData.class);
+			i.putExtra(Prefs.FILE_NAME, "START");
+			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(i);
 			break;
 		case android.R.id.home:
 			onBackPressed();

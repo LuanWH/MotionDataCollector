@@ -195,7 +195,7 @@ containing a value of this type.
     public static final class id {
         public static final int about_button=0x7f060045;
         public static final int accelerometer_view=0x7f060034;
-        public static final int action_clear_log=0x7f060057;
+        public static final int action_clear_log=0x7f060058;
         public static final int action_list=0x7f06002f;
         public static final int adjust_offset_button=0x7f060053;
         public static final int am_pm=0x7f060021;
@@ -242,7 +242,8 @@ containing a value of this type.
         public static final int mySimpleXYPlot=0x7f060050;
         public static final int open_button=0x7f060046;
         public static final int pause_button=0x7f060036;
-        public static final int phone_ui_open_settings=0x7f060055;
+        public static final int phone_ui_open_settings=0x7f060056;
+        public static final int phone_ui_view_button=0x7f060055;
         public static final int plot_graph_button=0x7f06004b;
         public static final int right=0x7f060003;
         public static final int seconds=0x7f060009;
@@ -276,7 +277,7 @@ containing a value of this type.
         public static final int total_time=0x7f06004c;
         public static final int view_data_button=0x7f060043;
         public static final int view_data_outer_view=0x7f06004a;
-        public static final int view_data_share=0x7f060056;
+        public static final int view_data_share=0x7f060057;
         public static final int years_digit1=0x7f060020;
         public static final int years_digit2=0x7f06001f;
         public static final int years_digit3=0x7f06001e;
@@ -362,6 +363,7 @@ containing a value of this type.
         public static final int open_button_label=0x7f050021;
         public static final int pause_button_label=0x7f050036;
         public static final int phone_ui_title=0x7f05001d;
+        public static final int phone_ui_view_button_label=0x7f050037;
         public static final int plot_graph_button_label=0x7f050031;
         /**  Title of preference activity 
          */
