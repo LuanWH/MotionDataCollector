@@ -91,7 +91,7 @@ public class ViewData extends Activity {
 								.setPositiveButton("Ok", null)
 								.setCancelable(true)
 								.create();
-		
+		graphButton.setEnabled(false);
 		OnClickListener listener = new OnClickListener(){
 
 			@Override
@@ -116,11 +116,11 @@ public class ViewData extends Activity {
 					startActivity(new Intent(ViewData.this, ViewStats.class));
 					break;
 				case R.id.plot_graph_button:
-					Intent i = new Intent(ViewData.this, XYZTGraph.class);
 					if(chosenFile!=null){
+						Intent i = new Intent(ViewData.this, XYZTGraph.class);
 						i.putExtra("FILE", chosenFile.getAbsolutePath());
+						startActivity(i);
 					}
-					startActivity(i);
 					break;
 				default:
 					break;
@@ -175,6 +175,7 @@ public class ViewData extends Activity {
 	
 	public void openFile(String name){
 		chosenFile = new File(directory, name);
+		graphButton.setEnabled(true);
 		header = (TableLayout) findViewById(R.id.header_table);
 		ProgressDialog progress = new ProgressDialog(this);
 		String tempString = name.substring(0,name.indexOf("."));

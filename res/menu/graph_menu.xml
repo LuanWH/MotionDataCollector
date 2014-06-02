@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/disable_label_button"
+        android:title="@string/disable_label_button_label"
+        android:icon="@android:drawable/ic_menu_edit"   
+        android:showAsAction="ifRoom|withText" />
+        
+    <item 
+        android:id="@+id/graph_capture_button"
+        android:title="@string/graph_capture_button_label"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:showAsAction="ifRoom"/>
+    <item 
+        android:id="@+id/adjust_offset_button"
+        android:title="@string/adjust_offset_button_label"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:showAsAction="ifRoom"/>
+</menu>

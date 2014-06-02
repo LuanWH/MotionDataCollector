@@ -115,6 +115,10 @@ public class HelloSensorsExtensionService extends ExtensionService {
 					
 				} else if(intent.getStringExtra("START_OR_STOP").equals("CREATE")){
 					launchTaskTimer();
+				} else if(intent.getStringExtra("START_OR_STOP").equals("RESUME")){
+					control.register();
+				} else if(intent.getStringExtra("START_OR_STOP").equals("PAUSE")){
+					control.unregister(true);
 				}
 			}
 		}

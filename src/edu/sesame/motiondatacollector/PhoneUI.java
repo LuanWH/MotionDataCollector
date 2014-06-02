@@ -37,7 +37,7 @@ public class PhoneUI extends Activity {
 	Receiver2 receiver2;
 	Receiver3 receiver3;
 	Spinner spinner;
-	Button startButton,stopButton,manageButton;
+	Button startButton,stopButton,manageButton,pauseButton;
 	ActionBar actionBar;
 	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
 	protected boolean displayOn = false;
@@ -57,10 +57,13 @@ public class PhoneUI extends Activity {
 		setContentView(R.layout.phone_ui_layout);
 		startButton = (Button) findViewById(R.id.start_button);
 		stopButton = (Button) findViewById(R.id.stop_button);
-		stopButton.setFocusableInTouchMode(false);
+		stopButton.setEnabled(false);
+		//stopButton.setFocusableInTouchMode(false);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		statusView = (TextView) findViewById(R.id.status_view);
 		gravityView = (TextView) findViewById(R.id.gravity_view);
+		pauseButton = (Button) findViewById(R.id.pause_button);
+		pauseButton.setEnabled(false);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
 		receiver3 = new Receiver3();
@@ -75,11 +78,18 @@ public class PhoneUI extends Activity {
 					i.setAction("isControl");
 					sendBroadcast(i);
 					if(isControl){
-						startRecording(String.valueOf(spinner.getSelectedItem()));
-						spinner.setFocusableInTouchMode(false);
-						manageButton.setFocusableInTouchMode(false);
-						startButton.setFocusableInTouchMode(false);
-						stopButton.setFocusableInTouchMode(true);
+						if(startButton.getText().toString().equals("Resume")){
+							resumeRecording();
+						} else {
+							startRecording(String.valueOf(spinner.getSelectedItem()));
+						}
+						
+						spinner.setEnabled(false);
+						manageButton.setEnabled(false);
+						startButton.setEnabled(false);
+						stopButton.setEnabled(true);
+						pauseButton.setEnabled(true);
+						
 						isRecording = true;
 					} else {
 						new AlertDialog.Builder(PhoneUI.this)
@@ -104,9 +114,21 @@ public class PhoneUI extends Activity {
 				case R.id.stop_button:
 					if(isRecording = true){
 						stopRecording();
-						spinner.setFocusableInTouchMode(true);
-						manageButton.setFocusableInTouchMode(true);
-						startButton.setFocusableInTouchMode(true);
+						spinner.setEnabled(true);
+						manageButton.setEnabled(true);
+						startButton.setEnabled(true);
+						stopButton.setEnabled(false);
+						pauseButton.setEnabled(false);
+						startButton.setText("Start");
+					}
+					isRecording = false;
+					break;
+				case R.id.pause_button:
+					if(isRecording = true){
+						pauseRecording();
+						startButton.setEnabled(true);
+						startButton.setText("Resume");
+						pauseButton.setEnabled(false);
 					}
 					isRecording = false;
 					break;
@@ -124,6 +146,7 @@ public class PhoneUI extends Activity {
 		stopButton.setOnTouchListener(listener);
 		startButton.setOnTouchListener(listener);
 		manageButton.setOnTouchListener(listener);
+		pauseButton.setOnTouchListener(listener);
 		actionBar = getActionBar();
 		actionBar.show();
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -155,9 +178,23 @@ public class PhoneUI extends Activity {
 		sendBroadcast(i);
 	}
 	
+	private void pauseRecording(){
+		Intent i = new Intent();
+		i.putExtra("START_OR_STOP","PAUSE");
+		i.setAction("RECORDING");
+		sendBroadcast(i);			
+	}
+	private void resumeRecording(){
+		Intent i = new Intent();
+		i.putExtra("START_OR_STOP","RESUME");
+		i.setAction("RECORDING");
+		sendBroadcast(i);			
+	}
+	
 	@Override
 	public void onResume(){
 		super.onResume();
+		startButton.setText("Start");
 		displayOn = Prefs.getDisplay(this);
 		registerReceiver(receiver, new IntentFilter("DATA"));
 		registerReceiver(receiver2, new IntentFilter("DESTROY"));
@@ -189,11 +226,17 @@ public class PhoneUI extends Activity {
 	@Override
 	public void onPause(){
 		super.onPause();
+		startButton.setText("Start");
 		if(isRecording){
 			stopRecording();
 		}
 		isRecording = false;
-		startButton.setFocusableInTouchMode(true);
+		spinner.setEnabled(true);
+		manageButton.setEnabled(true);
+		startButton.setEnabled(true);
+		stopButton.setEnabled(false);
+		pauseButton.setEnabled(false);
+		//startButton.setFocusableInTouchMode(true);
 		unregisterReceiver(receiver);
 		unregisterReceiver(receiver2);
 		unregisterReceiver(receiver3);

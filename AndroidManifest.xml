@@ -20,7 +20,12 @@
         <activity
             android:name="edu.sesame.motiondatacollector.XYZTGraph"
             android:screenOrientation="landscape"
-            android:label="@string/xyzt_graph_title"/>
+            android:label="@string/xyzt_graph_title"
+            android:parentActivityName="edu.sesame.motiondatacollector.ViewData">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.ViewData"/>
+           </activity> 
         
         <activity
             android:name="edu.sesame.motiondatacollector.ViewData"

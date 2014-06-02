@@ -263,10 +263,16 @@ class HelloSensorsControl extends ControlExtension {
                 Log.d(HelloSensorsExtensionService.LOG_TAG, "Failed to register listener", e);
             }
         }
-        isRecording = true;
-        startTime = System.currentTimeMillis();
-        lpFilter = new LPFilter(serviceContext);
-        updateSettings();
+        if(isRecording){
+        	startTime = System.currentTimeMillis() - startTime;
+        	recordStartTime = System.currentTimeMillis()-recordStartTime;
+        } else {
+            isRecording = true;
+            startTime = System.currentTimeMillis();
+            lpFilter = new LPFilter(serviceContext);
+            updateSettings();       	
+        }
+
     }
 
     /**
@@ -280,7 +286,7 @@ class HelloSensorsControl extends ControlExtension {
             sensor.unregisterListener();
             
         }
-        if (writer != null && storageOn){
+        if (writer != null && storageOn && !r){
         	try{
         		writer.write("]");
         		writer.close();
@@ -306,6 +312,9 @@ class HelloSensorsControl extends ControlExtension {
         	} catch(IOException e){
         		Log.d("HelloSensorsControl", "IOException");
         	}
+        } else if(r){
+        	recordStartTime = System.currentTimeMillis() - recordStartTime;
+        	startTime = System.currentTimeMillis() - startTime;
         }
         isRecording = r;
 

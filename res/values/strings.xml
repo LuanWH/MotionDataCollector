@@ -86,4 +86,8 @@
     <string name="view_data_share">Share via</string>
 	<string name="plot_graph_button_label">Plot Graph</string>
 	<string name="xyzt_graph_title">Plot Graph</string>
+	<string name="adjust_offset_button_label">Adjust Offset</string>
+	<string name="graph_capture_button_label">Capture</string>
+	<string name="disable_label_button_label">Toggle Label</string>
+	<string name="pause_button_label">Pause</string>
 </resources>
