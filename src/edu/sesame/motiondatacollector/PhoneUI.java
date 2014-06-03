@@ -1,10 +1,17 @@
 package edu.sesame.motiondatacollector;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,14 +39,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class PhoneUI extends Activity {
-	TextView statusView, gravityView;
+	TextView statusView, gravityView, motionHistoryView, motionCurrentView;
 	Receiver receiver;
 	Receiver2 receiver2;
 	Receiver3 receiver3;
 	Spinner spinner;
 	Button startButton,stopButton,manageButton,pauseButton;
 	ActionBar actionBar;
-	String[] receivedData = new String[HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT];
+	int matchingFrequency;
+	String[] receivedData;
 	protected boolean displayOn = false;
 	public static final String TAG = "PhoneUI";
 	Calendar c = null;
@@ -49,7 +57,9 @@ public class PhoneUI extends Activity {
 	ArrayList<String> list;
 	Boolean isControl = false;
 	Boolean isRecording = false;
-	
+	Boolean matchFlag = false;
+	FastDtwTest test;
+	Queue<Double[]> queue;
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		Log.d(TAG, "onCreate!");
@@ -58,16 +68,20 @@ public class PhoneUI extends Activity {
 		startButton = (Button) findViewById(R.id.start_button);
 		stopButton = (Button) findViewById(R.id.stop_button);
 		stopButton.setEnabled(false);
-		//stopButton.setFocusableInTouchMode(false);
 		manageButton = (Button) findViewById(R.id.manage_action_button);
 		statusView = (TextView) findViewById(R.id.status_view);
 		gravityView = (TextView) findViewById(R.id.gravity_view);
+		motionHistoryView = (TextView) findViewById(R.id.phone_ui_motion_history_view);
+		motionCurrentView = (TextView) findViewById(R.id.phone_ui_motion_current_view);
 		pauseButton = (Button) findViewById(R.id.pause_button);
 		pauseButton.setEnabled(false);
 		receiver = new Receiver();
 		receiver2 = new Receiver2();
 		receiver3 = new Receiver3();
 		gravityView.setText("Estimated Gravity Value: Waiting");
+		test = new FastDtwTest(getExternalFilesDir(null));
+		queue = new LinkedList<Double[]>();
+		
 		Button.OnTouchListener listener = new Button.OnTouchListener(){
 
 			@Override
@@ -162,6 +176,8 @@ public class PhoneUI extends Activity {
 	    } catch (Exception ex) {
 	        // Ignore
 	    }
+	    matchFlag = Prefs.getMatching(this);
+	    
 	}
 	
 	private void stopRecording(){
@@ -222,6 +238,9 @@ public class PhoneUI extends Activity {
 				+", Storage: "+temp2+", Gravity Filter: "+temp);
 		gravityView.setText("Estimated Gravity Value: Waiting");
 		spinner.requestFocus();
+		matchFlag = Prefs.getMatching(this);
+		matchingFrequency=Prefs.getMatchingFrequency((Context)this);
+		receivedData= new String[matchingFrequency];
 	}
 	
 	@Override
@@ -279,15 +298,22 @@ public class PhoneUI extends Activity {
 			
 			if(intent.getStringExtra("SENSOR_TYPE").equals("Accelerometer")){
 				JSONObject obj;
-				for(int i = 0; i<HelloSensorsControl.NUM_OF_ITEMS_PER_INTENT;i++){
+				Double[][] d = new Double[Prefs.getMatchingFrequency((Context)PhoneUI.this)][3];
+				for(int i = 0; i<Prefs.getMatchingFrequency((Context)PhoneUI.this);i++){
 					try{
 						obj = new JSONObject(intent.getStringExtra(Integer.toString(i)));
 						receivedData[i] = "Time: "+obj.getLong("TIME")+"; x-axis: "+ String.format("%.1f", obj.getDouble("X"))
 								+ "; y-axis: "+String.format("%.1f", obj.getDouble("Y"))
 								+ "; z-axis: "+String.format("%.1f", obj.getDouble("Z"));
+						d[i][0] = obj.getDouble("X");
+						d[i][1] = obj.getDouble("Y");
+						d[i][2] = obj.getDouble("Z");
 					}catch(JSONException e){
 						Log.d(TAG, "JSONException!");
 					}
+				}
+				if(matchFlag){
+					matchMotion(d);
 				}
 			}
 			if(displayOn){
@@ -360,6 +386,37 @@ public class PhoneUI extends Activity {
 			break;
 		}
 		return true;
+	}
+	
+	public void matchMotion(Double[][] d){
+		File data = new File(getExternalFilesDir(null), "temp.csv");
+		try {
+			for(int i = 0; i < d.length;i++){
+				if(queue.size()>30){
+					queue.poll();
+				}
+				queue.offer(d[i]);
+			}
+			Double[][] dd = queue.toArray(new Double[0][]);
+			Writer writer = new BufferedWriter(new FileWriter(data));
+			for(int i = 0; i < dd.length - 1; i++){
+				for(int j = 0; j < dd[i].length - 1; j++){
+					writer.write(String.valueOf(dd[i][j])+",");
+				}
+				writer.write(String.valueOf(dd[i][dd[i].length - 1])+"\n");
+			}
+			for(int j = 0; j < dd[dd.length-1].length - 1; j++){
+				writer.write(String.valueOf(dd[dd.length-1][j])+",");
+			}
+			writer.write(String.valueOf(dd[dd.length-1][dd[dd.length-1].length - 1]));
+			writer.close();
+			String s =test.match(data);
+			s = s.replace(".csv", "");
+			motionCurrentView.setText(s);
+			motionHistoryView.append(s+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

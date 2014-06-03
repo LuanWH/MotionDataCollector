@@ -42,4 +42,17 @@
         android:defaultValue="2"
         android:entries="@array/count_interval_entries"
         android:entryValues="@array/count_interval_values"/>
+    <CheckBoxPreference
+        android:key="match_pattern"
+        android:title="Enable pattern matching"
+        android:summary="Enable or disable pattern matching for recorded accelerometer data"
+        android:defaultValue="false"
+        />
+     <ListPreference 
+        android:key="match_pattern_frequency"
+        android:title="Pattern-matching frequency"
+        android:summary="Define the frequency of pattern-matching update"
+        android:defaultValue="10"
+        android:entries="@array/match_pattern_frequency_entries"
+        android:entryValues="@array/match_pattern_frequency_values"/>   
 </PreferenceScreen>

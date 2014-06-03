@@ -91,4 +91,6 @@
 	<string name="disable_label_button_label">Toggle Label</string>
 	<string name="pause_button_label">Pause</string>
 	<string name="phone_ui_view_button_label">View Data</string>
+	<string name="phone_ui_motion_history_view_title">History Matching</string>
+	<string name="phone_ui_motion_view_title">Current Motion</string>
 </resources>

@@ -28,7 +28,14 @@ public class Prefs extends PreferenceActivity {
 	private static final boolean OPT_FILTER_DEF = true;
 	private static final String OPT_PARAMETER = "parameter";
 	private static final String OPT_PARAMETER_DEF = "0.8";
+	private static final String OPT_MATCHING = "match_pattern";
+	private static final boolean OPT_MATCHING_DEF = false;
+	private static final String OPT_MATCHING_FREQUENCY = "match_pattern_frequency";
+	private static final String OPT_MATCHING_FREQUENCY_DEF = "10";
+	
 	public static final String FILE_NAME = "curent_file";
+	
+	
 	ActionBar actionBar;
 	CheckBoxPreference storage, display;
 	EditTextPreference parameter;
@@ -109,6 +116,14 @@ public class Prefs extends PreferenceActivity {
 		});
 	}
 	
+	public static boolean getMatching(Context context){
+		return PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean(OPT_MATCHING, OPT_MATCHING_DEF);
+	}
+	public static int getMatchingFrequency(Context context){
+		return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(OPT_MATCHING_FREQUENCY, OPT_MATCHING_FREQUENCY_DEF));
+	}	
 	public static float getParameter(Context context){
 		return Float.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
 				.getString(OPT_PARAMETER, OPT_PARAMETER_DEF));

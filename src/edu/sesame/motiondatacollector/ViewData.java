@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
@@ -41,6 +42,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 
+@SuppressLint("DefaultLocale")
 public class ViewData extends Activity {
 	
 	ActionBar actionBar;
@@ -144,12 +146,12 @@ public class ViewData extends Activity {
 			
 		};
 		dataFiles = directory.listFiles(filter);
-		if(dataFiles != null){
+		if(dataFiles != null && dataFiles.length!=0){
 			String[] fileNames = new String[dataFiles.length];
 			for (int i = 0; i < dataFiles.length;i++){
 				fileNames[i] = dataFiles[i].getName();
 			}
-			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fileNames);	
+			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fileNames);
 			Log.d("HHA", fileNames[0]);
 			dialog = new Dialog(ViewData.this);
 			LayoutInflater li = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);	
@@ -209,6 +211,7 @@ public class ViewData extends Activity {
 		}
 	}
 	
+	@SuppressLint("DefaultLocale")
 	protected static final class AsyncOpenFile extends AsyncTask<File, Void, TableLayout>{
 		private final ScrollView v;
 		private final Context context;
@@ -223,13 +226,13 @@ public class ViewData extends Activity {
 			this.table = table;
 			this.parent = parent;
 		}
+		@SuppressLint("DefaultLocale")
 		@Override
 		protected TableLayout doInBackground(File... files) {
 			File file = null;
 			if(1!=files.length||files[0] == null){
 				return null;
 			} else {				
-				//TODO: Multiple files
 				file = files[0];
 				JSONArray array = parent.loadJSON(file);
 				v.removeAllViewsInLayout();
@@ -264,7 +267,6 @@ public class ViewData extends Activity {
 							TextView b1 = new TextView(context);
 							str = String.format("%.4f",obj.getDouble("X"));
 							b1.setText(str);
-							//b1.setPadding(10, 0, 0, 0);
 							b1.setGravity(Gravity.CENTER);
 							b1.setTextColor(Color.BLACK);
 							b1.setTextSize(18);
@@ -274,7 +276,6 @@ public class ViewData extends Activity {
 							TextView b2 = new TextView(context);
 							str = String.format("%.4f",obj.getDouble("Y"));
 							b2.setText(str);
-							//b2.setPadding(10, 0, 0, 0);
 							b2.setTextColor(Color.BLACK);
 							b2.setGravity(Gravity.CENTER);
 							b2.setTextSize(18);
@@ -284,7 +285,6 @@ public class ViewData extends Activity {
 							TextView b3 = new TextView(context);
 							str = String.format("%.4f",obj.getDouble("Z"));
 							b3.setText(str);
-							//b3.setPadding(10, 0, 0, 0);
 							b3.setGravity(Gravity.CENTER);
 							b3.setTextColor(Color.BLACK);
 							b3.setTextSize(18);
@@ -297,7 +297,6 @@ public class ViewData extends Activity {
 							vline.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,1));
 							vline.setBackgroundColor(Color.WHITE);
 							table.addView(vline);
-						//}
 						}
 						return table;
 					

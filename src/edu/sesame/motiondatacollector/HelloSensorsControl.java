@@ -92,7 +92,7 @@ class HelloSensorsControl extends ControlExtension {
     private boolean filterOn = true;
     private int numbersPerFile = 1000;
     private int mHeight = 176;    
-    public static final int NUM_OF_ITEMS_PER_INTENT = 40;    
+    protected int num_of_items_per_intent;  
     protected JSONObject obj;
     private int mCurrentSensor = 0;
     public Context serviceContext = null;
@@ -165,6 +165,7 @@ class HelloSensorsControl extends ControlExtension {
         countInterval = Prefs.getCountInterval(serviceContext);
         filterCount = countInterval;     
         numbersPerFile = Integer.valueOf(Prefs.getNumbers(serviceContext));
+        num_of_items_per_intent = Prefs.getMatchingFrequency(serviceContext);
     }
 
     @Override
@@ -431,7 +432,7 @@ class HelloSensorsControl extends ControlExtension {
 	            	pendingIntent = new Intent();
 	            	pendingIntent.setAction("DATA");
 	            }
-	        	if(pendingCount >= NUM_OF_ITEMS_PER_INTENT){
+	        	if(pendingCount >= num_of_items_per_intent){
 	        		Log.d(aTAG, "Accelerometer sent!");
 	        		pendingIntent.putExtra("SENSOR_TYPE", sensorType);
 					sendNext();
