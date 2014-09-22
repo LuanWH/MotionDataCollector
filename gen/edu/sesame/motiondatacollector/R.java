@@ -9,13 +9,23 @@ package edu.sesame.motiondatacollector;
 
 public final class R {
     public static final class array {
-        public static final int action_arrays=0x7f090006;
+        public static final int action_arrays=0x7f090010;
         public static final int count_interval_entries=0x7f090002;
         public static final int count_interval_values=0x7f090003;
+        public static final int delay_spinner_entries=0x7f090008;
+        public static final int delay_spinner_entry_values=0x7f090009;
+        public static final int file_format_entries=0x7f09000e;
+        public static final int file_format_values=0x7f09000f;
+        public static final int language_entries=0x7f09000a;
+        public static final int language_values=0x7f09000b;
+        public static final int length_spinner_entries=0x7f090006;
+        public static final int length_spinner_entry_values=0x7f090007;
         public static final int match_pattern_frequency_entries=0x7f090004;
         public static final int match_pattern_frequency_values=0x7f090005;
         public static final int number_of_data_per_file_entries=0x7f090000;
         public static final int number_of_data_per_file_values=0x7f090001;
+        public static final int queue_length_entries=0x7f09000c;
+        public static final int queue_length_values=0x7f09000d;
     }
     public static final class attr {
         /**  Path in the asset folder to custom font to use instead of the device default font. The font will not be rendered in the layout editor. 
@@ -140,6 +150,7 @@ containing a value of this type.
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
+ Default screen margins, per the Android Design guidelines. 
          */
         public static final int activity_horizontal_margin=0x7f07001b;
         public static final int activity_vertical_margin=0x7f07001c;
@@ -181,30 +192,67 @@ containing a value of this type.
         public static final int title_font_size=0x7f07001e;
     }
     public static final class drawable {
-        public static final int back=0x7f020000;
-        public static final int badge_counter=0x7f020001;
-        public static final int headset_pro_cancel_icn=0x7f020002;
-        public static final int headset_pro_focus_xs_icn=0x7f020003;
-        public static final int headset_pro_ok_icn=0x7f020004;
-        public static final int ic_action=0x7f020005;
-        public static final int icon=0x7f020006;
-        public static final int icon2=0x7f020007;
-        public static final int icon_extension=0x7f020008;
-        public static final int icon_extension2=0x7f020009;
-        public static final int text_bg=0x7f02000a;
-        public static final int widget_frame=0x7f02000b;
+        public static final int ab_background_textured_wenhaotab=0x7f020000;
+        public static final int ab_bottom_solid_wenhaotab=0x7f020001;
+        public static final int ab_solid_wenhaotab=0x7f020002;
+        public static final int ab_stacked_solid_wenhaotab=0x7f020003;
+        public static final int ab_texture_tile_wenhaotab=0x7f020004;
+        public static final int ab_transparent_wenhaotab=0x7f020005;
+        public static final int back=0x7f020006;
+        public static final int badge_counter=0x7f020007;
+        public static final int btn_cab_done_default_wenhaotab=0x7f020008;
+        public static final int btn_cab_done_focused_wenhaotab=0x7f020009;
+        public static final int btn_cab_done_pressed_wenhaotab=0x7f02000a;
+        public static final int btn_cab_done_wenhaotab=0x7f02000b;
+        public static final int cab_background_bottom_wenhaotab=0x7f02000c;
+        public static final int cab_background_top_wenhaotab=0x7f02000d;
+        public static final int headset_pro_cancel_icn=0x7f02000e;
+        public static final int headset_pro_focus_xs_icn=0x7f02000f;
+        public static final int headset_pro_ok_icn=0x7f020010;
+        public static final int ic_action=0x7f020011;
+        public static final int icon=0x7f020012;
+        public static final int icon2=0x7f020013;
+        public static final int icon_extension=0x7f020014;
+        public static final int icon_extension2=0x7f020015;
+        public static final int list_focused_wenhaotab=0x7f020016;
+        public static final int list_pressed_wenhaotab=0x7f020017;
+        public static final int menu_dropdown_panel_wenhaotab=0x7f020018;
+        public static final int progress_bg_wenhaotab=0x7f020019;
+        public static final int progress_horizontal_wenhaotab=0x7f02001a;
+        public static final int progress_primary_wenhaotab=0x7f02001b;
+        public static final int progress_secondary_wenhaotab=0x7f02001c;
+        public static final int selectable_background_wenhaotab=0x7f02001d;
+        public static final int spinner_ab_default_wenhaotab=0x7f02001e;
+        public static final int spinner_ab_disabled_wenhaotab=0x7f02001f;
+        public static final int spinner_ab_focused_wenhaotab=0x7f020020;
+        public static final int spinner_ab_pressed_wenhaotab=0x7f020021;
+        public static final int spinner_background_ab_wenhaotab=0x7f020022;
+        public static final int tab_indicator_ab_wenhaotab=0x7f020023;
+        public static final int tab_selected_focused_wenhaotab=0x7f020024;
+        public static final int tab_selected_pressed_wenhaotab=0x7f020025;
+        public static final int tab_selected_wenhaotab=0x7f020026;
+        public static final int tab_unselected_focused_wenhaotab=0x7f020027;
+        public static final int tab_unselected_pressed_wenhaotab=0x7f020028;
+        public static final int tab_unselected_wenhaotab=0x7f020029;
+        public static final int text_bg=0x7f02002a;
+        public static final int widget_frame=0x7f02002b;
     }
     public static final class id {
-        public static final int about_button=0x7f060047;
-        public static final int accelerometer_view=0x7f060034;
-        public static final int action_clear_log=0x7f06005a;
-        public static final int action_list=0x7f06002f;
-        public static final int adjust_offset_button=0x7f060055;
+        public static final int about_button=0x7f060057;
+        public static final int accelerometer_view=0x7f060027;
+        public static final int action_clear_log=0x7f06006d;
+        public static final int action_delete_all_files=0x7f06006c;
+        public static final int action_list=0x7f06003b;
+        public static final int adjust_offset_button=0x7f060069;
         public static final int am_pm=0x7f060021;
         public static final int bottom=0x7f060001;
         public static final int center=0x7f060006;
         public static final int center_horizontal=0x7f060005;
         public static final int center_vertical=0x7f060004;
+        public static final int collector_holder_open_settings=0x7f060066;
+        public static final int collector_holder_pager=0x7f06002b;
+        public static final int collector_holder_spinner=0x7f060064;
+        public static final int collector_holder_view_button=0x7f060065;
         public static final int constant=0x7f060008;
         public static final int days_of_month=0x7f060013;
         public static final int days_of_month_digit1=0x7f060015;
@@ -214,26 +262,30 @@ containing a value of this type.
         public static final int days_of_year_digit1=0x7f060019;
         public static final int days_of_year_digit2=0x7f060018;
         public static final int days_of_year_digit3=0x7f060017;
-        public static final int dialog_listview=0x7f060023;
-        public static final int disable_label_button=0x7f060053;
-        public static final int enter_recording_button=0x7f060044;
-        public static final int file_name_view=0x7f06004a;
-        public static final int graph_capture_button=0x7f060054;
-        public static final int gravity_view=0x7f060033;
-        public static final int header_table=0x7f06004b;
+        public static final int delete_button=0x7f060059;
+        public static final int dialog_listview=0x7f060032;
+        public static final int disable_label_button=0x7f060067;
+        public static final int dm_current_motion_detail_view=0x7f06002d;
+        public static final int dm_current_motion_view=0x7f06002c;
+        public static final int dm_history_motion_scroll=0x7f06002e;
+        public static final int dm_history_motion_view=0x7f06002f;
+        public static final int dm_start_button=0x7f060030;
+        public static final int dm_stop_button=0x7f060031;
+        public static final int enter_recording_button=0x7f060052;
+        public static final int file_name_view=0x7f06005a;
+        public static final int graph_capture_button=0x7f060068;
+        public static final int gravity_view=0x7f060026;
+        public static final int header_table=0x7f06005b;
         public static final int hours=0x7f06000f;
         public static final int hours_digit1=0x7f060011;
         public static final int hours_digit2=0x7f060010;
         public static final int hours_fine=0x7f060022;
         public static final int left=0x7f060002;
-        public static final int light_value=0x7f06002a;
-        public static final int light_value_accuracy=0x7f06002c;
-        public static final int light_value_timestamp=0x7f06002b;
-        public static final int log_view=0x7f060051;
-        public static final int manage_action_add_button=0x7f06002e;
-        public static final int manage_action_button=0x7f060031;
-        public static final int manage_action_clear_all=0x7f060056;
-        public static final int manage_action_input=0x7f06002d;
+        public static final int log_view=0x7f060062;
+        public static final int manage_action_add_button=0x7f06003a;
+        public static final int manage_action_button=0x7f060024;
+        public static final int manage_action_clear_all=0x7f06006a;
+        public static final int manage_action_input=0x7f060039;
         public static final int match_parent=0x7f060007;
         public static final int minutes=0x7f06000c;
         public static final int minutes_digit1=0x7f06000e;
@@ -241,122 +293,156 @@ containing a value of this type.
         public static final int months=0x7f06001a;
         public static final int months_digit1=0x7f06001c;
         public static final int months_digit2=0x7f06001b;
-        public static final int mySimpleXYPlot=0x7f060052;
-        public static final int open_button=0x7f060048;
-        public static final int pause_button=0x7f060038;
-        public static final int phone_ui_motion_current_view=0x7f060036;
-        public static final int phone_ui_motion_history_view=0x7f060035;
-        public static final int phone_ui_open_settings=0x7f060058;
-        public static final int phone_ui_view_button=0x7f060057;
-        public static final int plot_graph_button=0x7f06004d;
+        public static final int mySimpleXYPlot=0x7f060063;
+        public static final int nd_choose_file_view=0x7f06003c;
+        public static final int nd_delete_button=0x7f06003e;
+        public static final int nd_normalize_button=0x7f06003d;
+        public static final int normalize_button=0x7f060053;
+        public static final int open_button=0x7f060058;
+        public static final int pause_button=0x7f060029;
+        public static final int phone_ui_motion_current_view=0x7f060040;
+        public static final int phone_ui_motion_history_view=0x7f06003f;
+        public static final int plot_graph_button=0x7f06005e;
+        public static final int record_pattern_fragment_delay_spinner=0x7f060044;
+        public static final int record_pattern_fragment_infoview=0x7f060045;
+        public static final int record_pattern_fragment_length_spinner=0x7f060043;
+        public static final int record_pattern_frament_filename_input=0x7f060042;
         public static final int right=0x7f060003;
+        public static final int rp_count_down_view=0x7f060041;
+        public static final int rp_start_button=0x7f060046;
+        public static final int rp_stop_button=0x7f060047;
         public static final int seconds=0x7f060009;
         public static final int seconds_digit1=0x7f06000b;
         public static final int seconds_digit2=0x7f06000a;
-        public static final int select_action=0x7f060030;
-        public static final int sensor_title=0x7f060024;
-        public static final int sensor_value_accuracy=0x7f060029;
-        public static final int sensor_value_timestamp=0x7f060028;
-        public static final int sensor_value_x=0x7f060025;
-        public static final int sensor_value_y=0x7f060026;
-        public static final int sensor_value_z=0x7f060027;
-        public static final int settings_button=0x7f060046;
-        public static final int smart_watch_notification_widget_background=0x7f06003a;
-        public static final int smart_watch_notification_widget_text_background=0x7f06003b;
-        public static final int smart_watch_notification_widget_text_name=0x7f06003e;
-        public static final int smart_watch_notification_widget_text_time=0x7f06003c;
-        public static final int smart_watch_notification_widget_text_title=0x7f06003d;
-        public static final int smart_watch_widget_custom_image=0x7f06003f;
-        public static final int smart_watch_widget_custom_text_view=0x7f060040;
-        public static final int smart_watch_widget_event_counter_badge=0x7f060042;
-        public static final int smart_watch_widget_event_counter_text=0x7f060043;
-        public static final int smart_watch_widget_icon=0x7f060041;
-        public static final int start_button=0x7f060037;
-        public static final int stat_button=0x7f060049;
-        public static final int status_view=0x7f060032;
-        public static final int stop_button=0x7f060039;
+        public static final int select_action=0x7f060023;
+        public static final int sensor_title=0x7f060033;
+        public static final int sensor_value_accuracy=0x7f060038;
+        public static final int sensor_value_timestamp=0x7f060037;
+        public static final int sensor_value_x=0x7f060034;
+        public static final int sensor_value_y=0x7f060035;
+        public static final int sensor_value_z=0x7f060036;
+        public static final int settings_button=0x7f060056;
+        public static final int smart_watch_notification_widget_background=0x7f060048;
+        public static final int smart_watch_notification_widget_text_background=0x7f060049;
+        public static final int smart_watch_notification_widget_text_name=0x7f06004c;
+        public static final int smart_watch_notification_widget_text_time=0x7f06004a;
+        public static final int smart_watch_notification_widget_text_title=0x7f06004b;
+        public static final int smart_watch_widget_custom_image=0x7f06004d;
+        public static final int smart_watch_widget_custom_text_view=0x7f06004e;
+        public static final int smart_watch_widget_event_counter_badge=0x7f060050;
+        public static final int smart_watch_widget_event_counter_text=0x7f060051;
+        public static final int smart_watch_widget_icon=0x7f06004f;
+        public static final int smooth_button=0x7f06005d;
+        public static final int start_button=0x7f060028;
+        public static final int status_view=0x7f060025;
+        public static final int stop_button=0x7f06002a;
         public static final int top=0x7f060000;
-        public static final int total_counts=0x7f06004f;
-        public static final int total_items=0x7f060050;
-        public static final int total_time=0x7f06004e;
-        public static final int view_data_button=0x7f060045;
-        public static final int view_data_outer_view=0x7f06004c;
-        public static final int view_data_share=0x7f060059;
+        public static final int total_counts=0x7f060060;
+        public static final int total_items=0x7f060061;
+        public static final int total_time=0x7f06005f;
+        public static final int view_data_button=0x7f060054;
+        public static final int view_data_outer_view=0x7f06005c;
+        public static final int view_data_share=0x7f06006b;
+        public static final int view_stats_button=0x7f060055;
         public static final int years_digit1=0x7f060020;
         public static final int years_digit2=0x7f06001f;
         public static final int years_digit3=0x7f06001e;
         public static final int years_digit4=0x7f06001d;
     }
     public static final class layout {
-        public static final int dialog_layout=0x7f030000;
-        public static final int generic_sensor_values=0x7f030001;
-        public static final int lightsensor_values=0x7f030002;
-        public static final int list=0x7f030003;
-        public static final int manage_action_layout=0x7f030004;
-        public static final int phone_ui_layout=0x7f030005;
-        public static final int smart_watch_notification_widget=0x7f030006;
-        public static final int smart_watch_widget=0x7f030007;
-        public static final int start_menu_layout=0x7f030008;
-        public static final int view_data_layout=0x7f030009;
-        public static final int view_stats_layout=0x7f03000a;
-        public static final int xyzt_graph_layout=0x7f03000b;
+        public static final int collect_data_fragment_layout=0x7f030000;
+        public static final int collector_holder_layout=0x7f030001;
+        public static final int detect_motion_fragment_layout=0x7f030002;
+        public static final int dialog_layout=0x7f030003;
+        public static final int generic_sensor_values=0x7f030004;
+        public static final int list=0x7f030005;
+        public static final int manage_action_layout=0x7f030006;
+        public static final int normalize_data=0x7f030007;
+        public static final int phone_ui_layout=0x7f030008;
+        public static final int record_pattern_fragment_layout=0x7f030009;
+        public static final int smart_watch_notification_widget=0x7f03000a;
+        public static final int smart_watch_widget=0x7f03000b;
+        public static final int spinner_item=0x7f03000c;
+        public static final int start_menu_layout=0x7f03000d;
+        public static final int view_data_layout=0x7f03000e;
+        public static final int view_stats_layout=0x7f03000f;
+        public static final int xyzt_graph_layout=0x7f030010;
     }
     public static final class menu {
-        public static final int graph_menu=0x7f0b0000;
-        public static final int manage_action_menu=0x7f0b0001;
-        public static final int phone_ui_menu=0x7f0b0002;
+        public static final int collector_holder_menu=0x7f0b0000;
+        public static final int graph_menu=0x7f0b0001;
+        public static final int manage_action_menu=0x7f0b0002;
         public static final int view_data_menu=0x7f0b0003;
         public static final int view_stats_menu=0x7f0b0004;
     }
     public static final class string {
         public static final int about_button_label=0x7f050018;
         /**  Sensor accuracy is high 
+ Sensor accuracy is high 
          */
         public static final int accuracy_high=0x7f05000a;
         /**  Sensor accuracy is low 
+ Sensor accuracy is low 
          */
         public static final int accuracy_low=0x7f050008;
         /**  Sensor accuracy is medium 
+ Sensor accuracy is medium 
          */
         public static final int accuracy_medium=0x7f050009;
         /**  Sensor is unreliable. 
+ Sensor is unreliable. 
          */
         public static final int accuracy_unreliable=0x7f050007;
         public static final int action_clear_label=0x7f05002e;
+        public static final int action_delete_all_files_label=0x7f05003f;
         public static final int action_prompt=0x7f050014;
         public static final int adjust_offset_button_label=0x7f050033;
         /**  At least one dummy resource is needed to satisfy aapt.
     Otherwise it complains about no res folder. 
  Name of app, shown when installing/uninstalling extension 
+ Name of app, shown when installing/uninstalling extension 
          */
         public static final int app_name=0x7f050000;
         public static final int collect_data_button_label=0x7f050017;
+        public static final int collector_holder_title=0x7f05003a;
         /**  Configuration title shown in preferences 
+ Configuration title shown in preferences 
          */
         public static final int configuration_text=0x7f050004;
+        public static final int delete_button_label=0x7f05003e;
         public static final int directory_button_label=0x7f050028;
         public static final int disable_label_button_label=0x7f050035;
+        public static final int dm_current_motion_detail_view_title=0x7f050040;
+        public static final int dm_current_motion_view_default_text=0x7f050039;
+        public static final int dm_history_motion_view_title=0x7f050041;
         /**  Name of extension, shown in preferences 
+ Name of extension, shown in preferences 
          */
         public static final int extension_name=0x7f050003;
         public static final int file_default_name=0x7f050023;
         public static final int graph_capture_button_label=0x7f050034;
         /**  Label for the accuracy. 
+ Label for the accuracy. 
          */
         public static final int label_accuracy=0x7f05000b;
         /**  Labels for the light sensor. 
+ Labels for the light sensor. 
          */
         public static final int label_light=0x7f050010;
         /**  Label for the time stamp. 
+ Label for the time stamp. 
          */
         public static final int label_time=0x7f05000f;
         /**  Label for the x acceleration. 
+ Label for the x acceleration. 
          */
         public static final int label_x=0x7f05000c;
         /**  Label for the y acceleration. 
+ Label for the y acceleration. 
          */
         public static final int label_y=0x7f05000d;
         /**  Label for the z acceleration. 
+ Label for the z acceleration. 
          */
         public static final int label_z=0x7f05000e;
         public static final int manage_action_add_button_label=0x7f05001b;
@@ -364,27 +450,60 @@ containing a value of this type.
         public static final int manage_action_clear_all_label=0x7f05002f;
         public static final int manage_action_inner_title=0x7f05001e;
         public static final int manage_action_title=0x7f05001c;
+        public static final int nd_normalize_button_label=0x7f050058;
+        public static final int normalize_button_label=0x7f050057;
+        public static final int normalize_data_label=0x7f050059;
         public static final int open_button_label=0x7f050021;
         public static final int pause_button_label=0x7f050036;
         public static final int phone_ui_motion_history_view_title=0x7f050038;
-        public static final int phone_ui_motion_view_title=0x7f050039;
         public static final int phone_ui_title=0x7f05001d;
         public static final int phone_ui_view_button_label=0x7f050037;
         public static final int plot_graph_button_label=0x7f050031;
         /**  Title of preference activity 
+ Title of preference activity 
          */
         public static final int preference_activity_title=0x7f050002;
         public static final int preference_key_read_me=0x7f050001;
         /**  Menu option shown in preferences 
+ Menu option shown in preferences 
          */
         public static final int preference_option_read_me=0x7f050005;
         /**  Read me text shown in dialog 
+ Read me text shown in dialog 
          */
         public static final int preference_option_read_me_txt=0x7f050006;
+        public static final int prefs_count_interval_summary=0x7f050051;
+        public static final int prefs_count_interval_title=0x7f050050;
+        public static final int prefs_display_data_summary=0x7f05004b;
+        public static final int prefs_display_data_title=0x7f05004a;
+        public static final int prefs_file_format_summary=0x7f05005c;
+        public static final int prefs_file_format_title=0x7f05005d;
+        public static final int prefs_gravity_filter_summary=0x7f050044;
+        public static final int prefs_gravity_filter_title=0x7f050045;
+        public static final int prefs_language_summary=0x7f050054;
+        public static final int prefs_language_title=0x7f050055;
+        public static final int prefs_match_pattern_frequency_summary=0x7f050053;
+        public static final int prefs_match_pattern_frequency_title=0x7f050052;
+        public static final int prefs_number_of_data_per_file_summary=0x7f05004f;
+        public static final int prefs_number_of_data_per_file_title=0x7f05004e;
+        public static final int prefs_parameter_dialog_message=0x7f050049;
+        public static final int prefs_parameter_dialog_title=0x7f050047;
+        public static final int prefs_parameter_summary=0x7f050048;
+        public static final int prefs_parameter_title=0x7f050046;
+        public static final int prefs_queue_length_summary=0x7f05005b;
+        public static final int prefs_queue_length_title=0x7f05005a;
+        public static final int prefs_store_in_file_summary=0x7f05004d;
+        public static final int prefs_store_in_file_title=0x7f05004c;
         public static final int record_log=0x7f05002c;
+        public static final int record_logs=0x7f050043;
+        public static final int record_pattern_fragment_delay=0x7f05003d;
+        public static final int record_pattern_fragment_filelength=0x7f05003c;
+        public static final int record_pattern_fragment_filename=0x7f05003b;
         public static final int settings_button_label=0x7f050019;
+        public static final int smooth_button_label=0x7f050056;
         public static final int start_button_label=0x7f050012;
         public static final int start_menu_headline=0x7f050016;
+        public static final int start_menu_headline_2=0x7f050042;
         public static final int start_menu_title=0x7f050015;
         public static final int stat_button_label=0x7f050022;
         public static final int stop_button_label=0x7f050013;
@@ -403,8 +522,21 @@ containing a value of this type.
         public static final int xyzt_graph_title=0x7f050032;
     }
     public static final class style {
+        public static final int ActionBar_Solid_Wenhaotab=0x7f0a0003;
+        public static final int ActionBar_Transparent_Wenhaotab=0x7f0a0004;
+        public static final int ActionBarTabStyle_Wenhaotab=0x7f0a0007;
+        public static final int ActionButton_CloseMode_Wenhaotab=0x7f0a000a;
         public static final int BaseStyle=0x7f0a0000;
+        public static final int DropDownListView_Wenhaotab=0x7f0a0006;
+        public static final int DropDownNav_Wenhaotab=0x7f0a0008;
         public static final int ExtensionLightTheme=0x7f0a0001;
+        public static final int PopupMenu_Wenhaotab=0x7f0a0005;
+        public static final int ProgressBar_Wenhaotab=0x7f0a0009;
+        public static final int Theme_Wenhaotab=0x7f0a0002;
+        /**  this style is only referenced in a Light.DarkActionBar based theme 
+ this style is only referenced in a Light.DarkActionBar based theme 
+         */
+        public static final int Theme_Wenhaotab_Widget=0x7f0a000b;
     }
     public static final class xml {
         public static final int line_point_formatter_1=0x7f040000;

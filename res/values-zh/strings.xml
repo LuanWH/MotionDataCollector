@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- No translation of sample extensions -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Name of app, shown when installing/uninstalling extension -->
+    <string name="app_name">Motion Data Collector</string>
+    <!-- Title of preference activity -->
+    <string name="preference_activity_title">Motion Data Collector settings</string>
+    <!-- Name of extension, shown in preferences -->
+    <string name="extension_name">Motion Data Collector</string>
+    <!-- Configuration title shown in preferences -->
+    <string name="configuration_text">Motion Data Collector settings</string>
+    <!-- Menu option shown in preferences -->
+    <string name="preference_option_read_me">READ ME</string>
+    <!-- Read me text shown in dialog -->
+    <string name="preference_option_read_me_txt">The Motion Data Collector shows the reading from the device accelerometer and send it to the phone for display or storage.</string>
+
+    <!-- Sensor is unreliable. -->
+    <string name="accuracy_unreliable">Unrel.</string>
+
+    <!-- Sensor accuracy is low -->
+    <string name="accuracy_low">Low</string>
+
+    <!-- Sensor accuracy is medium -->
+    <string name="accuracy_medium">Medium</string>
+
+    <!-- Sensor accuracy is high -->
+    <string name="accuracy_high">High</string>
+
+    <!-- Label for the accuracy. -->
+    <string name="label_accuracy">Gravity:&#160;</string>
+
+    <!-- Label for the x acceleration. -->
+    <string name="label_x">x:&#160;</string>
+
+    <!-- Label for the y acceleration. -->
+    <string name="label_y">y:&#160;</string>
+
+    <!-- Label for the z acceleration. -->
+    <string name="label_z">z:&#160;</string>
+
+    <!-- Label for the time stamp. -->
+    <string name="label_time">ms:&#160;</string>
+
+    <!-- Labels for the light sensor. -->
+    <string name="label_light">light:&#160;</string>
+    <string name="title_lightsensor">Light sensor</string>
+	<string name="start_button_label">开始</string>
+	<string name="stop_button_label">停止</string>
+	<string-array name="action_arrays">
+        <item>Reading</item>
+        <item>Walking</item>
+        <item>Running</item>
+        <item>Writing</item>
+        <item>Typing</item>
+        <item>Eating</item>
+    </string-array>
+    <string name="action_prompt">选择一个动作</string>
+    <string name="start_menu_title">SW2数据收集器</string>
+    <string name="start_menu_headline">SW2数据收集器</string>    
+    <string name="collect_data_button_label">收集数据</string>
+    <string name="about_button_label">关于</string>
+    <string name="settings_button_label">设置</string>
+    <string name="manage_action_button_label">管理</string>
+    <string name="manage_action_add_button_label">添加</string>
+    <string name="manage_action_title">动作</string>
+    <string name="phone_ui_title">收集器</string>
+    <string name="manage_action_inner_title">管理动作</string>
+    <string name="view_data_button_label">查看数据</string>
+    <string name="view_data_title">数据</string>
+    <string name="open_button_label">打开文件</string>
+    <string name="stat_button_label">查看统计</string>
+    <string name="file_default_name">选择一个文件</string>
+    <string name="table_header_time">时间</string>
+    <string name="table_header_x">X轴</string>
+    <string name="table_header_y">Y轴</string>
+    <string name="table_header_z">Z轴</string>
+    <string name="directory_button_label">数据文件夹</string>
+    <string name="total_time_header">总计记录时间:</string>
+    <string name="total_counts_header">总计记录次数:</string>
+    <string name="total_items_header">总计记录条目数量:</string>
+    <string name="record_log">记录日志</string>
+    <string name="view_stats_title">统计</string>
+    <string name="action_clear_label">清空统计</string>
+    <string name="manage_action_clear_all_label">清空统计</string>
+    <string name="view_data_share">分享</string>
+	<string name="plot_graph_button_label">在坐标系中查看</string>
+	<string name="xyzt_graph_title">图表</string>
+	<string name="adjust_offset_button_label">调整数值</string>
+	<string name="graph_capture_button_label">截图</string>
+	<string name="disable_label_button_label">切换点标签密度</string>
+	<string name="pause_button_label">暂停</string>
+	<string name="phone_ui_view_button_label">查看统计</string>
+	<string name="phone_ui_motion_history_view_title">历史匹配</string>
+	<string name="dm_current_motion_view_default_text">当前匹配</string>
+	<string name="collector_holder_title">工具</string>
+	<string name="record_pattern_fragment_filename">名称: </string>
+	<string name="record_pattern_fragment_filelength">长度: </string>
+	<string name="record_pattern_fragment_delay">延时: </string>
+	<string name="delete_button_label">删除文件</string>
+	<string name="action_delete_all_files_label">删除全部</string>
+	<string name="dm_current_motion_detail_view_title">细节</string>
+	<string name="dm_history_motion_view_title">记录</string>
+	<string name="start_menu_headline_2">SeSaMe研究中心项目</string>
+	<string name="record_logs">记录日志</string>
+	<string name="prefs_gravity_filter_summary">选择是否开启重力过滤器</string>
+	<string name="prefs_gravity_filter_title">开启重力过滤器</string>
+	<string name="prefs_parameter_title">重力过滤器参数</string>
+	<string name="prefs_parameter_dialog_title">过滤器参数</string>
+	<string name="prefs_parameter_summary">为重力过滤器参数输入一个值</string>
+	<string name="prefs_parameter_dialog_message">输入一个值</string>
+	<string name="prefs_display_data_title">开启数据显示</string>
+	<string name="prefs_display_data_summary">开启或关闭在接收到数据时的数据显示</string>
+	<string name="prefs_store_in_file_title">开启数据储存</string>
+	<string name="prefs_store_in_file_summary">允许或禁止将数据储存到存储卡</string>
+	<string name="prefs_number_of_data_per_file_title">最大数据文件大小</string>
+	<string name="prefs_number_of_data_per_file_summary">指定一个json格式数据文件中储存的最大数据数量</string>
+	<string name="prefs_count_interval_title">传感器频率</string>
+	<string name="prefs_count_interval_summary">指定传感器频率（数值为近似值）</string>
+	<string name="prefs_match_pattern_frequency_title">动作监测频率</string>
+	<string name="prefs_match_pattern_frequency_summary">指定动作监测的频率</string>
+	<string name="prefs_language_summary">选择软件语言</string>
+	<string name="prefs_language_title">语言</string>
+	<string name="smooth_button_label">优化数据</string>
+	<string name="normalize_button_label">正态化数据</string>
+	<string name="nd_normalize_button_label">正态化</string>	
+	<string name="normalize_data_label">正态化数据</string>	
+	<string name="prefs_queue_length_title">队列长度</string>
+	<string name="prefs_queue_length_summary">指定在动作匹配中的队列长度</string>
+</resources>

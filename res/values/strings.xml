@@ -28,7 +28,7 @@
     <string name="accuracy_high">High</string>
 
     <!-- Label for the accuracy. -->
-    <string name="label_accuracy">Accuracy:&#160;</string>
+    <string name="label_accuracy">Gravity:&#160;</string>
 
     <!-- Label for the x acceleration. -->
     <string name="label_x">x:&#160;</string>
@@ -57,7 +57,7 @@
     </string-array>
     <string name="action_prompt">Select an action</string>
     <string name="start_menu_title">SW2 Data Collector</string>
-    <string name="start_menu_headline">SW2 Data Collector\nSeSaMe Center Project</string>    
+    <string name="start_menu_headline">SW2 Data Collector</string>    
     <string name="collect_data_button_label">Collect Data</string>
     <string name="about_button_label">About</string>
     <string name="settings_button_label">Settings</string>
@@ -68,7 +68,7 @@
     <string name="manage_action_inner_title">Manage Actions</string>
     <string name="view_data_button_label">View Data</string>
     <string name="view_data_title">Data</string>
-    <string name="open_button_label">Open Data File</string>
+    <string name="open_button_label">Open File</string>
     <string name="stat_button_label">View Statistics</string>
     <string name="file_default_name">Choose a file to open</string>
     <string name="table_header_time">Time</string>
@@ -92,5 +92,41 @@
 	<string name="pause_button_label">Pause</string>
 	<string name="phone_ui_view_button_label">View Data</string>
 	<string name="phone_ui_motion_history_view_title">History Matching</string>
-	<string name="phone_ui_motion_view_title">Current Motion</string>
+	<string name="dm_current_motion_view_default_text">Current Motion</string>
+	<string name="collector_holder_title">Tools</string>
+	<string name="record_pattern_fragment_filename">Name: </string>
+	<string name="record_pattern_fragment_filelength">Length: </string>
+	<string name="record_pattern_fragment_delay">Delay: </string>
+	<string name="delete_button_label">Delete File</string>
+	<string name="action_delete_all_files_label">Delete All</string>
+	<string name="dm_current_motion_detail_view_title">Details</string>
+	<string name="dm_history_motion_view_title">History</string>
+	<string name="start_menu_headline_2">SeSaMe Center Project</string>
+	<string name="record_logs">Record Logs</string>
+	<string name="prefs_gravity_filter_summary">Enable or disable gravity filter on accelerometer readings</string>
+	<string name="prefs_gravity_filter_title">Enable Gravity Filter</string>
+	<string name="prefs_parameter_title">Gravity Filter Parameter</string>
+	<string name="prefs_parameter_dialog_title">Filter Parameter</string>
+	<string name="prefs_parameter_summary">Enter a parameter value for Gravity Filter</string>
+	<string name="prefs_parameter_dialog_message">Enter a value</string>
+	<string name="prefs_display_data_title">Enable data display</string>
+	<string name="prefs_display_data_summary">Enable or disable data display on receive</string>
+	<string name="prefs_store_in_file_title">Enable data storage</string>
+	<string name="prefs_store_in_file_summary">Enable or disable data storage on SD card</string>
+	<string name="prefs_number_of_data_per_file_title">Max File Size</string>
+	<string name="prefs_number_of_data_per_file_summary">Define the maximum number of data items stored in one json format data file.</string>
+	<string name="prefs_count_interval_title">Sensor Frequency</string>
+	<string name="prefs_count_interval_summary">Define sensor frequency (Values are approximate)</string>
+	<string name="prefs_match_pattern_frequency_title">Pattern-matching frequency</string>
+	<string name="prefs_match_pattern_frequency_summary">Define the frequency of pattern-matching update</string>
+	<string name="prefs_language_summary">Choose a language</string>
+	<string name="prefs_language_title">Language</string>
+	<string name="smooth_button_label">Smooth Data</string>
+	<string name="normalize_button_label">Normalize Data</string>
+	<string name="nd_normalize_button_label">Normalize</string>
+	<string name="normalize_data_label">Normalize Data</string>
+	<string name="prefs_queue_length_title">Pattern Queue Length</string>
+	<string name="prefs_queue_length_summary">Define pattern queue length in Motion Detection</string>
+	<string name="prefs_file_format_summary">Choose a file format for recored data.</string>
+	<string name="prefs_file_format_title">Data File Format</string>
 </resources>

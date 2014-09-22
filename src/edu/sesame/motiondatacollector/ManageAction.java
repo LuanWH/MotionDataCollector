@@ -168,7 +168,7 @@ public class ManageAction extends Activity {
 	@Override
 	public void onBackPressed() {
 		commitListChange();
-		Intent i = new Intent(this, PhoneUI.class);
+		Intent i = new Intent(this, CollectorHolder.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 		finish();

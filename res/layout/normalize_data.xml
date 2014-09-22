@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   	android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip" 
+    android:layout_gravity="center">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:id="@+id/nd_choose_file_view"/>
+
+     <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dip"
+        style="?android:attr/buttonBarStyle">
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:id="@+id/nd_normalize_button"
+            android:layout_weight="1"
+            android:text="@string/nd_normalize_button_label"
+            style="?android:attr/buttonBarButtonStyle"/>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/nd_delete_button"
+            android:text="@string/delete_button_label"
+            style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>   
+</LinearLayout>

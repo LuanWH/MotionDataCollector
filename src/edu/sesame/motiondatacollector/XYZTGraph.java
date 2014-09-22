@@ -63,7 +63,7 @@ public class XYZTGraph extends Activity {
 		
 	};
     static int toggleCount = 0;
-    Double d = 4.0;
+    Double d = 8.0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -107,7 +107,7 @@ public class XYZTGraph extends Activity {
 		private final XYZTGraph parent;
 		private final ProgressDialog load;
 		private final XYPlot plot;
-		JSONArray array;
+		JSONArray array = null;
 		
 		public AsyncTransFile(XYZTGraph parent, ProgressDialog load, XYPlot plot){
 			this.context = parent.getBaseContext();
@@ -129,17 +129,22 @@ public class XYZTGraph extends Activity {
 			} else {				
 				//TODO: Multiple files
 				file = files[0];
-				String json = null;
+				String s = null;
+				String[] ss = null;
 				try {
 					FileInputStream stream = new FileInputStream(file);
-					json = new Scanner(stream, "UTF-8").useDelimiter("\\A").next();
-					array = new JSONArray(json);				
+					if(file.getAbsolutePath().matches(".*\\.json")){
+						s = new Scanner(stream, "UTF-8").useDelimiter("\\A").next();
+						array = new JSONArray(s);		
+					} else {
+						ss = (new Scanner(stream, "UTF-8").useDelimiter("\\A").next()).split("\n");	
+					}
 				} catch (FileNotFoundException | JSONException e) {
 					e.printStackTrace();
 					parent.finish();
 				}
-
-				if(array==null){
+				boolean mode = array == null;
+				if(array==null && (ss == null || (ss!=null&&ss.length==0))){
 					new AlertDialog.Builder(context)
 						.setTitle("Error")
 						.setMessage("Sorry. An unexpected error occurred.")
@@ -148,14 +153,23 @@ public class XYZTGraph extends Activity {
 						.show();
 				} else {
 					try {
-						//boolean flag = true;
 						DecimalFormat df = new DecimalFormat("#.00"); 
-						for(int i = 0; i < array.length();i++){
-							JSONObject obj = array.getJSONObject(i);
-							tSAL.add(obj.getLong("TIME"));
-							xSAL.add(Double.valueOf(df.format(obj.getDouble("X"))));
-							ySAL.add(Double.valueOf(df.format(obj.getDouble("Y"))));
-							zSAL.add(Double.valueOf(df.format(obj.getDouble("Z"))));
+						String[] temp = null;
+						int length = mode?ss.length:array.length();
+						for(int i = 0; i < length;i++){
+							if(mode){
+								temp =ss[i].split(",");
+								tSAL.add(i*100);
+								xSAL.add(Double.valueOf(String.format("%.2f",Double.valueOf(temp[0]))));
+								ySAL.add(Double.valueOf(String.format("%.2f",Double.valueOf(temp[1]))));
+								zSAL.add(Double.valueOf(String.format("%.2f",Double.valueOf(temp[2]))));									
+							} else {
+								JSONObject obj = array.getJSONObject(i);
+								tSAL.add(obj.getLong("TIME"));
+								xSAL.add(Double.valueOf(df.format(obj.getDouble("X"))));
+								ySAL.add(Double.valueOf(df.format(obj.getDouble("Y"))));
+								zSAL.add(Double.valueOf(df.format(obj.getDouble("Z"))));								
+							}
 						}
 						XYSeries[] xyzt = new XYSeries[3];
 						xyzt[0] = new SimpleXYSeries(tSAL,xSAL,"X");

@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,9 +130,6 @@ public class ViewStats extends Activity {
 						.show();
 						display();
 					}
-					
-
-					
 				}
 				
 			});

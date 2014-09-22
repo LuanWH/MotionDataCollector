@@ -16,7 +16,17 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/ExtensionLightTheme" >
+        android:theme="@style/Theme.Wenhaotab" >
+        <activity
+            android:name="edu.sesame.motiondatacollector.NormalizeData"
+            android:screenOrientation="portrait"
+            android:label="@string/normalize_data_label"
+            android:parentActivityName="edu.sesame.motiondatacollector.StartMenu">            
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.StartMenu"/>
+        </activity>
+            
         <activity
             android:name="edu.sesame.motiondatacollector.XYZTGraph"
             android:screenOrientation="landscape"
@@ -25,8 +35,16 @@
             <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.sesame.motiondatacollector.ViewData"/>
-           </activity> 
-        
+        </activity> 
+        <activity
+            android:name="edu.sesame.motiondatacollector.CollectorHolder"
+            android:screenOrientation="portrait"
+            android:label="@string/collector_holder_title"
+            android:parentActivityName="edu.sesame.motiondatacollector.StartMenu">
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.sesame.motiondatacollector.StartMenu"/>
+        </activity>         
         <activity
             android:name="edu.sesame.motiondatacollector.ViewData"
             android:screenOrientation="portrait"
@@ -40,19 +58,19 @@
             android:name="edu.sesame.motiondatacollector.ViewStats"
             android:screenOrientation="portrait"
             android:label="@string/view_stats_title"
-            android:parentActivityName="edu.sesame.motiondatacollector.ViewData">
+            android:parentActivityName="edu.sesame.motiondatacollector.StartMenu">
             <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.sesame.motiondatacollector.ViewData"/>
+                android:value="edu.sesame.motiondatacollector.StartMenu"/>
         </activity>                
         <activity
             android:name="edu.sesame.motiondatacollector.ManageAction"
             android:screenOrientation="portrait"
             android:label="@string/manage_action_title"
-            android:parentActivityName="edu.sesame.motiondatacollector.PhoneUI">
+            android:parentActivityName="edu.sesame.motiondatacollector.CollectorHolder">
             <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.sesame.motiondatacollector.PhoneUI"/>
+                android:value="edu.sesame.motiondatacollector.CollectorHolder"/>
         </activity>
         <activity
             android:name="edu.sesame.motiondatacollector.PhoneUI"
@@ -123,7 +141,7 @@
                 <action android:name="com.sonyericsson.extras.aef.control.KEY_EVENT" />
                 <action android:name="com.sonyericsson.extras.aef.control.TOUCH_EVENT" />
                 <action android:name="com.sonyericsson.extras.aef.control.SWIPE_EVENT" />
-            </intent-filter>
+            </intent-filter> 
         </receiver>
     </application>
 

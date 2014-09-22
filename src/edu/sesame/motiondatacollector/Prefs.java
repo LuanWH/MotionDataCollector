@@ -1,23 +1,30 @@
 package edu.sesame.motiondatacollector;
 
+import java.util.Locale;
 import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 
 public class Prefs extends PreferenceActivity {
-	private static final String OPT_DISPLAY = "display_data";
-	private static final boolean OPT_DISPLAY_DEF = false;
+	public static final int FILE_FORMAT_JSON_INDEX = 0;
+	public static final int FILE_FORMAT_CSV_INDEX = 1;
+	public static final int FILE_FORMAT_DAT_INDEX = 2;
+	
 	private static final String OPT_STORAGE = "store_in_file";
 	private static final boolean OPT_STORAGE_DEF = true;	
 	private static final String OPT_NUMBERS = "number_of_data_per_file";
@@ -28,17 +35,21 @@ public class Prefs extends PreferenceActivity {
 	private static final boolean OPT_FILTER_DEF = true;
 	private static final String OPT_PARAMETER = "parameter";
 	private static final String OPT_PARAMETER_DEF = "0.8";
-	private static final String OPT_MATCHING = "match_pattern";
-	private static final boolean OPT_MATCHING_DEF = false;
 	private static final String OPT_MATCHING_FREQUENCY = "match_pattern_frequency";
 	private static final String OPT_MATCHING_FREQUENCY_DEF = "10";
-	
 	public static final String FILE_NAME = "curent_file";
+	private static final String OPT_LANGUAGE = "language";
+	private static final String OPT_LANGUAGE_DEF = "0";	
+	private static final String OPT_QUEUE_LENGTH = "queue_length";
+	private static final String OPT_QUEUE_LENGTH_DEF = "30";	
+	private static final String OPT_DATA_FILE_FORMAT = "file_format";
+	private static final String OPT_DATA_FILE_FORMAT_DEF = String.valueOf(FILE_FORMAT_JSON_INDEX);		
 	
 	
 	ActionBar actionBar;
-	CheckBoxPreference storage, display;
+	CheckBoxPreference storage;
 	EditTextPreference parameter;
+	ListPreference language;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -48,8 +59,8 @@ public class Prefs extends PreferenceActivity {
 		actionBar.show();
 		actionBar.setDisplayHomeAsUpEnabled(true);	
 		storage = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_STORAGE);
-		display = (CheckBoxPreference) getPreferenceScreen().findPreference(OPT_DISPLAY);
 		parameter = (EditTextPreference) getPreferenceScreen().findPreference(OPT_PARAMETER);
+		language = (ListPreference)getPreferenceScreen().findPreference(OPT_LANGUAGE);
 		
 	}
 	@Override
@@ -70,28 +81,6 @@ public class Prefs extends PreferenceActivity {
 				}
 				return true;
 			}});
-		display.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				if((Boolean)newValue){
-					new AlertDialog.Builder(Prefs.this)
-						.setMessage("Turning on 'Display' may cause application hanging!")
-						.setTitle("Warning")
-						.setIcon(android.R.drawable.ic_dialog_alert)
-						.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {		
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								display.setChecked(false);
-							}
-						})
-						.setNegativeButton("Continue", null) 
-						.setCancelable(true)
-						.show();
-				}
-				return true;
-			}
-		});
 		parameter.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
 
 			@Override
@@ -114,12 +103,39 @@ public class Prefs extends PreferenceActivity {
 			}
 			
 		});
+		language.setOnPreferenceChangeListener(new OnPreferenceChangeListener(){
+
+			@Override
+			public boolean onPreferenceChange(Preference preference,
+					Object newValue) {
+				String s = (String) newValue;
+				if(s.equals("1")){
+					Resources res = Prefs.this.getResources();
+					DisplayMetrics dm = res.getDisplayMetrics();
+					android.content.res.Configuration conf = res.getConfiguration();
+					conf.locale = new Locale("zh");
+					res.updateConfiguration(conf, dm);
+				}else{
+					Resources res = Prefs.this.getResources();
+					DisplayMetrics dm = res.getDisplayMetrics();
+					android.content.res.Configuration conf = res.getConfiguration();
+					conf.locale = new Locale("en");
+					res.updateConfiguration(conf, dm);					
+				}
+				restart();
+				return true;
+			}
+			
+		});
 	}
-	
-	public static boolean getMatching(Context context){
-		return PreferenceManager.getDefaultSharedPreferences(context)
-				.getBoolean(OPT_MATCHING, OPT_MATCHING_DEF);
+	public static int getFileFormat(Context context){
+		return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(OPT_DATA_FILE_FORMAT, OPT_DATA_FILE_FORMAT_DEF));
 	}
+	public static int getQueueLength(Context context){
+		return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
+				.getString(OPT_QUEUE_LENGTH, OPT_QUEUE_LENGTH_DEF));
+	}		
 	public static int getMatchingFrequency(Context context){
 		return Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(context)
 				.getString(OPT_MATCHING_FREQUENCY, OPT_MATCHING_FREQUENCY_DEF));
@@ -132,11 +148,6 @@ public class Prefs extends PreferenceActivity {
 	public static boolean getFilter(Context context){
 		return PreferenceManager.getDefaultSharedPreferences(context)
 				.getBoolean(OPT_FILTER, OPT_FILTER_DEF);
-	}
-	
-	public static boolean getDisplay(Context context){
-		return PreferenceManager.getDefaultSharedPreferences(context)
-				.getBoolean(OPT_DISPLAY, OPT_DISPLAY_DEF);
 	}
 	public static boolean getStorage(Context context){
 		return PreferenceManager.getDefaultSharedPreferences(context)
@@ -179,5 +190,17 @@ public class Prefs extends PreferenceActivity {
 	public static int getInteger(String key, Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getInt(key, 0);
+	}
+	private void restart(){
+		finish();
+		startActivity(getIntent());
+	}
+	
+	@Override
+	public void onBackPressed(){
+		finish();
+		Intent i = new Intent(this, StartMenu.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
 	}
 }

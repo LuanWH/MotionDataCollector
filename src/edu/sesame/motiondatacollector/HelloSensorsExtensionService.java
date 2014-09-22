@@ -57,6 +57,9 @@ public class HelloSensorsExtensionService extends ExtensionService {
 
     public final String CLASS = getClass().getSimpleName();
     
+    public String test = "Bind successful!";
+    
+    public CollectorHolder holder = null;
     
     public HelloSensorsControl control = null;
 
@@ -97,14 +100,36 @@ public class HelloSensorsExtensionService extends ExtensionService {
     	return control;
     }
     
+    
     private class Receiver extends BroadcastReceiver{
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(control!=null){
 				if(intent.getStringExtra("START_OR_STOP").equals("START")){
-					control.register();
-					control.action = intent.getStringExtra("ACTION");
+					if(intent.getBooleanExtra("PATTERN", false) && 
+							intent.getStringExtra("LENGTH")!=null &&
+							intent.getStringExtra("DELAY") != null &&
+							intent.getStringExtra("NAME") != null){
+						control.isPattern = true;
+						control.patternLength = Integer.valueOf(intent.getStringExtra("LENGTH"));
+						control.patternDelay = Integer.valueOf(intent.getStringExtra("DELAY"));
+						control.patternName = intent.getStringExtra("NAME");
+						control.action = null;
+						control.register();
+					}else{
+						control.register();
+						control.action = intent.getStringExtra("ACTION");	
+						control.isPattern = false;
+						if(control.action!=null && control.action.equals("MOTION")){
+							control.type = intent.getIntExtra("TYPE", FastDtwTest.NORM);
+						}
+					}
+					if(intent.getBooleanExtra("GINTENT", false)){
+						 control.isGIntent = true;
+					} else {
+						control.isGIntent = false;
+					}
 				} else if(intent.getStringExtra("START_OR_STOP").equals("STOP")){
 					control.unregister(false);
 				} else if(intent.getStringExtra("START_OR_STOP").equals("FINISH")){

@@ -14,12 +14,16 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
 import java.io.File;
+import java.io.StringReader;
 
 
 public class TimeSeries
@@ -99,10 +103,15 @@ public class TimeSeries
 
       try
       {
-         // Record the Label names (fropm the top row.of the input file).
-         BufferedReader br = new BufferedReader (new FileReader (new File(inputFile)));  // open the input file
-         String line = br.readLine();  // the top row that contains attribiute names.
-         StringTokenizer st = new StringTokenizer (line, String.valueOf(delimiter));
+         // Record the Label names (from the top row.of the input file).
+         //BufferedReader br = new BufferedReader (new FileReader (new File(inputFile)));
+    		// convert String into InputStream
+    	  InputStream is = new ByteArrayInputStream(inputFile.getBytes());
+    	 
+    		// read it with BufferedReader
+    	  BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    	  String line = br.readLine();  // the top row that contains attribiute names.
+    	  StringTokenizer st = new StringTokenizer (line, String.valueOf(delimiter));
 
 
          if (isLabeled)
@@ -153,7 +162,10 @@ public class TimeSeries
 
             // Close and re-open the file.
             br.close();
-            br = new BufferedReader (new FileReader (inputFile));  // open the input file
+      	  is = new ByteArrayInputStream(inputFile.getBytes());
+     	 
+     		// read it with BufferedReader
+     	  br = new BufferedReader(new InputStreamReader(is)); // open the input file
          }  // end if
 
 

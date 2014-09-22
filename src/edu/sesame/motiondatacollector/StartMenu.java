@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class StartMenu extends Activity {
-	Button startButton, settingsButton, aboutButton,viewButton;
+	Button startButton, settingsButton, aboutButton,viewButton, statsButton,normalizeButton;
 	
 	class Listener implements OnClickListener{
 		@Override
@@ -18,7 +18,7 @@ public class StartMenu extends Activity {
 			switch(v.getId()){
 			case R.id.enter_recording_button:
 				startService(new Intent(StartMenu.this, HelloSensorsExtensionService.class));
-				startActivity(new Intent(StartMenu.this, PhoneUI.class));
+				startActivity(new Intent(StartMenu.this, CollectorHolder.class));
 				break;
 			case R.id.settings_button:
 				startActivity(new Intent(StartMenu.this, Prefs.class));
@@ -34,6 +34,12 @@ public class StartMenu extends Activity {
 			case R.id.view_data_button:
 				startActivity(new Intent(StartMenu.this, ViewData.class));
 				break;
+			case R.id.view_stats_button:
+				startActivity(new Intent(StartMenu.this, ViewStats.class));
+				break;
+			case R.id.normalize_button:
+				startActivity(new Intent(StartMenu.this, NormalizeData.class));
+				break;
 			default:
 				break;
 			}
@@ -45,6 +51,8 @@ public class StartMenu extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_menu_layout);
 		initializeButtons();
+		Intent start = new Intent(this, HelloSensorsExtensionService.class);
+		startService(start);
 	}
 	
 	private void initializeButtons(){
@@ -52,11 +60,15 @@ public class StartMenu extends Activity {
 		settingsButton = (Button)findViewById(R.id.settings_button);
 		aboutButton = (Button)findViewById(R.id.about_button);
 		viewButton = (Button) findViewById(R.id.view_data_button);
+		statsButton = (Button) findViewById(R.id.view_stats_button);
+		normalizeButton = (Button) findViewById(R.id.normalize_button);
 		OnClickListener listener = new Listener();
 		startButton.setOnClickListener(listener);
 		viewButton.setOnClickListener(listener);
 		settingsButton.setOnClickListener(listener);
 		aboutButton.setOnClickListener(listener);
+		statsButton.setOnClickListener(listener);
+		normalizeButton.setOnClickListener(listener);
 	}
 
 

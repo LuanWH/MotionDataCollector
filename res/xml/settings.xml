@@ -3,33 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference 
         android:key="gravity_filter"
-        android:summary="Enable or disable gravity filter on accelerometer readings"
-        android:title="Enable Gravity Filter"
+        android:summary="@string/prefs_gravity_filter_summary"
+        android:title="@string/prefs_gravity_filter_title"
         android:defaultValue="true"/>
     <EditTextPreference 
-	   android:title="Gravity Filter Parameter"
-	   android:summary="Enter a parameter value for Gravity Filter"
-	   android:dialogTitle="Filter Parameter"
-	   android:dialogMessage="Enter a value"
+	   android:title="@string/prefs_parameter_title"
+	   android:summary="@string/prefs_parameter_summary"
+	   android:dialogTitle="@string/prefs_parameter_dialog_title"
+	   android:dialogMessage="@string/prefs_parameter_dialog_message"
 	   android:key="parameter"
 	   android:defaultValue="0.8"
 	   android:dependency="gravity_filter"/>
-    <CheckBoxPreference
-        android:key="display_data"
-        android:summary="Enable or disable data display on receive"
-        android:title="Enable data display"
-        android:defaultValue="false"
-        />
      <CheckBoxPreference
         android:key="store_in_file"
-        android:summary="Enable or disable data storage on SD card"
-        android:title="Enable data storage"
+        android:summary="@string/prefs_store_in_file_summary"
+        android:title="@string/prefs_store_in_file_title"
         android:defaultValue="true"
         />   
+     <ListPreference
+        android:key="file_format"
+        android:summary="@string/prefs_file_format_summary"
+        android:title="@string/prefs_file_format_title"
+        android:defaultValue="0"
+        android:entries="@array/file_format_entries"
+        android:entryValues="@array/file_format_values"
+        android:dependency="store_in_file"        
+        />          
     <ListPreference
         android:key="number_of_data_per_file"
-        android:title="Max File Size"
-        android:summary="Define the maximum number of data items stored in one json format data file."
+        android:title="@string/prefs_number_of_data_per_file_title"
+        android:summary="@string/prefs_number_of_data_per_file_summary"
         android:defaultValue="1000"
         android:entries="@array/number_of_data_per_file_entries"
         android:entryValues="@array/number_of_data_per_file_values"
@@ -37,22 +40,31 @@
         />
     <ListPreference 
         android:key="count_interval"
-        android:title="Sensor Frequency"
-        android:summary="Define sensor frequency (Values are approximate)"
+        android:title="@string/prefs_count_interval_title"
+        android:summary="@string/prefs_count_interval_summary"
         android:defaultValue="2"
         android:entries="@array/count_interval_entries"
         android:entryValues="@array/count_interval_values"/>
-    <CheckBoxPreference
-        android:key="match_pattern"
-        android:title="Enable pattern matching"
-        android:summary="Enable or disable pattern matching for recorded accelerometer data"
-        android:defaultValue="false"
-        />
      <ListPreference 
         android:key="match_pattern_frequency"
-        android:title="Pattern-matching frequency"
-        android:summary="Define the frequency of pattern-matching update"
+        android:title="@string/prefs_match_pattern_frequency_title"
+        android:summary="@string/prefs_match_pattern_frequency_summary"
         android:defaultValue="10"
         android:entries="@array/match_pattern_frequency_entries"
-        android:entryValues="@array/match_pattern_frequency_values"/>   
+        android:entryValues="@array/match_pattern_frequency_values"/> 
+     <ListPreference 
+        android:key="queue_length"
+        android:title="@string/prefs_queue_length_title"
+        android:summary="@string/prefs_queue_length_summary"
+        android:defaultValue="30"
+        android:entries="@array/queue_length_entries"
+        android:entryValues="@array/queue_length_values"/>          
+     <ListPreference
+        android:key="language"
+        android:summary="@string/prefs_language_summary"
+        android:title="@string/prefs_language_title"
+        android:defaultValue="0"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"       
+        />          
 </PreferenceScreen>
