@@ -31,12 +31,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CollectDataFragment extends Fragment {
 	TextView statusView, gravityView,accView;
+	ScrollView wrapAccView;
 //	Receiver receiver;
 	Receiver2 receiver2;
 	Receiver3 receiver3;
@@ -82,6 +84,7 @@ public class CollectDataFragment extends Fragment {
 		statusView = (TextView) view.findViewById(R.id.status_view);
 		gravityView = (TextView) view.findViewById(R.id.gravity_view);
 		accView = (TextView)view.findViewById(R.id.accelerometer_view);
+		wrapAccView = (ScrollView) view.findViewById(R.id.wrap_acc_view);
 		pauseButton = (Button) view.findViewById(R.id.pause_button);
 		pauseButton.setEnabled(false);
 //		receiver = new Receiver();
@@ -245,6 +248,17 @@ public class CollectDataFragment extends Fragment {
 	}
 	public void setAcc(){
 		c = Calendar.getInstance();
+		int lineCount = accView.getLineCount();
+		
+		int singleH = accView.getLineHeight();
+		int maxH = wrapAccView.getHeight();
+		int maxLine = maxH/singleH;
+		Log.d("CollectDataFragment", "singleH "+singleH+", maxH "+maxH+", maxLine "+maxLine+".");
+		
+		if(lineCount >= maxLine){
+			String s = accView.getText().toString().split("\n", 2)[1];
+			accView.setText(s);
+		}
 		accView.append("\n" + "Received! "+sdf.format(c.getTime()));
 	}
 	

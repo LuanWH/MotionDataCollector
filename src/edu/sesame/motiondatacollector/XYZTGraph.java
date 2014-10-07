@@ -139,7 +139,7 @@ public class XYZTGraph extends Activity {
 					} else {
 						ss = (new Scanner(stream, "UTF-8").useDelimiter("\\A").next()).split("\n");	
 					}
-				} catch (FileNotFoundException | JSONException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					parent.finish();
 				}

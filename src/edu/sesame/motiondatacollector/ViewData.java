@@ -401,7 +401,7 @@ public class ViewData extends Activity {
 				FileInputStream stream = new FileInputStream(file);
 				json = new Scanner(stream, "UTF-8").useDelimiter("\\A").next();
 				return new JSONArray(json);				
-			} catch (FileNotFoundException | JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
@@ -518,7 +518,7 @@ public class ViewData extends Activity {
 						}
 						return table;
 					
-					} catch (JSONException | NumberFormatException e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 						Toast.makeText(context, "Sorry! An error occurs and the file can't be opened!", Toast.LENGTH_SHORT).show();
 						return null;
