@@ -9,6 +9,7 @@
         <item name="every800">800 data items</item>
         <item name="every1000">1000 data items</item>
         <item name="every2000">2000 data items</item>
+        <item name="every50000">50000 data items</item>
     </string-array>
     <string-array name="number_of_data_per_file_values">
         <item name="every40">40</item>
@@ -19,6 +20,7 @@
         <item name="every800">800</item>
         <item name="every1000">1000</item>
         <item name="every2000">2000</item>
+        <item name="every50000">50000</item>
     </string-array>    
     <string-array name="count_interval_entries">
         <item name="every">20Hz</item>
